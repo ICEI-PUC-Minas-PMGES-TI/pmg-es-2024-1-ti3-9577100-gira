@@ -1,18 +1,19 @@
-# [Nome do projeto]
+# Gira
 
-[Escreva um ou dois  parágrafo resumindo o objetivo do seu projeto.]
+O projeto Gira veio para tornar a comunicação entre docentes e pais algo simples, prático e seguro.
 
 ## Alunos integrantes da equipe
 
-* [Nome completo do aluno 1]
-* [Nome completo do aluno 2]
-* [Nome completo do aluno 3]
-* [Nome completo do aluno 4]
+* André Cota
+* Gabriel Henrique
+* Jhonatan Gutemberg
+* Juliana Parreira
+* Lívia Carolina
 
 ## Professores responsáveis
 
-* [Nome completo do professor 1]
-* [Nome completo do professor 2]
+* Joana Gabriela Ribeiro de Souza
+* Michelle Hanne Soares de Andrade
 
 ## Instruções de utilização
 
