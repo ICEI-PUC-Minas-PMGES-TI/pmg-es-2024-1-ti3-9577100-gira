@@ -8,7 +8,7 @@ O projeto Gira veio para tornar a comunicação entre docentes e pais algo simpl
 * Gabriel Henrique
 * Jhonatan Gutemberg
 * Juliana Parreira
-* Lívia Carolina
+* Lívia Carolina Lima
 
 ## Professores responsáveis
 
