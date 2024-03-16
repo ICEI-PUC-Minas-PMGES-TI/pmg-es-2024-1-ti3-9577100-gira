@@ -17,7 +17,7 @@ public class ClassroomController {
     @Autowired
     private ClassroomService  classroomService;
     @PostMapping
-    public ResponseEntity<Classroom> registerClassroom(ClassroomRecord newClassroom){
+    public ResponseEntity<Classroom> registerClassroom(@RequestBody @Valid ClassroomRecord newClassroom){
         Classroom classroomm = classroomService.createClassroom(newClassroom);
         return new ResponseEntity<>(classroomm, HttpStatus.CREATED);
     }

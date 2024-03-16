@@ -1,5 +1,6 @@
 package com.app.pucTis.Entities;
 
+import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
 import jakarta.persistence.*;
 
@@ -16,5 +17,12 @@ public class Teacher {
     private UserType type;
     @ManyToMany
     private List<Classroom> schoolClasses;
+    public Teacher(TeacherRecord data){
+        this.name = data.name();
+        this.password = data.password();
+        this.type = data.type();
+        this.schoolClasses = data.schoolClasses();
+    }
+
 
 }
