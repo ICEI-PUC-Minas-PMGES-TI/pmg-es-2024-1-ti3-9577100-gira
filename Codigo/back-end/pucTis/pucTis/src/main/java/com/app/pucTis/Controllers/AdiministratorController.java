@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/administrator")
@@ -30,4 +31,16 @@ public class AdiministratorController {
             return new ResponseEntity<>(adiministratorList, HttpStatus.OK);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) {
+        if (adiministratorService.authenticateAdministrator(administratorRequest)) {
+            return ResponseEntity.ok().body("Authentication sucessful");
+        } else {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not sucessful");
+        }
+    }
+
+
 }
