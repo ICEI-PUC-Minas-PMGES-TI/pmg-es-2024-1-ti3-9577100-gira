@@ -17,12 +17,15 @@ public class Teacher {
     private UserType type;
     @ManyToMany
     private List<Classroom> schoolClasses;
-    public Teacher(TeacherRecord data){
+
+    public Teacher(TeacherRecord data) {
         this.name = data.name();
         this.password = data.password();
         this.type = data.type();
         this.schoolClasses = data.schoolClasses();
     }
 
+    public String getName() {return name;}
 
+    public String getPassword() {return password;}
 }

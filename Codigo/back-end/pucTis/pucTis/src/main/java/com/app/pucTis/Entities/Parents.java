@@ -31,4 +31,8 @@ public class Parents {
         this.type = data.type();
         this.students = data.students();
     }
+
+    public String getName(){return name;}
+
+    public String getPassword() {return password;}
 }
