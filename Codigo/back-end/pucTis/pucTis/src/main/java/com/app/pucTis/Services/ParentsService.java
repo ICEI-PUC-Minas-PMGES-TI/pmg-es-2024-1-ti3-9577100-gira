@@ -1,6 +1,7 @@
 package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.ParentsRecord;
+import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Repositories.ParentsRepository;
@@ -43,6 +44,10 @@ public class ParentsService {
         } else {
             return false;
         }
+    }
+
+    public boolean authenticatePass(Parents parentService){
+        return parentService.getValidPass();
     }
 
 }

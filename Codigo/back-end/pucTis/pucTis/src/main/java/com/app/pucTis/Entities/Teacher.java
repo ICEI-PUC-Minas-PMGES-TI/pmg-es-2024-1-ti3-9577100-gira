@@ -17,15 +17,22 @@ public class Teacher {
     private UserType type;
     @ManyToMany
     private List<Classroom> schoolClasses;
+    private Boolean validPass;
 
     public Teacher(TeacherRecord data) {
         this.name = data.name();
         this.password = data.password();
         this.type = data.type();
         this.schoolClasses = data.schoolClasses();
+        this.validPass = data.validPass();
     }
 
     public String getName() {return name;}
 
     public String getPassword() {return password;}
+
+    public void setValidPass(Boolean validPass) {
+        this.validPass = validPass;
+    }
+    public Boolean getValidPass() {return validPass;}
 }

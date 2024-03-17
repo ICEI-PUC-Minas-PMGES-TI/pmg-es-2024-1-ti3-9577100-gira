@@ -20,11 +20,13 @@ public class Administrator {
     private String name;
     private String password;
     private UserType type;
+    private Boolean validPass;
 
     public Administrator(AdiministratorRecord data){
         this.name = data.name();
         this.password = data.password();
         this.type = data.type();
+        this.validPass = data.validPass();
     }
 
     public Long getId() {
@@ -57,5 +59,13 @@ public class Administrator {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setValidPass(Boolean validPass) {
+        this.validPass = validPass;
+    }
+
+    public Boolean getValidPass() {
+        return validPass;
     }
 }

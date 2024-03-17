@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+
+
 public class Parents {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +27,24 @@ public class Parents {
     private UserType type;
     @OneToMany(mappedBy = "parents")
     private List<Student> students;
+    private Boolean validPass;
+
     public Parents(ParentsRecord data){
         this.name = data.name();
         this.password = data.password();
         this.type = data.type();
         this.students = data.students();
+        this.validPass = data.validPass();
     }
 
     public String getName(){return name;}
 
     public String getPassword() {return password;}
+
+    public void setValidPass(Boolean validPass) {
+        this.validPass = validPass;
+    }
+    public Boolean getValidPass() {
+        return validPass;
+    }
 }

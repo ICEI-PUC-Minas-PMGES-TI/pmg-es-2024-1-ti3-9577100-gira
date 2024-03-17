@@ -15,5 +15,6 @@ public record AdiministratorRecord(
         @Size(min = 5)
 
         String password,
-        UserType type) {
+        UserType type,
+        Boolean validPass) {
 }

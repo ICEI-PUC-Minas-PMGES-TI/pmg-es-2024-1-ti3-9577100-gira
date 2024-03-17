@@ -52,6 +52,10 @@ public class AdiministratorService {
         }
     }
 
+    public boolean authenticatePass(Administrator administratorService){
+        return administratorService.getValidPass();
+    }
+
 
 
 }

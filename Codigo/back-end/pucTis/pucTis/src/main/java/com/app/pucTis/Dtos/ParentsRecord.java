@@ -18,7 +18,8 @@ public record ParentsRecord(
 
         String password,
         UserType type,
-        List<Student> students
+        List<Student> students,
+        Boolean validPass
 ) {
 
 }

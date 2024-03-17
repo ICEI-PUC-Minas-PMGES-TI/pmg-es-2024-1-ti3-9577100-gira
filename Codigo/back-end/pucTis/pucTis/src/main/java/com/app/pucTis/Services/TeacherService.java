@@ -3,6 +3,7 @@ package com.app.pucTis.Services;
 import com.app.pucTis.Dtos.StudentRecord;
 import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.Teacher;
+import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.TeacherRepository;
@@ -38,5 +39,8 @@ public class TeacherService {
         } else {
             return false;
         }
+    }
+    public boolean authenticatePass(Parents parentService){
+        return parentService.getValidPass();
     }
 }

@@ -15,6 +15,7 @@ public record TeacherRecord(
         @Size(min = 5)
         String password,
         UserType type,
-        List<Classroom> schoolClasses
+        List<Classroom> schoolClasses,
+        Boolean validPass
 ) {
 }
