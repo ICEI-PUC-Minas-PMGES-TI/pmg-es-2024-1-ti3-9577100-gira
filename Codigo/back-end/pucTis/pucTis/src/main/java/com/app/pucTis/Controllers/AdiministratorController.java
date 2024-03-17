@@ -33,7 +33,7 @@ public class AdiministratorController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) {
+    public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) throws Exception {
         if (adiministratorService.authenticateAdministrator(administratorRequest)) {
             return ResponseEntity.ok().body("Authentication sucessful");
         } else {

@@ -41,16 +41,20 @@ public class AdiministratorService {
         return adiministratorRepository.findByName(administratorService.getName());
     }
 
-    public boolean authenticateAdministrator(Administrator administratorService) {
-        Optional<Administrator> optionalAdministrator = adiministratorRepository.findByName(administratorService.getName());
+    public boolean authenticateAdministrator(Administrator administratorService) throws Exception {
 
-        if (optionalAdministrator.isPresent()) {
-            Administrator storedAdministrator = optionalAdministrator.get();
-            return storedAdministrator.getPassword().equals(administratorService.getPassword());
-        } else {
-            return false;
+        if (administratorService == null)
+            throw new IllegalArgumentException("Administrator cannot be null");
+
+        Optional<Administrator> optionalAdministrator = adiministratorRepository
+                .findByName(administratorService.getName());
+
+        return optionalAdministrator.map(storedAdministrator -> storedAdministrator
+                .getPassword()
+                .equals(administratorService.getPassword()))
+                .orElseThrow(() -> new Exception("User or password invalided"));
         }
-    }
+
 
     public boolean authenticatePass(Administrator administratorService){
         return administratorService.getValidPass();

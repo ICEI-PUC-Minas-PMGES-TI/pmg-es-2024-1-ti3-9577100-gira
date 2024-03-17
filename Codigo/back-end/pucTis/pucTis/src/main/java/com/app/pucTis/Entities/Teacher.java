@@ -27,6 +27,10 @@ public class Teacher {
         this.validPass = data.validPass();
     }
 
+    public Teacher() {
+
+    }
+
     public String getName() {return name;}
 
     public String getPassword() {return password;}
