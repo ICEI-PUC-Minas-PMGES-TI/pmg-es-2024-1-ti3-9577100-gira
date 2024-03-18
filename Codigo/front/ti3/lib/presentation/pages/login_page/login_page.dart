@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/presentation/pages/login_page/controller/login_controller.dart';
-import 'package:ti3/shared/paths.dart';
+import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 import 'package:ti3/utils/gira_images.dart';
