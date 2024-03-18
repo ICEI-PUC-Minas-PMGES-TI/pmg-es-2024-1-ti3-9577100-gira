@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "PucTisApplication",
+            "request": "launch",
+            "mainClass": "com.app.pucTis.PucTisApplication",
+            "projectName": "pucTis"
+        },
+        {
             "name": "Dart & Flutter",
             "request": "launch",
             "type": "dart"

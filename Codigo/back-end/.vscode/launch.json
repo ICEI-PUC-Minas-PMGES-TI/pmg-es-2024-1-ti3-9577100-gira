@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PucTisApplication<pucTis>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.app.pucTis.PucTisApplication",
+            "projectName": "pucTis",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
