@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ti3/utils/gira_colors.dart';
+import 'package:ti3/utils/gira_fonts.dart';
 
 class SearchBarState extends State<SearchBarWidget> {
 
@@ -14,11 +16,11 @@ class SearchBarState extends State<SearchBarWidget> {
     return Row(
       children: [
         Container(
-          width: MediaQuery.of(context).size.width - 24,
+          width: 300,
           clipBehavior: Clip.hardEdge,
           padding: const EdgeInsets.only(right: 2, left: 2, bottom: 0, top: 0),
           decoration: const BoxDecoration(
-            color: Colors.blue,
+            color: GiraColors.fields,
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           child: Column(
@@ -32,10 +34,11 @@ class SearchBarState extends State<SearchBarWidget> {
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Digite aqui para pesquisar...',
+                  hintText: 'Pesquise pelo nome...',
                   hintStyle: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 15,
+                    color: Colors.grey[400],
+                    fontSize: 20,
+                    fontFamily: GiraFonts.poorStory
                   ),
                   prefixIcon: Icon(Icons.search, size: 20, color: Colors.grey[500]),
                 ),

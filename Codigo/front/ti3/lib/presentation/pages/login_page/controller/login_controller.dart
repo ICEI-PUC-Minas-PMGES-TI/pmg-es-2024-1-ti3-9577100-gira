@@ -29,27 +29,24 @@ abstract class LoginControllerStore with Store {
   Future<void> login() async {
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:8080/administrator/login'),
-        body: jsonEncode({
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
+        Uri.parse('http://10.0.2.2:8000/administrator/login'),
+        body: {
+          "name": "Juliana",
+          "password": "12345678"
         },
+
       );
 
-      print(response);
-
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Authentication successful');
+        Get.snackbar('Success', 'Login realizado');
         reset();
         Get.back();
       } else {
-        Get.snackbar('Error', 'Authentication failed');
+        Get.snackbar('Error', 'Falha');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Connection error');
+      print('Erro: $e');
+      Get.snackbar('Error', '${e}');
     }
   }
 
