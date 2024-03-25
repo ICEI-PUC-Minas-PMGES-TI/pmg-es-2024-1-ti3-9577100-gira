@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/administrator")
 public class AdiministratorController {
     @Autowired
@@ -35,6 +36,7 @@ public class AdiministratorController {
     @PostMapping("/login")
     public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) throws Exception {
         if (adiministratorService.authenticateAdministrator(administratorRequest)) {
+            System.out.println(administratorRequest);
             return ResponseEntity.ok().body("Authentication sucessful");
         } else {
 

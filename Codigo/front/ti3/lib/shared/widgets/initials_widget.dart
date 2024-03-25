@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 class InitialsWidget extends StatelessWidget {
   final String name;
   final bool notTreat;
+  final double? textSize;
 
-  const InitialsWidget({
-    Key? key,
-    required this.name,
-    this.notTreat = false
-  }) : super(key: key);
+  const InitialsWidget(
+      {Key? key, required this.name, this.notTreat = false, this.textSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +20,10 @@ class InitialsWidget extends StatelessWidget {
       child: Center(
         child: Text(
           _getInitials(name),
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontSize: 40,
-              color: Colors.black.withOpacity(0.8)),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(fontSize: textSize ?? 40, color: Colors.black.withOpacity(0.8)),
           overflow: TextOverflow.clip,
           textAlign: TextAlign.center,
           maxLines: 1,
@@ -33,7 +33,7 @@ class InitialsWidget extends StatelessWidget {
   }
 
   String _getInitials(String name) {
-    if(notTreat) return name;
+    if (notTreat) return name;
 
     name = name.trim().replaceAll(RegExp(r'[^a-zA-Z\s]+'), '').trim();
     var nameParts = name.split(' ');

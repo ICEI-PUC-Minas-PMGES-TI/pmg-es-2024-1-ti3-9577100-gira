@@ -41,6 +41,7 @@ dependencies:
   build_runner: ^2.4.6
   cached_network_image: ^3.3.0
   flutter_animate: ^4.3.0
+  http: ^1.2.1
 
   get: ^4.6.6
 

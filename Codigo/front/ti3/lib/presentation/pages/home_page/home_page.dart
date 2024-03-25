@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ti3/shared/paths.dart';
-import 'package:ti3/shared/rounded_image_widget.dart';
+import 'package:ti3/presentation/pages/manage_teatchers/manage_teatchers_page.dart';
+import 'package:ti3/shared/widgets/drawer_widget.dart';
+import 'package:ti3/shared/widgets/paths.dart';
+import 'package:ti3/shared/widgets/rounded_image_widget.dart';
 import 'package:ti3/shared/routes.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
@@ -37,56 +39,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(top: 60, left: 12, right: 12),
-              child: Column(
-                children: [
-                  RoundedImageWidget(
-                    name: 'Elias Regina',
-                    size: 90,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'Elis Regina de Souza Lima',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 18, 87, 143), fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text('Diretora',
-                      style: TextStyle(color: Colors.grey, fontSize: 18)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Get.toNamed(Paths.manageTeatchersPage);
-                      },
-                      child: const Text(
-                        'Gerenciar professores',
-                        style: TextStyle(color: Colors.black),
-                      )),
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Gerenciar professores',
-                        style: TextStyle(color: Colors.black),
-                      )),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+      drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: GiraColors.loginBoxColor,
         unselectedItemColor: Colors.pink,
