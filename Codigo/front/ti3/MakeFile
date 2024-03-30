@@ -1,0 +1,43 @@
+.PHONY: rebuild gen genIcon genAll localize check dev release apk
+
+# Clean project, install dependencies, generate sources
+rebuild:
+	flutter clean
+	flutter packages pub get
+	flutter packages pub run build_runner build --delete-conflicting-outputs
+	fluttergen -c pubspec.yaml
+
+# Generate sources
+gen:
+	flutter packages pub run build_runner build --delete-conflicting-outputs
+
+# Generate app icon
+genIcon:
+	flutter pub run flutter_launcher_icons
+
+# Generate sources, localizations, dependencies, image assets, colors, fonts
+genAll:
+	flutter packages pub run build_runner build --delete-conflicting-outputs
+	flutter pub run flutter_launcher_icons
+	flutter pub run intl_utils:generate
+	fluttergen -c pubspec.yaml
+
+# Generate localizations
+localize:
+	flutter pub run intl_utils:generate
+
+# Analyze the project
+check:
+	dart analyze .
+
+# Run | Dev | Debug
+dev:
+	flutter run --flavor dev -t lib/main.dart
+
+# Run | Prod | Release
+release:
+	flutter run --flavor prod --release -t lib/main_release.dart
+
+# Publish | Prod | Release
+apk:
+	flutter build apk --flavor prod --release -t lib/main_release.dart
