@@ -1,8 +1,10 @@
 package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.ParentsRecord;
+import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Parents;
+import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Services.ParentsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,12 @@ public class ParentsController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginParents(@RequestBody Parents parentsRequest) {
-        if (parentsService.authenticateParents(parentsRequest)) {
-            return ResponseEntity.ok().body("Authentication sucessful");
-        } else {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not sucessful");
+    public ResponseEntity<?> login(@RequestBody Parents parentsRequest) {
+        try {
+            Parents authenticated = parentsService.authenticate(parentsRequest);
+            return ResponseEntity.ok().body(authenticated);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
         }
     }
 

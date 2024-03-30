@@ -28,12 +28,12 @@ public class TeacherController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginTeacher(@RequestBody Teacher teacherRequest) {
-        if (teacherService.authenticateTeacher(teacherRequest)) {
-            return ResponseEntity.ok().body("Authentication sucessful");
-        } else {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not sucessful");
+    public ResponseEntity<?> login(@RequestBody Teacher teacherRequest) {
+        try {
+            Teacher authenticated = teacherService.authenticate(teacherRequest);
+            return ResponseEntity.ok().body(authenticated);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
         }
     }
 }

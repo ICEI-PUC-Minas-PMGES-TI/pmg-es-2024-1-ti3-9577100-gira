@@ -2,9 +2,7 @@ package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.StudentRecord;
 import com.app.pucTis.Dtos.TeacherRecord;
-import com.app.pucTis.Entities.Teacher;
-import com.app.pucTis.Entities.Parents;
-import com.app.pucTis.Entities.Student;
+import com.app.pucTis.Entities.*;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +28,16 @@ public class TeacherService {
         return teacherRepository.findByName(teacherService.getName());
     }
 
-    public boolean authenticateTeacher(Teacher teacherService) {
-        Optional<Teacher> optionalTeacher = teacherRepository.findByName(teacherService.getName());
+    public Teacher authenticate(Teacher teacherService) throws Exception {
+        if (teacherService == null)
+            throw new IllegalArgumentException("Teacher cannot be null");
 
-        if (optionalTeacher.isPresent()) {
-            Teacher storedTeacher = optionalTeacher.get();
-            return storedTeacher.getPassword().equals(teacherService.getPassword());
-        } else {
-            return false;
-        }
+        Optional<Teacher> optional = teacherRepository
+                .findByName(teacherService.getName());
+
+        return  optional.filter(storedTeacher ->
+                        storedTeacher.getPassword().equals(teacherService.getPassword()))
+                .orElseThrow(() -> new Exception("User or password invalid"));
     }
     public boolean authenticatePass(Parents parentService){
         return parentService.getValidPass();

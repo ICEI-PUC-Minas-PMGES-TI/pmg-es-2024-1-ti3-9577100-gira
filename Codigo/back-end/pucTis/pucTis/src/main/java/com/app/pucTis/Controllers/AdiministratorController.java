@@ -34,15 +34,15 @@ public class AdiministratorController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) throws Exception {
-        if (adiministratorService.authenticateAdministrator(administratorRequest)) {
-            System.out.println(administratorRequest);
-            return ResponseEntity.ok().body("Authentication sucessful");
-        } else {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not sucessful");
+    public ResponseEntity<?> loginAdministrator(@RequestBody Administrator administratorRequest) {
+        try {
+            Administrator authenticatedAdmin = adiministratorService.authenticateAdministrator(administratorRequest);
+            return ResponseEntity.ok().body(authenticatedAdmin);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
         }
     }
+
 
 
 }

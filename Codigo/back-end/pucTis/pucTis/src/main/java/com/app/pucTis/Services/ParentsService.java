@@ -4,6 +4,7 @@ import com.app.pucTis.Dtos.ParentsRecord;
 import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Parents;
+import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +36,16 @@ public class ParentsService {
         return parentsRepository.findByName(parentService.getName());
     }
 
-    public boolean authenticateParents(Parents parentService) {
-        Optional<Parents> optionalParents = parentsRepository.findByName(parentService.getName());
+    public Parents authenticate(Parents parentsService) throws Exception {
+        if (parentsService == null)
+            throw new IllegalArgumentException("Parent cannot be null");
 
-        if (optionalParents.isPresent()) {
-            Parents storedParents = optionalParents.get();
-            return storedParents.getPassword().equals(parentService.getPassword());
-        } else {
-            return false;
-        }
+        Optional<Parents> optional = parentsRepository
+                .findByName(parentsService.getName());
+
+        return  optional.filter(storedParent ->
+                        storedParent.getPassword().equals(parentsService.getPassword()))
+                .orElseThrow(() -> new Exception("User or password invalid"));
     }
 
     public boolean authenticatePass(Parents parentService){
