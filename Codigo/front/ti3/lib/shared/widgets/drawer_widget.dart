@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
 import 'package:ti3/presentation/pages/manage_teatchers/manage_teatchers_page.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
@@ -14,16 +15,18 @@ class DrawerWidget extends StatelessWidget {
             child: Column(
               children: [
                 RoundedImageWidget(
-                  name: 'Elias Regina',
+                  name: CurrentUserManager.currentUser.name ?? 'ERRO',
                   size: 90,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'Elis Regina de Souza Lima',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 18, 87, 143), fontSize: 18),
+                Text(
+                  CurrentUserManager.currentUser.name ?? 'ERRO',
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 18, 87, 143),
+                    fontSize: 18,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -82,9 +85,10 @@ class DrawerWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ManageTeatchersPage(
-                          type: 'CLASS',
-                        )),
+                        MaterialPageRoute(
+                            builder: (context) => ManageTeatchersPage(
+                                  type: 'CLASS',
+                                )),
                       );
                     },
                     child: const Text(

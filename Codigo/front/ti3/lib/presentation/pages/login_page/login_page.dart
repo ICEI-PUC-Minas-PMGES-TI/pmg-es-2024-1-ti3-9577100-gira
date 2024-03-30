@@ -59,10 +59,9 @@ class _LoginPageState extends State<LoginPage> {
                     InkWell(
                       onTap: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          // controller.login();
+                          controller.login();
 
-                          Get.toNamed(Paths.homePage);
-                          controller.reset();
+                          // controller.reset();
                         }
                       },
                       borderRadius: BorderRadius.circular(12),
