@@ -35,9 +35,12 @@ public class TeacherService {
         Optional<Teacher> optional = teacherRepository
                 .findByName(teacherService.getName());
 
-        return  optional.filter(storedTeacher ->
+        Teacher authenticated =  optional.filter(storedTeacher ->
                         storedTeacher.getPassword().equals(teacherService.getPassword()))
                 .orElseThrow(() -> new Exception("User or password invalid"));
+        SeesionManager.setAuthenticatedTeacher(authenticated);
+
+        return authenticated;
     }
     public boolean authenticatePass(Parents parentService){
         return parentService.getValidPass();

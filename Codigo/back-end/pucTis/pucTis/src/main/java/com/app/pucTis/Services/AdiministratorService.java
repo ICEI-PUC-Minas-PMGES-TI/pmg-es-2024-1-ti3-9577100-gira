@@ -48,12 +48,17 @@ public class AdiministratorService {
         Optional<Administrator> optionalAdministrator = adiministratorRepository
                 .findByName(administratorService.getName());
 
-        return  optionalAdministrator.filter(storedAdministrator ->
+        Administrator authenticated =  optionalAdministrator.filter(storedAdministrator ->
                         storedAdministrator.getPassword().equals(administratorService.getPassword()))
                 .orElseThrow(() -> new Exception("User or password invalid"));
+        SeesionManager.setAuthenticatedAdministrator(authenticated);
+
+        return authenticated;
     }
 
-
+    public void logout(){
+        SeesionManager.clearAuthenticatedAdministrator();
+    }
 
     public boolean authenticatePass(Administrator administratorService){
         return administratorService.getValidPass();
