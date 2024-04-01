@@ -14,7 +14,7 @@ class LoginController = LoginControllerStore with _$LoginController;
 abstract class LoginControllerStore with Store {
   final String door = '192.168.0.186:8080';
   final List<String> endpoints = [
-    'administrador/login',
+    'administrator/login',
     'parents/login',
     'teacher/login',
   ];
@@ -39,10 +39,16 @@ abstract class LoginControllerStore with Store {
     var password = passwordController.text;
     var isUserFound = false;
 
+    List<String> endpoints = [
+      'http://192.168.0.186:8080/administrator/login',
+      'http://192.168.0.186:8080/teacher/login',
+      'http://192.168.0.186:8080/parent/login',
+    ];
+
     try {
-      for (int i = 0; i < 4; i++) {
+      for (var endpoint in endpoints) {
         final response = await http.post(
-          Uri.parse('http://${door}/${endpoints[i]}'),
+          Uri.parse(endpoint),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -53,9 +59,10 @@ abstract class LoginControllerStore with Store {
           current.name = name;
           current.password = password;
           isUserFound = true;
-          continue;
+          break; 
         }
       }
+
       if (isUserFound) {
         Get.toNamed(Paths.homePage);
       } else {
@@ -63,7 +70,7 @@ abstract class LoginControllerStore with Store {
       }
     } catch (e) {
       print('Erro: $e');
-      Get.snackbar('Error', '${e}');
+      Get.snackbar('Error', '$e');
     }
   }
 
