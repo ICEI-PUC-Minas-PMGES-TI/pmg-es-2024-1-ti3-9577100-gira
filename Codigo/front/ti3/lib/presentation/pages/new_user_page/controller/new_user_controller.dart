@@ -12,11 +12,11 @@ part 'new_user_controller.g.dart';
 class NewUserController = NewUserControllerStore with _$NewUserController;
 
 abstract class NewUserControllerStore with Store {
-  final String door = '192.168.0.186:8080';
-  final List<String> endpoints = [
-    'administrador',
-    'parents',
-    'teacher',
+  final String door = '192.168.0.20:8080';
+  List<String> endpoints = [
+    'http://192.168.0.20:8080/administrator',
+    'http://192.168.0.20:8080/teacher',
+    'http://192.168.0.20:8080/parent',
   ];
 
   @observable
@@ -27,29 +27,34 @@ abstract class NewUserControllerStore with Store {
   UserTypeEnum userType = UserTypeEnum.undefined;
 
   @override
-  Future<void> register() async {
+  Future<void> register(UserTypeEnum type) async {
     var code = codeController.text;
     var password = passwordController.text;
-    var type = userType;
 
     try {
       final response = await http.post(
-        Uri.parse('http://${door}/teacher}'),
+        Uri.parse('http://${door}/teacher'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body:
-            json.encode({"name": code, "password": password, type: 'teacher'}),
+        body: json.encode({
+          "name": code,
+          "password": password,
+          "type": 'TEACHER'
+        }),
       );
 
-      if (response.statusCode == 200) {
+      print(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         Get.snackbar('Salvo', 'Novo usuário registrado');
       } else {
         Get.snackbar('Erro', 'Erro ao registrar novo usuário');
       }
     } catch (e) {
       print(e);
-      Get.snackbar('Erro', 'Um erro inesperado ocorreu. Tente novamente mais tarde.');
+      Get.snackbar(
+          'Erro', 'Um erro inesperado ocorreu. Tente novamente mais tarde.');
     }
   }
 }

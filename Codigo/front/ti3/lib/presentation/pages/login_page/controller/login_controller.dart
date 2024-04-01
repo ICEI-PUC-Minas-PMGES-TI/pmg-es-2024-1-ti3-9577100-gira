@@ -12,7 +12,7 @@ part 'login_controller.g.dart';
 class LoginController = LoginControllerStore with _$LoginController;
 
 abstract class LoginControllerStore with Store {
-  final String door = '192.168.0.186:8080';
+  final String door = '192.168.0.20:8080';
   final List<String> endpoints = [
     'administrator/login',
     'parents/login',
@@ -34,15 +34,15 @@ abstract class LoginControllerStore with Store {
   }
 
   @action
-  Future<void> login() async {
+  Future<void> loginTeste() async {
     var name = emailController.text;
     var password = passwordController.text;
     var isUserFound = false;
 
     List<String> endpoints = [
-      'http://192.168.0.186:8080/administrator/login',
-      'http://192.168.0.186:8080/teacher/login',
-      'http://192.168.0.186:8080/parent/login',
+      'http://192.168.0.20:8080/administrator/login',
+      'http://192.168.0.20:8080/teacher/login',
+      'http://192.168.0.20:8080/parent/login',
     ];
 
     try {

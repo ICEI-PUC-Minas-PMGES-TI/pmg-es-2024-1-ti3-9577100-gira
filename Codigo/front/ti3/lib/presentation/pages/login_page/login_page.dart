@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     InkWell(
                       onTap: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          controller.login();
+                          controller.loginTeste();
 
                           // controller.reset();
                         }

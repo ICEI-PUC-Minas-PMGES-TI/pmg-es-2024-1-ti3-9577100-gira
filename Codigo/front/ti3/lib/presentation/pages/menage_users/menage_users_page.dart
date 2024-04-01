@@ -81,8 +81,8 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           widget.type == UserTypeEnum.clasroom
-              ? Get.toNamed(Paths.newClassPage)
-              : Get.toNamed(Paths.newUserPage);
+              ? Get.toNamed(Paths.newClassPage,)
+              : Get.toNamed(Paths.newUserPage, arguments: {'type': '${UserTypeEnum.teacher}'});
         },
         backgroundColor: GiraColors.loginBoxColor,
         shape: const CircleBorder(),

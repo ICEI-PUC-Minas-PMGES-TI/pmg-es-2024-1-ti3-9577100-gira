@@ -57,12 +57,12 @@ mixin _$LoginController on LoginControllerStore, Store {
     });
   }
 
-  late final _$loginAsyncAction =
-      AsyncAction('LoginControllerStore.login', context: context);
+  late final _$loginTesteAsyncAction =
+      AsyncAction('LoginControllerStore.loginTeste', context: context);
 
   @override
-  Future<void> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<void> loginTeste() {
+    return _$loginTesteAsyncAction.run(() => super.loginTeste());
   }
 
   late final _$LoginControllerStoreActionController =

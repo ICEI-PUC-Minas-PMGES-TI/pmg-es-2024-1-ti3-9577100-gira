@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/new_user_page/controller/new_user_controller.dart';
 import 'package:ti3/utils/gira_colors.dart';
 
 class NewUserPage extends StatelessWidget {
-
   final NewUserController controller = Get.put(NewUserController());
+  final type = Get.arguments['type'];
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,15 @@ class NewUserPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    controller.register();
+                    var userType = UserTypeEnum.admin;
+
+                    if(type == 'teacher') {
+                      userType = UserTypeEnum.teacher;
+                    } else {
+                      userType = UserTypeEnum.teacher;
+                    }
+
+                    controller.register(userType);
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -87,11 +96,11 @@ class NewUserPage extends StatelessWidget {
                       side: const BorderSide(color: GiraColors.loginBoxColor),
                     ),
                     minimumSize: const Size(300, 50),
-                    
                   ),
                   child: const Text(
                     'Concluir',
-                    style: TextStyle(color: GiraColors.loginBoxColor, fontSize: 20),
+                    style: TextStyle(
+                        color: GiraColors.loginBoxColor, fontSize: 20),
                   ),
                 ),
               ],
