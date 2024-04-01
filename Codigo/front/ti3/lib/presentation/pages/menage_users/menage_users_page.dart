@@ -39,6 +39,9 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(widget.type);
+
     return Scaffold(
       key: scaffoldKey,
       drawer: DrawerWidget(),
@@ -82,7 +85,7 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
         onPressed: () {
           widget.type == UserTypeEnum.clasroom
               ? Get.toNamed(Paths.newClassPage,)
-              : Get.toNamed(Paths.newUserPage, arguments: {'type': '${UserTypeEnum.teacher}'});
+              : Get.toNamed(Paths.newUserPage, arguments: {'type': '${widget.type}'});
         },
         backgroundColor: GiraColors.loginBoxColor,
         shape: const CircleBorder(),

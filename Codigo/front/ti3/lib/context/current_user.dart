@@ -32,9 +32,6 @@ class CurrentUserManager {
   }
 }
 
-
-
-@JsonSerializable()
 enum UserTypeEnum {
   @JsonValue('ADMIN')
   admin,
@@ -42,8 +39,8 @@ enum UserTypeEnum {
   teacher,
   @JsonValue('STUDENT')
   student,
-  @JsonValue('PARENT')
-  parent,
+  @JsonValue('PARENTS')
+  parents,
   @JsonValue('CLASSROOM')
   clasroom,
   @JsonValue('UNDEFINED')

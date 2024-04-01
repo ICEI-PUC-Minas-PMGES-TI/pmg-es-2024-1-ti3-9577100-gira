@@ -21,7 +21,7 @@ class UserBoxItem extends StatelessWidget {
             ? _buildTeatcherBody(context)
             : type == UserTypeEnum.student
                 ? _buildStudentsBodt(context)
-                : type == UserTypeEnum.parent
+                : type == UserTypeEnum.parents
                     ? _buildParentsBody(context)
                     : type == UserTypeEnum.clasroom
                         ? _buildClassesBody(context)

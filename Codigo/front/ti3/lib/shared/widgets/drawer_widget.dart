@@ -73,7 +73,7 @@ class DrawerWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.parent,
+                                  type: UserTypeEnum.parents,
                                 )),
                       );
                     },

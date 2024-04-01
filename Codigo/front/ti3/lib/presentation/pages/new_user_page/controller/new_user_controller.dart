@@ -16,7 +16,7 @@ abstract class NewUserControllerStore with Store {
   List<String> endpoints = [
     'http://192.168.0.20:8080/administrator',
     'http://192.168.0.20:8080/teacher',
-    'http://192.168.0.20:8080/parent',
+    'http://192.168.0.20:8080/parents',
   ];
 
   @observable
@@ -32,15 +32,17 @@ abstract class NewUserControllerStore with Store {
     var password = passwordController.text;
 
     try {
+      final selectedEndpoint = _getEndpointForType(type); 
+
       final response = await http.post(
-        Uri.parse('http://${door}/teacher'),
+        Uri.parse(selectedEndpoint),
         headers: {
           'Content-Type': 'application/json',
         },
         body: json.encode({
           "name": code,
           "password": password,
-          "type": 'TEACHER'
+          "type": type.toString().split('.').last.toUpperCase() 
         }),
       );
 
@@ -57,4 +59,19 @@ abstract class NewUserControllerStore with Store {
           'Erro', 'Um erro inesperado ocorreu. Tente novamente mais tarde.');
     }
   }
+
+  String _getEndpointForType(UserTypeEnum type) {
+    switch (type) {
+      case UserTypeEnum.admin:
+        return endpoints[0];
+      case UserTypeEnum.teacher:
+        return endpoints[1];
+      case UserTypeEnum.parents:
+        return endpoints[2];
+      default:
+        throw Exception('Tipo de usuário não suportado');
+    }
+  }
 }
+
+

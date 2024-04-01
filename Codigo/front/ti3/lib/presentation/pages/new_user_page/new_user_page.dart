@@ -81,11 +81,20 @@ class NewUserPage extends StatelessWidget {
                   onPressed: () {
                     var userType = UserTypeEnum.admin;
 
-                    if(type == 'teacher') {
+                    if(type == UserTypeEnum.teacher.toString()) {
                       userType = UserTypeEnum.teacher;
+                    } else if(type == UserTypeEnum.student.toString()) {
+                      userType = UserTypeEnum.student;
+                    } else if(type == UserTypeEnum.parents.toString()) {
+                      userType = UserTypeEnum.parents;
+                    } else if(type == UserTypeEnum.clasroom.toString()) {
+                      userType = UserTypeEnum.clasroom;
+                    } else if(type == UserTypeEnum.admin.toString()) {
+                      userType = UserTypeEnum.admin;
                     } else {
-                      userType = UserTypeEnum.teacher;
+                      userType = UserTypeEnum.parents;
                     }
+                    
 
                     controller.register(userType);
                   },
