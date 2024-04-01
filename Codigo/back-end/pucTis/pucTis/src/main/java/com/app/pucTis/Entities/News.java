@@ -1,6 +1,5 @@
 package com.app.pucTis.Entities;
 
-import com.app.pucTis.Entities.Enuns.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,6 +22,10 @@ public class News {
     private String author;
     private int likes;
 
+    public News(){
+
+    }
+
     public News(News data){
         this.id = data.id;
         this.description = data.description;
@@ -41,6 +44,6 @@ public class News {
     public String getImage() {return image;}
     public void setAuthor(String author){this.author = author;}
     public String getAuthor() {return author;}
-    public void setLikes(){this.likes ++;}
+    public void setLikes(int i){this.likes ++;}
     public int getLikes(){return likes;}
 }

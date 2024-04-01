@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/news")
@@ -21,6 +23,13 @@ public class NewsController {
         News news = newsService.create(newsRecord);
         return new ResponseEntity<>(news, HttpStatus.CREATED);
     }
+
+    @PostMapping("/likes")
+    public ResponseEntity<Integer> countLikes() {
+        int likesCount = newsService.countLikesNews(1);
+        return ResponseEntity.ok(likesCount);
+    }
+
 
 
 }
