@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:ti3/presentation/pages/new_user_page/controller/new_user_controller.dart';
 import 'package:ti3/utils/gira_colors.dart';
 
 class NewUserPage extends StatelessWidget {
+
+  final NewUserController controller = Get.put(NewUserController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +34,9 @@ class NewUserPage extends StatelessWidget {
                 color: GiraColors.fields,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: controller.codeController,
+                decoration: const InputDecoration(
                   label: Text(
                     'Informe o código...',
                     style: TextStyle(color: Colors.grey),
@@ -52,8 +59,9 @@ class NewUserPage extends StatelessWidget {
                 color: GiraColors.fields,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: controller.passwordController,
+                decoration: const InputDecoration(
                   label: Text(
                     'Cria uma senha...',
                     style: TextStyle(color: Colors.grey),
@@ -69,19 +77,21 @@ class NewUserPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Concluir',
-                    style: TextStyle(color: GiraColors.loginBoxColor, fontSize: 20),
-                  ),
+                  onPressed: () {
+                    controller.register();
+                  },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       side: const BorderSide(color: GiraColors.loginBoxColor),
                     ),
-                    minimumSize: Size(300, 50),
+                    minimumSize: const Size(300, 50),
                     
+                  ),
+                  child: const Text(
+                    'Concluir',
+                    style: TextStyle(color: GiraColors.loginBoxColor, fontSize: 20),
                   ),
                 ),
               ],

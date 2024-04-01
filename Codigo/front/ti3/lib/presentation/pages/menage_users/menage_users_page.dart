@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/shared/search_field.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
 import 'package:ti3/shared/widgets/user_box_item.dart';
@@ -8,16 +9,16 @@ import 'package:ti3/utils/gira_fonts.dart';
 
 import '../../../shared/widgets/paths.dart';
 
-class ManageTeatchersPage extends StatefulWidget {
-  final String? type;
+class MenageUsersPage extends StatefulWidget {
+  final UserTypeEnum? type;
 
-  const ManageTeatchersPage({super.key, this.type});
+  const MenageUsersPage({super.key, this.type});
 
   @override
-  _ManageTeatchersPageState createState() => _ManageTeatchersPageState();
+  _MenageUsersPageState createState() => _MenageUsersPageState();
 }
 
-class _ManageTeatchersPageState extends State<ManageTeatchersPage> {
+class _MenageUsersPageState extends State<MenageUsersPage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   int selectedIndex = 0;
@@ -65,21 +66,21 @@ class _ManageTeatchersPageState extends State<ManageTeatchersPage> {
       body: Column(
         children: [
           Center(
-            child: Container(width: 300, child: SearchBarWidget()),
+            child: SizedBox(width: 300, child: SearchBarWidget()),
           ),
-          widget.type == 'TEACHER' || widget.type == 'STUDENT'
+          widget.type == UserTypeEnum.teacher || widget.type == UserTypeEnum.student
               ? _buildButtons(context)
               : Container(
                   height: 30,
                 ),
           UserBoxItem(
-            type: widget.type ?? 'TEACHER',
+            type: widget.type,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          widget.type == 'CLASS'
+          widget.type == UserTypeEnum.clasroom
               ? Get.toNamed(Paths.newClassPage)
               : Get.toNamed(Paths.newUserPage);
         },

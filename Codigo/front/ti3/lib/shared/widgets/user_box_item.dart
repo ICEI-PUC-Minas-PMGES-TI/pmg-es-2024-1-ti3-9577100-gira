@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
 class UserBoxItem extends StatelessWidget {
-  final String? type;
+  final UserTypeEnum? type;
 
   const UserBoxItem({super.key, this.type});
   @override
@@ -16,15 +17,15 @@ class UserBoxItem extends StatelessWidget {
           color: GiraColors.fields,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: type == 'TEACHER'
+        child: type == UserTypeEnum.teacher
             ? _buildTeatcherBody(context)
-            : type == 'STUDENT'
+            : type == UserTypeEnum.student
                 ? _buildStudentsBodt(context)
-                : type == 'PARENTS'
+                : type == UserTypeEnum.parent
                     ? _buildParentsBody(context)
-                    : type == 'CLASS'
+                    : type == UserTypeEnum.clasroom
                         ? _buildClassesBody(context)
-                        : Text('Tipo não identificado'));
+                        : const Text('Tipo não identificado'));
   }
 
   Widget _buildTeatcherBody(BuildContext context) {
@@ -143,7 +144,7 @@ class UserBoxItem extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(20),
-          child: Column(
+          child: const Column(
             children: [
               Text(
                 'Turma A - 2 Período',
@@ -152,10 +153,10 @@ class UserBoxItem extends StatelessWidget {
             ],
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Container(
-          padding: EdgeInsets.only(right: 20),
-          child: Icon(
+          padding: const EdgeInsets.only(right: 20),
+          child: const Icon(
             Icons.edit_outlined,
             color: Colors.grey,
           ),

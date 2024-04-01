@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
-import 'package:ti3/presentation/pages/manage_teatchers/manage_teatchers_page.dart';
+import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -44,8 +44,8 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ManageTeatchersPage(
-                                  type: 'TEACHER',
+                            builder: (context) => const MenageUsersPage(
+                                  type: UserTypeEnum.teacher,
                                 )),
                       );
                     },
@@ -58,8 +58,8 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ManageTeatchersPage(
-                                  type: 'STUDENT',
+                            builder: (context) => const MenageUsersPage(
+                                  type: UserTypeEnum.student,
                                 )),
                       );
                     },
@@ -72,8 +72,8 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ManageTeatchersPage(
-                                  type: 'PARENTS',
+                            builder: (context) => const MenageUsersPage(
+                                  type: UserTypeEnum.parent,
                                 )),
                       );
                     },
@@ -86,8 +86,8 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ManageTeatchersPage(
-                                  type: 'CLASS',
+                            builder: (context) => const MenageUsersPage(
+                                  type: UserTypeEnum.clasroom,
                                 )),
                       );
                     },
@@ -99,7 +99,7 @@ class DrawerWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(builder: (context) => const HomePage()),
                       );
                     },
                     child: const Text(

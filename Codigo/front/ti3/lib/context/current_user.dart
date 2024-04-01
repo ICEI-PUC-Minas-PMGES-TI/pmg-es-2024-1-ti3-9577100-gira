@@ -44,4 +44,8 @@ enum UserTypeEnum {
   student,
   @JsonValue('PARENT')
   parent,
-}
+  @JsonValue('CLASSROOM')
+  clasroom,
+  @JsonValue('UNDEFINED')
+  undefined,
+  }

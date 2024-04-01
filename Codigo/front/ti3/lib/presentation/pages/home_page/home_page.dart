@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ti3/presentation/pages/manage_teatchers/manage_teatchers_page.dart';
+import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
 import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
