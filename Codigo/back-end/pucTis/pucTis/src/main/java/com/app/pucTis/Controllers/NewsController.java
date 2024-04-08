@@ -19,8 +19,7 @@ import java.util.Optional;
 public class NewsController {
     @Autowired
     private NewsService newsService;
-    @Autowired
-    NewsRepository newsRepository;
+
 
 
     @PostMapping
@@ -33,11 +32,6 @@ public class NewsController {
     public ResponseEntity<Integer> countLikes() {
         int likesCount = newsService.countLikesNews(1);
         return ResponseEntity.ok(likesCount);
-    }
-
-    @GetMapping("/getNews")
-    public ResponseEntity<List<News>> getAllNews(){
-        return ResponseEntity.ok(newsRepository.findAll());
     }
 
 }
