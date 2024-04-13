@@ -22,28 +22,30 @@ public class News {
     private String author;
     private int likes;
 
-    public News(){
-
-    }
-
     public News(News data){
+        this.date = new Date();
         this.id = data.id;
         this.description = data.description;
-        this.date = new Date();
         this.image = data.image;
         this.author = data.author;
         this.likes = 0;
     }
-    public Long getId(Long id){ return id;}
-    public void setDescription(String description){this.description=description;}
-    public String getDescription(String description){return description;}
-    public void setDate (Date date){this.date = date;}
-    public Date getDate() {return date;}
+    public Long getId() {return id;}
 
-    public void setImage(String image) {this.image = image;}
+    public void setId(Long id) {this.id = id;}
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
+    public Date getDate() {return date;}
+    public void setDate(Date date) {this.date = date;}
+
     public String getImage() {return image;}
-    public void setAuthor(String author){this.author = author;}
+    public void setImage(String image) {this.image = image;}
     public String getAuthor() {return author;}
+
+    public void setAuthor(String author) {this.author = author;}
     public void setLikes(int i){this.likes ++;}
     public int getLikes(){return likes;}
 }

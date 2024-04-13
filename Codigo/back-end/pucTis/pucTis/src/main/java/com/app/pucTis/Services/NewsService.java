@@ -26,6 +26,11 @@ public class NewsService {
     @Autowired
     TeacherRepository teacherRepository;
 
+    public NewsService(NewsRepository newsRepository){
+        this.newsRepository = newsRepository;
+
+    }
+
     public void save(News news){
         this.newsRepository.save(news);
 
@@ -34,17 +39,29 @@ public class NewsService {
     public News create(NewsRecord newsRecord) {
         Administrator administrator = SeesionManager.getAuthenticatedAdministrator();
         Teacher teacher = SeesionManager.getAuthenticatedTeacher();
-        News news = new News(); //error here, I just created an empty constructor
+
         if (administrator != null || teacher != null) {
 
-            news.setDescription(newsRecord.description());
+            News news = new News();
             news.setDate(new Date());
+            news.setDescription(newsRecord.description());
             news.setImage(newsRecord.image());
             news.setAuthor(administrator != null ? administrator.getName() : teacher.getName());
-            this.newsRepository.save(news);
+
+
+            News savedNews = newsRepository.save(news);
+
+
+            if (savedNews != null) {
+                return savedNews;
+            } else {
+                throw new IllegalStateException("Failed to save news in the database");
+            }
+        } else {
+            throw new IllegalStateException("No authenticated administrator or teacher found.");
         }
-        return news;
     }
+
 
     public int countLikesNews(long newsId) {
         Optional<News> optionalNews = newsRepository.findById(newsId);
@@ -66,5 +83,41 @@ public class NewsService {
 
     public List<News> getAllNews(){
         return newsRepository.findAll();
+    }
+
+    public News update(Long newsId, NewsRecord newsRecord) {
+
+        Optional<News> optionalNews = newsRepository.findById(newsId);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+
+            Administrator administrator = SeesionManager.getAuthenticatedAdministrator();
+            Teacher teacher = SeesionManager.getAuthenticatedTeacher();
+            if (administrator != null && news.getAuthor().equals(administrator.getName()) ||
+                    teacher != null && news.getAuthor().equals(teacher.getName())) {
+
+                news.setDescription(newsRecord.description());
+                news.setImage(newsRecord.image());
+
+                return newsRepository.save(news);
+            } else {
+                throw new IllegalStateException("Only the author can edit this news");
+            }
+        } else {
+            throw new IllegalArgumentException("News not found");
+        }
+    }
+
+
+    public void deleteNews(long newsId) {
+
+        Optional<News> optionalNews = newsRepository.findById(newsId);
+        if (optionalNews.isPresent()) {
+
+            newsRepository.deleteById(newsId);
+        } else {
+
+            throw new IllegalArgumentException("News with ID " + newsId + " not found");
+        }
     }
 }
