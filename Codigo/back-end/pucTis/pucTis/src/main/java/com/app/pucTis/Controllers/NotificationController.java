@@ -67,6 +67,19 @@ public class NotificationController {
         List<Notification> notifications = notificationRepository.findByRecipient(student);
         return ResponseEntity.ok(notifications);
     }
+
+    @DeleteMapping("/delete/{notificationId}")
+    public ResponseEntity<String> deleteNotification(@PathVariable Long notificationId) {
+        Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
+        if (!optionalNotification.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification not found");
+        }
+
+        Notification notification = optionalNotification.get();
+        notificationRepository.delete(notification);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Notification deleted successfully");
+    }
 }
 
 //{
