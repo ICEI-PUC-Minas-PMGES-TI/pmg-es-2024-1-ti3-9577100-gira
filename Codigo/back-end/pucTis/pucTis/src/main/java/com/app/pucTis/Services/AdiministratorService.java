@@ -41,31 +41,6 @@ public class AdiministratorService {
         return adiministratorRepository.findByName(administratorService.getName());
     }
 
-    public Administrator authenticateAdministrator(Administrator administratorService) throws Exception {
-        if (administratorService == null)
-            throw new IllegalArgumentException("Administrator cannot be null");
-
-        Optional<Administrator> optionalAdministrator = adiministratorRepository
-                .findByName(administratorService.getName());
-
-        Administrator authenticated =  optionalAdministrator.filter(storedAdministrator ->
-                        storedAdministrator.getPassword().equals(administratorService.getPassword()))
-                .orElseThrow(() -> new Exception("User or password invalid"));
-        SeesionManager.setAuthenticatedAdministrator(authenticated);
-
-        return authenticated;
-    }
-
-    public void logout(){
-        SeesionManager.clearAuthenticatedAdministrator();
-    }
-
-    public boolean authenticatePass(Administrator administratorService){
-        return administratorService.getValidPass();
-    }
-
-
-
 }
 
 

@@ -27,22 +27,4 @@ public class TeacherService {
     public Optional<Teacher> findByNameOrId(Teacher teacherService) {
         return teacherRepository.findByName(teacherService.getName());
     }
-
-    public Teacher authenticate(Teacher teacherService) throws Exception {
-        if (teacherService == null)
-            throw new IllegalArgumentException("Teacher cannot be null");
-
-        Optional<Teacher> optional = teacherRepository
-                .findByName(teacherService.getName());
-
-        Teacher authenticated =  optional.filter(storedTeacher ->
-                        storedTeacher.getPassword().equals(teacherService.getPassword()))
-                .orElseThrow(() -> new Exception("User or password invalid"));
-        SeesionManager.setAuthenticatedTeacher(authenticated);
-
-        return authenticated;
-    }
-    public boolean authenticatePass(Parents parentService){
-        return parentService.getValidPass();
-    }
 }

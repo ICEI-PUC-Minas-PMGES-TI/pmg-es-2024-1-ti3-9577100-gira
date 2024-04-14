@@ -36,20 +36,4 @@ public class ParentsService {
         return parentsRepository.findByName(parentService.getName());
     }
 
-    public Parents authenticate(Parents parentsService) throws Exception {
-        if (parentsService == null)
-            throw new IllegalArgumentException("Parent cannot be null");
-
-        Optional<Parents> optional = parentsRepository
-                .findByName(parentsService.getName());
-
-        return  optional.filter(storedParent ->
-                        storedParent.getPassword().equals(parentsService.getPassword()))
-                .orElseThrow(() -> new Exception("User or password invalid"));
-    }
-
-    public boolean authenticatePass(Parents parentService){
-        return parentService.getValidPass();
-    }
-
 }

@@ -28,16 +28,6 @@ public class ParentsController {
         return new ResponseEntity<>(parents, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Parents parentsRequest) {
-        try {
-            Parents authenticated = parentsService.authenticate(parentsRequest);
-            return ResponseEntity.ok().body(authenticated);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
-        }
-    }
-
 
 
 }

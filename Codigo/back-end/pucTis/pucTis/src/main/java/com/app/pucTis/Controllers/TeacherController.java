@@ -27,13 +27,4 @@ public class TeacherController {
         return new ResponseEntity<>(teacher, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Teacher teacherRequest) {
-        try {
-            Teacher authenticated = teacherService.authenticate(teacherRequest);
-            return ResponseEntity.ok().body(authenticated);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
-        }
-    }
 }
