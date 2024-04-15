@@ -1,5 +1,6 @@
 package com.app.pucTis.Controllers;
 
+import com.app.pucTis.Dtos.NotificationRecord;
 import com.app.pucTis.Entities.Notification;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Repositories.NotificationRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +26,15 @@ public class NotificationController {
     private NotificationRepository notificationRepository;
 
     @PostMapping("/{studentId}")
-    public ResponseEntity<String> addNotificationToStudent(@PathVariable Long studentId, @Valid @RequestBody String message) {
+    public ResponseEntity<String> addNotificationToStudent(@PathVariable Long studentId, @Valid @RequestBody NotificationRecord notificationRecord) {
         Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
         }
-        Notification notification = new Notification();
+
+        Notification notification = new Notification(notificationRecord);
         notification.setRecipient(student);
-        notification.setMessage(message);
+        notification.setDate(LocalDate.now());
 
         notificationRepository.save(notification);
 
@@ -39,7 +42,7 @@ public class NotificationController {
     }
 
     @PutMapping("/{notificationId}")
-    public ResponseEntity<String> editNotification(@PathVariable Long notificationId, @Valid @RequestBody String newMessage) {
+    public ResponseEntity<String> editNotification(@PathVariable Long notificationId, @Valid @RequestBody String newMessage, @RequestBody NotificationRecord notificationRecord) {
         Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
         if (!optionalNotification.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification not found");
@@ -81,7 +84,3 @@ public class NotificationController {
         return ResponseEntity.status(HttpStatus.OK).body("Notification deleted successfully");
     }
 }
-
-//{
-//        "Message": "nova notificação atualizada"
-//        }
