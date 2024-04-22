@@ -11,8 +11,6 @@ class UserBoxItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 320,
-        height: 80,
         decoration: BoxDecoration(
           color: GiraColors.fields,
           borderRadius: BorderRadius.circular(10),
@@ -23,7 +21,7 @@ class UserBoxItem extends StatelessWidget {
                 ? _buildStudentsBodt(context)
                 : type == UserTypeEnum.parents
                     ? _buildParentsBody(context)
-                    : type == UserTypeEnum.clasroom
+                    : type == UserTypeEnum.classroom
                         ? _buildClassesBody(context)
                         : const Text('Tipo não identificado'));
   }

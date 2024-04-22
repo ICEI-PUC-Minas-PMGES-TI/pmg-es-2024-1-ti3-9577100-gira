@@ -26,7 +26,6 @@ abstract class NewUserControllerStore with Store {
   @observable
   UserTypeEnum userType = UserTypeEnum.undefined;
 
-  @override
   Future<void> register(UserTypeEnum type) async {
     var code = codeController.text;
     var password = passwordController.text;
@@ -62,7 +61,7 @@ abstract class NewUserControllerStore with Store {
 
   String _getEndpointForType(UserTypeEnum type) {
     switch (type) {
-      case UserTypeEnum.admin:
+      case UserTypeEnum.administrator:
         return endpoints[0];
       case UserTypeEnum.teacher:
         return endpoints[1];

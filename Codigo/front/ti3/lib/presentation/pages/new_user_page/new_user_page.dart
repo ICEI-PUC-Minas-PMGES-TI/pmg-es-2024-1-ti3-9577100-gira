@@ -12,6 +12,7 @@ class NewUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
@@ -79,7 +80,7 @@ class NewUserPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    var userType = UserTypeEnum.admin;
+                    var userType = UserTypeEnum.administrator;
 
                     if(type == UserTypeEnum.teacher.toString()) {
                       userType = UserTypeEnum.teacher;
@@ -87,10 +88,10 @@ class NewUserPage extends StatelessWidget {
                       userType = UserTypeEnum.student;
                     } else if(type == UserTypeEnum.parents.toString()) {
                       userType = UserTypeEnum.parents;
-                    } else if(type == UserTypeEnum.clasroom.toString()) {
-                      userType = UserTypeEnum.clasroom;
-                    } else if(type == UserTypeEnum.admin.toString()) {
-                      userType = UserTypeEnum.admin;
+                    } else if(type == UserTypeEnum.classroom.toString()) {
+                      userType = UserTypeEnum.classroom;
+                    } else if(type == UserTypeEnum.administrator.toString()) {
+                      userType = UserTypeEnum.administrator;
                     } else {
                       userType = UserTypeEnum.parents;
                     }

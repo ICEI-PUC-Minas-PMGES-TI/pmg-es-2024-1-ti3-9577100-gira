@@ -1,17 +1,23 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobx/mobx.dart';
 import 'package:ti3/context/current_user.dart';
+import 'package:ti3/domain/login/use_cases/do_login.dart';
 import 'package:ti3/shared/widgets/paths.dart';
+
+import '../../../../domain/login/model/user_model.dart';
 
 part 'login_controller.g.dart';
 
 class LoginController = LoginControllerStore with _$LoginController;
 
 abstract class LoginControllerStore with Store {
+
+  final DoLogin doLogin;
+
+  LoginControllerStore({required this.doLogin});
+
   final String door = '192.168.0.20:8080';
   final List<String> endpoints = [
     'administrator/login',
@@ -34,44 +40,23 @@ abstract class LoginControllerStore with Store {
   }
 
   @action
-  Future<void> loginTeste() async {
-    var name = emailController.text;
-    var password = passwordController.text;
-    var isUserFound = false;
+  Future<void> login() async {
+    final name = emailController.text;
+    final password = passwordController.text;
 
-    List<String> endpoints = [
-      'http://192.168.0.20:8080/administrator/login',
-      'http://192.168.0.20:8080/teacher/login',
-      'http://192.168.0.20:8080/parent/login',
-    ];
+    final result = await doLogin(name, password);
 
-    try {
-      for (var endpoint in endpoints) {
-        final response = await http.post(
-          Uri.parse(endpoint),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: json.encode({"name": name, "password": password}),
-        );
-        if (response.statusCode == 200) {
-          CurrentUser current = CurrentUser();
-          current.name = name;
-          current.password = password;
-          isUserFound = true;
-          break; 
-        }
-      }
-
-      if (isUserFound) {
+    result.processResult(
+      onSuccess: (UserModel user) {
+        CurrentUser().name = name;
+        CurrentUser().password = password;
+        CurrentUser().type = user.type;
         Get.toNamed(Paths.homePage);
-      } else {
-        Get.snackbar('Erro', 'Usuário não encontrado');
-      }
-    } catch (e) {
-      print('Erro: $e');
-      Get.snackbar('Error', '$e');
-    }
+      },
+      onFailure: (Exception e) {
+        Get.snackbar('Error', '$e');
+      },
+    );
   }
 
   @action
