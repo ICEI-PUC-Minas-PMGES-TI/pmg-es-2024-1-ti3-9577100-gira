@@ -19,9 +19,7 @@ class CurrentUserManager {
   static CurrentUser? _currentUserInstance;
 
   static CurrentUser get currentUser {
-    if (_currentUserInstance == null) {
-      _currentUserInstance = CurrentUser();
-    }
+    _currentUserInstance ??= CurrentUser();
     return _currentUserInstance!;
   }
 
@@ -33,16 +31,16 @@ class CurrentUserManager {
 }
 
 enum UserTypeEnum {
-  @JsonValue('ADMIN')
-  admin,
-  @JsonValue('TEACHER')
+  @JsonValue('administrator')
+  administrator,
+  @JsonValue('teacher')
   teacher,
-  @JsonValue('STUDENT')
-  student,
-  @JsonValue('PARENTS')
+  @JsonValue('parents')
   parents,
-  @JsonValue('CLASSROOM')
-  clasroom,
-  @JsonValue('UNDEFINED')
+  @JsonValue('student')
+  student,
+  @JsonValue('classroom')
+  classroom,
+  @JsonValue('undefined')
   undefined,
-  }
+}

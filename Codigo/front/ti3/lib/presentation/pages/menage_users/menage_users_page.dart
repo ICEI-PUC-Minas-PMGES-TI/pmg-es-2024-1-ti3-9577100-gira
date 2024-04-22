@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
-import 'package:ti3/shared/search_field.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
-import 'package:ti3/shared/widgets/user_box_item.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
@@ -39,18 +37,15 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    print(widget.type);
-
     return Scaffold(
       key: scaffoldKey,
       drawer: DrawerWidget(),
       appBar: AppBar(
-        title: const Text(
-          "GIRA",
-          style: TextStyle(
+        title: Text(
+          widget.type == UserTypeEnum.teacher ? "Professores" : widget.type == UserTypeEnum.student ? "Alunos" : "Responsáveis",
+          style: const TextStyle(
             fontFamily: GiraFonts.poorStory,
-            fontSize: 42,
+            fontSize: 32,
             color: GiraColors.loginBoxColor,
           ),
         ),
@@ -68,22 +63,34 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
       ),
       body: Column(
         children: [
-          Center(
-            child: SizedBox(width: 300, child: SearchBarWidget()),
-          ),
-          widget.type == UserTypeEnum.teacher || widget.type == UserTypeEnum.student
-              ? _buildButtons(context)
-              : Container(
-                  height: 30,
+          const SizedBox(height: 16,),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Pesquise pelo nome',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderSide: BorderSide(
+                    width: 2,
+                  ),
                 ),
-          UserBoxItem(
-            type: widget.type,
+                suffixIconColor: GiraColors.loginBoxColor,
+                suffixIcon: Icon(Icons.search),
+              ),
+            ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: ListView.builder(
+          //
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          widget.type == UserTypeEnum.clasroom
+          widget.type == UserTypeEnum.classroom
               ? Get.toNamed(Paths.newClassPage,)
               : Get.toNamed(Paths.newUserPage, arguments: {'type': '${widget.type}'});
         },
@@ -95,67 +102,6 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
-  }
-
-  Widget _buildButtons(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isMorningSelected = !isMorningSelected;
-              isAfternoonSelected = false;
-            });
-          },
-          child: Container(
-            margin: const EdgeInsets.all(15),
-            width: 70,
-            height: 30,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              color: isMorningSelected ? Colors.blue : Colors.grey,
-            ),
-            child: const Text(
-              'Manhã',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: GiraFonts.poorStory,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isAfternoonSelected = !isAfternoonSelected;
-              isMorningSelected = false;
-            });
-          },
-          child: Container(
-            margin: const EdgeInsets.all(15),
-            width: 70,
-            height: 30,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              color: isAfternoonSelected ? Colors.blue : Colors.grey,
-            ),
-            child: const Text(
-              'Tarde',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: GiraFonts.poorStory,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

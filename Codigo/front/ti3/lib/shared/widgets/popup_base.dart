@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 abstract class PopupBase extends StatelessWidget {
-  EdgeInsets padding = const EdgeInsets.all(15);
 
-  PopupBase({Key? key}) : super(key: key);
+  const PopupBase({super.key});
 
   @override
   Widget build(BuildContext context) {
+    EdgeInsets padding = const EdgeInsets.all(15);
+
     return Dialog(
       child: Material(
         clipBehavior: Clip.hardEdge,

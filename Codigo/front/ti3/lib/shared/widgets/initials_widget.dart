@@ -6,8 +6,7 @@ class InitialsWidget extends StatelessWidget {
   final double? textSize;
 
   const InitialsWidget(
-      {Key? key, required this.name, this.notTreat = false, this.textSize})
-      : super(key: key);
+      {super.key, required this.name, this.notTreat = false, this.textSize});
 
   @override
   Widget build(BuildContext context) {
