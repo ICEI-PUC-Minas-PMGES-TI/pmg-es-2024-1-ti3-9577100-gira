@@ -18,12 +18,14 @@ public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     @OneToMany(mappedBy = "schoolClass")
     private List<Student> students;
 
     @ManyToMany
-    @JoinTable(name = "TEACHER_CLASS", // TABELA
-            joinColumns = @JoinColumn(name = "SCHOOL_ID"), // COLUNA QUE REFERENCIA A ESCOLA
+    @JoinTable(
+            name = "TEACHER_CLASS", //TABELA
+            joinColumns = @JoinColumn(name = "SCHOOL_ID"), //COLUNA QUE REFERENCIA A ESCOLA
             inverseJoinColumns = @JoinColumn(name = "TEACHER_ID")
 
     )
@@ -32,6 +34,15 @@ public class Classroom {
     public Classroom(ClassroomRecord data) {
         this.students = data.students();
         this.teachers = data.teachers();
+        this.name = data.name();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {

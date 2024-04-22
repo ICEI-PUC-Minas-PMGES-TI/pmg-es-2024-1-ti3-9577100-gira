@@ -6,7 +6,9 @@ import com.app.pucTis.Entities.Teacher;
 import java.util.List;
 
 public record ClassroomRecord(
-                Long id,
-                List<Student> students,
-                List<Teacher> teachers) {
+        Long id,
+        String name,
+        List<Student> students,
+        List<Teacher> teachers
+) {
 }
