@@ -22,9 +22,8 @@ public class Classroom {
     private List<Student> students;
 
     @ManyToMany
-    @JoinTable(
-            name = "TEACHER_CLASS", //TABELA
-            joinColumns = @JoinColumn(name = "SCHOOL_ID"), //COLUNA QUE REFERENCIA A ESCOLA
+    @JoinTable(name = "TEACHER_CLASS", // TABELA
+            joinColumns = @JoinColumn(name = "SCHOOL_ID"), // COLUNA QUE REFERENCIA A ESCOLA
             inverseJoinColumns = @JoinColumn(name = "TEACHER_ID")
 
     )
@@ -35,4 +34,27 @@ public class Classroom {
         this.teachers = data.teachers();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 }

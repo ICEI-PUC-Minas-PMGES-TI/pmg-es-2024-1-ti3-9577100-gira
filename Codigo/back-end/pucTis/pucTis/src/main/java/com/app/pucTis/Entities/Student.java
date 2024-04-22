@@ -3,10 +3,13 @@ package com.app.pucTis.Entities;
 import com.app.pucTis.Dtos.StudentRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_student")
@@ -21,15 +24,15 @@ public class Student {
     private int registration;
     private String name;
     private UserType type;
+    @JsonIgnore
     @ManyToOne
-    private Classroom schoolClass; //O estudante esta relacionado a uma unica turma
+    private Classroom schoolClass; // O estudante esta relacionado a uma unica turma
     @ManyToOne
     private Parents parents;
 
-
     public Student(StudentRecord data) {
         this.name = data.name();
-        this.type = data.type(); //Tomar cuidado com import do enum la nos record, pode afetar aqui
+        this.type = data.type(); // Tomar cuidado com import do enum la nos record, pode afetar aqui
         this.schoolClass = data.schoolClass();
         this.parents = data.parents(); // Correção aqui
     }

@@ -1,9 +1,13 @@
 package com.app.pucTis.Entities;
 
+import com.app.pucTis.Dtos.NotificationRecord;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.modeler.NotificationInfo;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_notification")
@@ -11,42 +15,44 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Notification {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long senderId;
-
-    @ManyToOne
-    @JoinColumn(name = "recipient_id")
-    private Student recipient;
-
+    private Long classroomId;
+    private String senderName;
+    private LocalDate date;
     private String message;
 
-    // Construtores, getters e setters
-    public Long getId() {
-        return id;
+    public Notification(NotificationRecord data) {
+        this.senderName = data.senderName();
+        this.date = LocalDate.now();
+        this.message = data.message();
+        this.classroomId = data.classroomId();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+
+    public Long getClassroomId() {
+        return classroomId;
     }
 
-    public Long getSenderId() {
-        return senderId;
+    public void setClassroomId(Long classroomId) {
+        this.classroomId = classroomId;
     }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public Student getRecipient() {
-        return recipient;
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
-    public void setRecipient(Student recipient) {
-        this.recipient = recipient;
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getMessage() {
@@ -55,5 +61,14 @@ public class Notification {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
