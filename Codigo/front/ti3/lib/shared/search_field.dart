@@ -16,7 +16,6 @@ class SearchBarState extends State<SearchBarWidget> {
     return Row(
       children: [
         Container(
-          width: 300,
           clipBehavior: Clip.hardEdge,
           padding: const EdgeInsets.only(right: 2, left: 2, bottom: 0, top: 0),
           decoration: const BoxDecoration(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
+import 'package:ti3/context/current_user.dart';
+import 'package:ti3/presentation/pages/calendar_page/calendar_page.dart';
+import 'package:ti3/presentation/pages/notification_page/notification_page.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
-import 'package:ti3/shared/widgets/paths.dart';
-import 'package:ti3/shared/widgets/rounded_image_widget.dart';
-import 'package:ti3/shared/routes.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
+import '../feed_page/feed_page.dart';
 import 'controller/home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,10 +18,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomeController controller = Get.put(HomeController());
+  final HomeController controller = Get.find<HomeController>();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   int selectedIndex = 0;
+  String imagePath = '';
+  Image image = Image.asset(
+    'assets/images/user.png',
+  );
 
   @override
   void initState() {
@@ -39,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: GiraColors.loginBoxColor,
         unselectedItemColor: Colors.pink,
@@ -89,8 +93,45 @@ class _HomePageState extends State<HomePage> {
               size: 32,
             ),
           )),
-      body: Container(
-        child: Text('teste'),
+      body: IndexedStack(
+        index: selectedIndex,
+        children: const [
+          FeedPage(),
+          CalendarPage(),
+          NotificationPage(),
+          Center(
+            child: Text("Fotos"),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GiraFloatingActionButton extends StatelessWidget {
+  final CurrentUser currentUser = CurrentUser();
+  final VoidCallback onPressed;
+  final String heroTag;
+
+  GiraFloatingActionButton({
+    required this.onPressed,
+    required this.heroTag,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: heroTag,
+      onPressed: onPressed,
+      shape: const StadiumBorder(),
+      backgroundColor: GiraColors.loginBoxColor,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
 import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
+import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
 
 class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -87,7 +91,7 @@ class DrawerWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.clasroom,
+                                  type: UserTypeEnum.classroom,
                                 )),
                       );
                     },
@@ -105,7 +109,17 @@ class DrawerWidget extends StatelessWidget {
                     child: const Text(
                       'Home',
                       style: TextStyle(color: Colors.black),
-                    )),
+                    ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Get.toNamed(Paths.loginPage);
+                    },
+                    child: const Text(
+                      'Sair',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                ),
               ],
             ),
           )

@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final LoginController controller = Get.put(LoginController());
+  final LoginController controller = Get.find<LoginController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -57,11 +57,12 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 32),
                     InkWell(
                       onTap: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          controller.loginTeste();
-
-                          // controller.reset();
-                        }
+                        // if (_formKey.currentState?.validate() ?? false) {
+                        //   controller.loginTeste();
+                        //
+                        //   // controller.reset();
+                        // }
+                        controller.login();
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
