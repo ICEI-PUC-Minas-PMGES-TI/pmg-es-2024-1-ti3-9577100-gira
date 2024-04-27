@@ -11,10 +11,9 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/teacher")
@@ -26,5 +25,19 @@ public class TeacherController {
         Teacher teacher =  teacherService.createTeacher(newTeacher);
         return new ResponseEntity<>(teacher, HttpStatus.CREATED);
     }
+    @GetMapping
+    public ResponseEntity<List<Teacher>> getAllTeachers() {
+        List<Teacher> teachers = teacherService.getAllTeachers();
+        return new ResponseEntity<>(teachers, HttpStatus.OK);
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Teacher teacherRequest) {
+        try {
+            Teacher authenticated = teacherService.authenticate(teacherRequest);
+            return ResponseEntity.ok().body(authenticated);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
+        }
+    }
 }

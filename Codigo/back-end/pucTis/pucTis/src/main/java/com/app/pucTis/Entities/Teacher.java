@@ -19,6 +19,39 @@ public class Teacher {
     private List<Classroom> schoolClasses;
     private Boolean validPass;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
+    }
+
+    public List<Classroom> getSchoolClasses() {
+        return schoolClasses;
+    }
+
+    public void setSchoolClasses(List<Classroom> schoolClasses) {
+        this.schoolClasses = schoolClasses;
+    }
+
     public Teacher(TeacherRecord data) {
         this.name = data.name();
         this.password = data.password();
@@ -32,15 +65,8 @@ public class Teacher {
     }
 
     public String getName() {return name;}
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPassword() {return password;}
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 
     public void setValidPass(Boolean validPass) {
         this.validPass = validPass;

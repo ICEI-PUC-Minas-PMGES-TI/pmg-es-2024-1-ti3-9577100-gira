@@ -68,4 +68,9 @@ public class Classroom {
     public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
     }
+
+    public void setTeacher(Teacher teacher) {
+    }
+
+
 }
