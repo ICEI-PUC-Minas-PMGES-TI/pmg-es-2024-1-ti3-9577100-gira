@@ -19,6 +19,25 @@ public class Teacher {
     private List<Classroom> schoolClasses;
     private Boolean validPass;
 
+    @ManyToMany
+    @JoinTable(name="teacher_liked_news",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "news_id"))
+    private List<News> likedNews;
+
+
+    public Teacher(TeacherRecord data) {
+        this.name = data.name();
+        this.password = data.password();
+        this.type = data.type();
+        this.schoolClasses = data.schoolClasses();
+        this.validPass = data.validPass();
+        this.likedNews = data.likedNews();
+    }
+
+    public Teacher() {
+
+    }
 
     public Long getId() {
         return id;
@@ -52,18 +71,6 @@ public class Teacher {
         this.schoolClasses = schoolClasses;
     }
 
-    public Teacher(TeacherRecord data) {
-        this.name = data.name();
-        this.password = data.password();
-        this.type = data.type();
-        this.schoolClasses = data.schoolClasses();
-        this.validPass = data.validPass();
-    }
-
-    public Teacher() {
-
-    }
-
     public String getName() {return name;}
 
     public String getPassword() {return password;}
@@ -71,5 +78,15 @@ public class Teacher {
     public void setValidPass(Boolean validPass) {
         this.validPass = validPass;
     }
+
     public Boolean getValidPass() {return validPass;}
+
+    public List<News> getLikedNews() {return likedNews;}
+
+    public void setLikedNews(List<News> likedNews) {this.likedNews = likedNews;}
+
+    public  void addLikeNews(News news){likedNews.add(news);}
+
+    public void removeLikedNews(News news) {likedNews.remove(news);}
+
 }

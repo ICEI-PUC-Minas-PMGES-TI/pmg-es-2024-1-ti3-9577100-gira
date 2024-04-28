@@ -2,6 +2,7 @@ package com.app.pucTis.Dtos;
 
 import com.app.pucTis.Entities.Enuns.UserType;
 import com.app.pucTis.Entities.Classroom;
+import com.app.pucTis.Entities.News;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -16,6 +17,7 @@ public record TeacherRecord(
         String password,
         UserType type,
         List<Classroom> schoolClasses,
-        Boolean validPass
+        Boolean validPass,
+        List<News> likedNews
 ) {
 }

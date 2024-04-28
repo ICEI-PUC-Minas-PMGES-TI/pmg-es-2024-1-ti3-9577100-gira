@@ -1,5 +1,6 @@
 package com.app.pucTis.Entities;
 
+import com.app.pucTis.Dtos.NewsRecord;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -22,12 +23,12 @@ public class News {
     private String author;
     private int likes;
 
-    public News(News data){
+    public News(NewsRecord data){
         this.date = new Date();
-        this.id = data.id;
-        this.description = data.description;
-        this.image = data.image;
-        this.author = data.author;
+        this.id = data.id();
+        this.description = data.description();
+        this.image = data.image();
+        this.author = data.author();
         this.likes = 0;
     }
     public Long getId() {return id;}

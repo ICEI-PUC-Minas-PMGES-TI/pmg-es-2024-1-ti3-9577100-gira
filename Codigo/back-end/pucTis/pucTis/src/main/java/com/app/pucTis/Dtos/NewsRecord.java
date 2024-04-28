@@ -8,7 +8,8 @@ public record NewsRecord(
         @NotBlank
         String description,
         Date date,
-        String image
+        String image,
+        String author
 ) {
 
 

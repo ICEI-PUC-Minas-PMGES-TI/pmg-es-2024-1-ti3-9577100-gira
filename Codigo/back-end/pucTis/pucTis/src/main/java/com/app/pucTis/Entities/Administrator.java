@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tb_administrator")
 @AllArgsConstructor
@@ -21,13 +24,19 @@ public class Administrator {
     private String password;
     private UserType type;
     private Boolean validPass;
+    @ManyToMany
+    @JoinTable(name="administrator_liked_news",
+            joinColumns = @JoinColumn(name = "administrator_id"),
+            inverseJoinColumns = @JoinColumn(name = "news_id"))
+    private List<News> likedNews = new ArrayList<>();
+
 
     public Administrator(AdiministratorRecord data){
         this.name = data.name();
         this.password = data.password();
         this.type = data.type();
         this.validPass = data.validPass();
-    }
+        this.likedNews = data.likedNews() != null ? data.likedNews() : new ArrayList<>();    }
 
     public Long getId() {
         return id;
@@ -68,4 +77,11 @@ public class Administrator {
     public Boolean getValidPass() {
         return validPass;
     }
+
+    public List<News> getLikedNews() {return likedNews;}
+
+    public void setLikedNews(List<News> likedNews) {this.likedNews = likedNews;}
+    public  void addLikeNews(News news){likedNews.add(news);}
+
+    public void removeLikedNews(News news) {likedNews.remove(news);}
 }
