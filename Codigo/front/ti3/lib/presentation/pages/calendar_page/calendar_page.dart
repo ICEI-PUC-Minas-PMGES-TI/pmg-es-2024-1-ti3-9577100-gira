@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:ti3/presentation/pages/calendar_page/utils.dart';
+import 'package:ti3/utils/gira_fonts.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -99,8 +100,7 @@ class _CalendarPageState extends State<CalendarPage> {
             rangeSelectionMode: _rangeSelectionMode,
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
-              // Use `CalendarStyle` to customize the UI
+            calendarStyle: const CalendarStyle(
               outsideDaysVisible: false,
             ),
             onDaySelected: _onDaySelected,
@@ -125,6 +125,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   itemCount: value.length,
                   itemBuilder: (context, index) {
                     return Container(
+                      padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.symmetric(
                         horizontal: 12.0,
                         vertical: 4.0,
@@ -133,11 +134,26 @@ class _CalendarPageState extends State<CalendarPage> {
                         border: Border.all(),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
-                    );
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.circle_outlined, color: Colors.blue, size: 13,),
+                                const SizedBox(width: 5,),
+                                const Text('10:00 - 11:00', style: TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 12),),
+                                const Spacer(),
+                                InkWell(
+                                  child: const Icon(Icons.more_horiz,),
+                                  onTap: () {},
+                                )
+                              ],
+                            ),
+                            Text('${value[index]}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 18),),
+                            const Text('Descrição de um evento muito dahora', style: TextStyle(color: Colors.grey, fontFamily: GiraFonts.poorStory),)
+                          ],
+                        ));
                   },
                 );
               },
