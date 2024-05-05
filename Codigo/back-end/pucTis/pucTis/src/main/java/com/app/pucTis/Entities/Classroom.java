@@ -37,6 +37,10 @@ public class Classroom {
         this.name = data.name();
     }
 
+    public Classroom(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

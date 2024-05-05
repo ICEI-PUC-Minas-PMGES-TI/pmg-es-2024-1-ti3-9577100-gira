@@ -17,50 +17,31 @@ import java.util.Optional;
 
 @Service
 public class NewsService {
+
     private final NewsRepository newsRepository;
+    private final AuthenticationService authenticationService;
     private final AdiministratorRepository administratorRepository;
     private final TeacherRepository teacherRepository;
     private final ParentsRepository parentsRepository;
 
     @Autowired
-    public NewsService(NewsRepository newsRepository, AdiministratorRepository administratorRepository,
-                       TeacherRepository teacherRepository, ParentsRepository parentsRepository) {
+    public NewsService(NewsRepository newsRepository,
+                       AuthenticationService authenticationService,
+                       AdiministratorRepository administratorRepository,
+                       TeacherRepository teacherRepository,
+                       ParentsRepository parentsRepository) {
         this.newsRepository = newsRepository;
+        this.authenticationService = authenticationService;
         this.administratorRepository = administratorRepository;
         this.teacherRepository = teacherRepository;
         this.parentsRepository = parentsRepository;
     }
 
-    public Object getAuthenticatedUser() {
-        Administrator administrator = SeesionManager.getAuthenticatedAdministrator();
-        if (administrator != null) {
-            return administrator;
-        }
-
-        Teacher teacher = SeesionManager.getAuthenticatedTeacher();
-        if (teacher != null) {
-            return teacher;
-        }
-
-        Parents parents = SeesionManager.getAuthenticatedParents();
-        if (parents != null) {
-            return parents;
-        }
-
-        return null;
-    }
-
     public News create(NewsRecord newsRecord) {
-        Object authenticatedUser = getAuthenticatedUser();
-        validateAuthorizedUser(authenticatedUser);
+        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        authenticationService.validateAuthorizedUser(authenticatedUser);
         News news = createNews(newsRecord, authenticatedUser);
         return saveNews(news);
-    }
-
-    private void validateAuthorizedUser(Object user) {
-        if (!(user instanceof Administrator || user instanceof Teacher || user instanceof Parents)) {
-            throw new UnauthorizedUserException("No authenticated administrator, teacher, or parent found.");
-        }
     }
 
     private News createNews(NewsRecord newsRecord, Object user) {
@@ -100,8 +81,8 @@ public class NewsService {
         Optional<News> optionalNews = newsRepository.findById(newsId);
         if (optionalNews.isPresent()) {
             News news = optionalNews.get();
-            Object authenticatedUser = getAuthenticatedUser();
-            validateAuthorizedUser(authenticatedUser);
+            Object authenticatedUser = authenticationService.getAuthenticatedUser();
+            authenticationService.validateAuthorizedUser(authenticatedUser);
 
             String authorName = news.getAuthor();
             if ((authenticatedUser instanceof Administrator && ((Administrator) authenticatedUser).getName().equals(authorName)) ||
@@ -141,8 +122,8 @@ public class NewsService {
         }
 
         News news = optionalNews.get();
-        Object authenticatedUser = getAuthenticatedUser();
-        validateAuthorizedUser(authenticatedUser);
+        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        authenticationService.validateAuthorizedUser(authenticatedUser);
 
         if (hasUserLikedNews(authenticatedUser, news)) {
             news.setLikes(news.getLikes() - 1);
@@ -162,8 +143,8 @@ public class NewsService {
         }
 
         News news = optionalNews.get();
-        Object authenticatedUser = getAuthenticatedUser();
-        validateAuthorizedUser(authenticatedUser);
+        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        authenticationService.validateAuthorizedUser(authenticatedUser);
 
 
         boolean hasLiked = hasUserLikedNews(authenticatedUser, news);
