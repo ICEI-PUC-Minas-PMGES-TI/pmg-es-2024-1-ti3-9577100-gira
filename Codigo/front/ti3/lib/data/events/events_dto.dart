@@ -4,17 +4,17 @@ extension EventsDTO on EventsModel {
   Map<String, dynamic> fromDomain() {
     Map<String, dynamic> map = {};
 
-    final month = dateTime.month > 9 ? "${dateTime.month}" : "0${dateTime.month}";
-    final day = dateTime.day > 9 ? "${dateTime.day}" : "0${dateTime.day}";
-    final hour = dateTime.hour;
-    final minutes = dateTime.minute;
+    final month = date.month > 9 ? "${date.month}" : "0${date.month}";
+    final day = date.day > 9 ? "${date.day}" : "0${date.day}";
+    final hour = date.hour;
+    final minutes = date.minute;
 
     map['id'] = id;
-    map['title'] = title;
+    map['title'] = name;
     map['description'] = description;
     map['author'] = author;
     map['classroom'] = classroom;
-    map['dateTime'] = "${dateTime.year}-$month-$day-$hour-$minutes";
+    map['dateTime'] = "${date.year}-$month-$day-$hour-$minutes";
 
     return map;
   }
@@ -34,9 +34,9 @@ extension EventsDTO on EventsModel {
     return EventsModel(
       id: id,
       description: description,
-      title: title,
+      name: title,
       author: author,
-      dateTime: dateTime,
+      date: dateTime,
       classroom: classroom,
     );
   }
