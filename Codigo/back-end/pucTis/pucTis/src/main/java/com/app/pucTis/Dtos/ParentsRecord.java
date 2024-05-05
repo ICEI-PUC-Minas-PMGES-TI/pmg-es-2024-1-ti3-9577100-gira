@@ -1,6 +1,7 @@
 package com.app.pucTis.Dtos;
 
 
+import com.app.pucTis.Entities.News;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Enuns.UserType;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +20,8 @@ public record ParentsRecord(
         String password,
         UserType type,
         List<Student> students,
-        Boolean validPass
+        Boolean validPass,
+        List<News> likedNews
 ) {
 
 }

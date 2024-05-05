@@ -8,6 +8,7 @@ import com.app.pucTis.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,8 +24,29 @@ public class TeacherService {
         this.saveTeacher(newTeacher);
         return newTeacher;
     }
+    public List<Teacher> getAllTeachers() {
+        return teacherRepository.findAll();
+    }
 
     public Optional<Teacher> findByNameOrId(Teacher teacherService) {
         return teacherRepository.findByName(teacherService.getName());
+    }
+
+    public Teacher authenticate(Teacher teacherService) throws Exception {
+        if (teacherService == null)
+            throw new IllegalArgumentException("Teacher cannot be null");
+
+        Optional<Teacher> optional = teacherRepository
+                .findByName(teacherService.getName());
+
+        Teacher authenticated =  optional.filter(storedTeacher ->
+                        storedTeacher.getPassword().equals(teacherService.getPassword()))
+                .orElseThrow(() -> new Exception("User or password invalid"));
+        SeesionManager.setAuthenticatedTeacher(authenticated);
+
+        return authenticated;
+    }
+    public boolean authenticatePass(Parents parentService){
+        return parentService.getValidPass();
     }
 }

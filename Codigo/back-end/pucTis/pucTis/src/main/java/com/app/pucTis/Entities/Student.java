@@ -26,13 +26,13 @@ public class Student {
     private UserType type;
     @JsonIgnore
     @ManyToOne
-    private Classroom schoolClass; // O estudante esta relacionado a uma unica turma
+    private Classroom schoolClass; //O estudante esta relacionado a uma unica turma
     @ManyToOne
     private Parents parents;
 
     public Student(StudentRecord data) {
         this.name = data.name();
-        this.type = data.type(); // Tomar cuidado com import do enum la nos record, pode afetar aqui
+        this.type = data.type(); //Tomar cuidado com import do enum la nos record, pode afetar aqui
         this.schoolClass = data.schoolClass();
         this.parents = data.parents(); // Correção aqui
     }

@@ -28,6 +28,11 @@ public class Parents {
     @OneToMany(mappedBy = "parents")
     private List<Student> students;
     private Boolean validPass;
+    @ManyToMany
+    @JoinTable(name="parents_liked_news",
+            joinColumns = @JoinColumn(name = "parents_id"),
+            inverseJoinColumns = @JoinColumn(name = "news_id"))
+    private List<News> likedNews;
 
     public Parents(ParentsRecord data){
         this.name = data.name();
@@ -35,6 +40,15 @@ public class Parents {
         this.type = data.type();
         this.students = data.students();
         this.validPass = data.validPass();
+        this.likedNews = data.likedNews();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName(){return name;}
@@ -55,4 +69,12 @@ public class Parents {
     public Boolean getValidPass() {
         return validPass;
     }
+
+    public List<News> getLikedNews() {return likedNews;}
+
+    public void setLikedNews(List<News> likedNews) {this.likedNews = likedNews;}
+
+    public  void addLikeNews(News news){likedNews.add(news);}
+
+    public void removeLikedNews(News news) {likedNews.remove(news);}
 }

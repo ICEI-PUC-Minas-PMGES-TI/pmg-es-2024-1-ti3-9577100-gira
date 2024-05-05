@@ -31,6 +31,7 @@ public class ClassroomController {
         }
     }
 
+
     @GetMapping
     public ResponseEntity<List<Classroom>> getAllClassrooms() {
         List<Classroom> classrooms = classroomService.getAllClassrooms();
@@ -53,14 +54,15 @@ public class ClassroomController {
         }
     }
 
-    @PostMapping("/{classroomId}/student/{studentId}")
-    public ResponseEntity<String> addStudentToClassroom(@PathVariable Long classroomId, @PathVariable Long studentId) {
-        boolean added = classroomService.addStudentToClassroom(classroomId, studentId);
+    @PostMapping("/{teacherId}/classroomId/{classroomId}")
+    public ResponseEntity<String> addTeacherToClassroom(@PathVariable Long teacherId, @PathVariable Long classroomId) {
+        boolean added = classroomService.addTeacherToClassroom(teacherId, classroomId);
 
         if (added) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Student added to classroom successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Teacher added to classroom successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding student to classroom");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding teacher to classroom");
         }
     }
+
 }
