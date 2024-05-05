@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:ti3/domain/events/model/events_model.dart';
+import 'package:ti3/presentation/pages/calendar_page/controller/calendar_controller.dart';
 import 'package:ti3/presentation/pages/calendar_page/utils.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
@@ -19,12 +21,19 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
+  final controller = CalendarController();
+  List<EventsModel> allEvents = [];
+
   @override
   void initState() {
     super.initState();
-
+    _getAllEvents();
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+  }
+
+  void _getAllEvents() async {
+    allEvents =  await controller.getEvents();
   }
 
   @override

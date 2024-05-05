@@ -9,26 +9,34 @@ part of 'calendar_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CalendarController on CalendarControllerStore, Store {
-  late final _$feedItemsAtom =
-      Atom(name: 'CalendarControllerStore.feedItems', context: context);
+  late final _$eventsAtom =
+      Atom(name: 'CalendarControllerStore.events', context: context);
 
   @override
-  List<String> get feedItems {
-    _$feedItemsAtom.reportRead();
-    return super.feedItems;
+  List<EventsModel> get events {
+    _$eventsAtom.reportRead();
+    return super.events;
   }
 
   @override
-  set feedItems(List<String> value) {
-    _$feedItemsAtom.reportWrite(value, super.feedItems, () {
-      super.feedItems = value;
+  set events(List<EventsModel> value) {
+    _$eventsAtom.reportWrite(value, super.events, () {
+      super.events = value;
     });
+  }
+
+  late final _$getEventsAsyncAction =
+      AsyncAction('CalendarControllerStore.getEvents', context: context);
+
+  @override
+  Future<List<EventsModel>> getEvents() {
+    return _$getEventsAsyncAction.run(() => super.getEvents());
   }
 
   @override
   String toString() {
     return '''
-feedItems: ${feedItems}
+events: ${events}
     ''';
   }
 }
