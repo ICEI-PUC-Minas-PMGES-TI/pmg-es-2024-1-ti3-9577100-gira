@@ -34,7 +34,6 @@ late final ValueNotifier<List<EventsModel>> _selectedEvents;
 
   void _getAllEvents() async {
     allEvents = await controller.getEvents();
-    print(allEvents);
   }
 
   @override
