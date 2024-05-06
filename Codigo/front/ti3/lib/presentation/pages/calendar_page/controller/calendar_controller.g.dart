@@ -114,6 +114,14 @@ mixin _$CalendarController on CalendarControllerStore, Store {
     return _$updateEventAsyncAction.run(() => super.updateEvent(updatedEvent));
   }
 
+  late final _$deleteEventAsyncAction =
+      AsyncAction('CalendarControllerStore.deleteEvent', context: context);
+
+  @override
+  Future<bool> deleteEvent(int eventId) {
+    return _$deleteEventAsyncAction.run(() => super.deleteEvent(eventId));
+  }
+
   @override
   String toString() {
     return '''

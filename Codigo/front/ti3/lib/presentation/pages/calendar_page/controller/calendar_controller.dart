@@ -86,4 +86,22 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
       rethrow;
     }
   }
+
+  @action
+  Future<bool> deleteEvent(int eventId) async {
+    try {
+      final response = await client.dio.delete(
+        'http://192.168.0.29:8080/event/$eventId',
+      );
+      if (response.statusCode == 204) {
+        events.removeWhere((event) => event.id == eventId);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error deleting event: $e');
+      rethrow;
+    }
+  }
 }
