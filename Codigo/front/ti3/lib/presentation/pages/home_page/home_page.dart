@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
+import 'package:ti3/presentation/pages/album_page/album_page.dart';
 import 'package:ti3/presentation/pages/calendar_page/calendar_page.dart';
 import 'package:ti3/presentation/pages/notification_page/notification_page.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
@@ -95,13 +96,11 @@ class _HomePageState extends State<HomePage> {
           )),
       body: IndexedStack(
         index: selectedIndex,
-        children: const [
+        children: [
           FeedPage(),
           CalendarPage(),
           NotificationPage(),
-          Center(
-            child: Text("Fotos"),
-          ),
+          AlbumPage(),
         ],
       ),
     );

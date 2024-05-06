@@ -8,4 +8,5 @@ class Paths {
   static const String feedPage = "/feedPage";
   static const String calendarPage = "/calendarPage";
   static const String eventPage = "/eventPage";
+  static const String allImagesPage = '/allImagesPage';
 }

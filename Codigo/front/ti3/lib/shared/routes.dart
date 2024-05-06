@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ti3/di/home_module.dart';
 import 'package:ti3/di/publication_module.dart';
+import 'package:ti3/presentation/pages/album_page/all_pictures_page.dart';
 import 'package:ti3/presentation/pages/calendar_page/calendar_page.dart';
 import 'package:ti3/presentation/pages/calendar_page/widgets/create_event_page.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
@@ -26,5 +27,6 @@ class Routes {
     GetPage(name: Paths.feedPage, page: () => const FeedPage(), binding: HomeModule()),
     GetPage(name: Paths.calendarPage, page: () => const CalendarPage(), binding: HomeModule()),
     GetPage(name: Paths.eventPage, page: () => CreateEventPage(), binding: HomeModule()),
+    GetPage(name: Paths.allImagesPage, page: () => AllPicturesPage(), binding: HomeModule()),
   ];
 }
