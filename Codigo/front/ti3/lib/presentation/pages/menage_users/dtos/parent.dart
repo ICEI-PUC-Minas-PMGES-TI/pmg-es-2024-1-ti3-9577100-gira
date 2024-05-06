@@ -33,4 +33,14 @@ class Parent {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type?.toString().split('.').last,
+      'students': students?.map((student) => student.toJson()).toList(),
+      'likedNews': likedNews?.map((news) => news.toJson()).toList(),
+    };
+  }
 }

@@ -27,4 +27,13 @@ class Teacher {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type?.toString().split('.').last,
+      'schoolClasses': schoolClasses?.map((schoolClass) => schoolClass.toJson()).toList(),
+    };
+  }
 }

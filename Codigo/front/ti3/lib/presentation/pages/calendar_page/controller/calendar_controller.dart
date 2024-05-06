@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import 'package:ti3/data/api/dio_client.dart';
@@ -13,6 +14,16 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   List<EventsModel> events = ObservableList<EventsModel>();
   final DioClient client = DioClient();
   List<String> feedItems = [];
+  
+  @observable
+  TextEditingController titleController = TextEditingController();
+  @observable
+  TextEditingController descriptionController = TextEditingController();
+
+  @observable
+  DateTime selectedDate = DateTime.now();
+  @observable
+  DateTime dateController = DateTime.now();
 
   @action
   Future<List<EventsModel>> getEvents() async {
@@ -21,8 +32,8 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
       if (response.statusCode == 200) {
         var data = response.data as List<dynamic>;
         List<EventsModel> fetchedEvents = EventsDTO.fromListJSON(data);
-        events.clear(); 
-        events.addAll(fetchedEvents); 
+        events.clear();
+        events.addAll(fetchedEvents);
         return fetchedEvents;
       } else {
         throw Exception('Failed to load events');
@@ -32,6 +43,22 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
       rethrow;
     }
   }
+
+  @action
+  Future<bool> createEvent(EventCreateModel eventModel) async {
+    try {
+      final response = await client.dio.post(
+        'http://192.168.0.29:8080/event',
+        data: eventModel.toJson(),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error creating event: $e');
+      rethrow;
+    }
+  }
 }
-
-

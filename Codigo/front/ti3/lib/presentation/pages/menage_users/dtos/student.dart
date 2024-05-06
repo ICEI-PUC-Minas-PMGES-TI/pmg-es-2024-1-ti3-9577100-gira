@@ -36,4 +36,15 @@ class Student {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'registration': registration,
+      'type': type?.toString().split('.').last,
+      'schoolClass': schoolClass?.toJson(),
+      'parents': parents?.toJson(),
+    };
+  }
 }

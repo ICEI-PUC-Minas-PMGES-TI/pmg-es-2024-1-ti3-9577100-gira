@@ -3,6 +3,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:ti3/domain/events/model/events_model.dart';
 import 'package:ti3/presentation/pages/calendar_page/controller/calendar_controller.dart';
 import 'package:ti3/presentation/pages/calendar_page/utils.dart';
+import 'package:ti3/presentation/pages/calendar_page/widgets/create_event_page.dart';
+import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -13,7 +15,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-late final ValueNotifier<List<EventsModel>> _selectedEvents;
+  late final ValueNotifier<List<EventsModel>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   DateTime _focusedDay = DateTime.now();
@@ -36,6 +38,10 @@ late final ValueNotifier<List<EventsModel>> _selectedEvents;
     allEvents = await controller.getEvents();
   }
 
+  void _createEvent() async {
+
+  }
+
   @override
   void dispose() {
     _selectedEvents.dispose();
@@ -47,7 +53,10 @@ late final ValueNotifier<List<EventsModel>> _selectedEvents;
   }
 
   List<EventsModel> _getEventsForRange(DateTime start, DateTime end) {
-    return allEvents.where((event) => event.date!.isAfter(start) && event.date!.isBefore(end)).toList();
+    return allEvents
+        .where(
+            (event) => event.date!.isAfter(start) && event.date!.isBefore(end))
+        .toList();
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -85,88 +94,150 @@ late final ValueNotifier<List<EventsModel>> _selectedEvents;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TableCalendar<EventsModel>(
-            availableCalendarFormats: const {
-              CalendarFormat.month: 'mês',
-              CalendarFormat.week: 'semana',
-              CalendarFormat.twoWeeks: '2 semanas',
-            },
-            locale: Localizations.localeOf(context).languageCode,
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
-            calendarFormat: _calendarFormat,
-            rangeSelectionMode: _rangeSelectionMode,
-            eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: const CalendarStyle(
-              outsideDaysVisible: false,
-            ),
-            onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-          ),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: ValueListenableBuilder<List<EventsModel>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    final event = value[index];
-                    return Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.circle_outlined, color: Colors.blue, size: 13,),
-                              const SizedBox(width: 5,),
-                              Text('${event.date}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 12),),
-                              const Spacer(),
-                              InkWell(
-                                child: const Icon(Icons.more_horiz,),
-                                onTap: () {},
-                              )
-                            ],
-                          ),
-                          Text('${event.name}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 18),),
-                          Text('${event.description}', style: const TextStyle(color: Colors.grey, fontFamily: GiraFonts.poorStory),)
-                        ],
-                      ),
-                    );
-                  },
-                );
+        body: Stack(
+      children: [
+        Column(
+          children: [
+            TableCalendar<EventsModel>(
+              availableCalendarFormats: const {
+                CalendarFormat.month: 'mês',
+                CalendarFormat.week: 'semana',
+                CalendarFormat.twoWeeks: '2 semanas',
+              },
+              locale: Localizations.localeOf(context).languageCode,
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              rangeStartDay: _rangeStart,
+              rangeEndDay: _rangeEnd,
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              eventLoader: _getEventsForDay,
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarStyle: const CalendarStyle(
+                outsideDaysVisible: false,
+              ),
+              onDaySelected: _onDaySelected,
+              onRangeSelected: _onRangeSelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
               },
             ),
+            const SizedBox(height: 8.0),
+            Expanded(
+              child: ValueListenableBuilder<List<EventsModel>>(
+                valueListenable: _selectedEvents,
+                builder: (context, value, _) {
+                  return ListView.builder(
+                    itemCount: value.length,
+                    itemBuilder: (context, index) {
+                      final event = value[index];
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.circle_outlined,
+                                  color: Colors.blue,
+                                  size: 13,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '${event.date}',
+                                  style: const TextStyle(
+                                      fontFamily: GiraFonts.poorStory,
+                                      fontSize: 12),
+                                ),
+                                const Spacer(),
+                                PopupMenuButton<String>(
+                                  icon: const Icon(Icons.more_horiz),
+                                  itemBuilder: (BuildContext context) {
+                                    return <PopupMenuEntry<String>>[
+                                      const PopupMenuItem<String>(
+                                        value: 'Update',
+                                        child: Text('Editar'),
+                                      ),
+                                      const PopupMenuItem<String>(
+                                        value: 'Delete',
+                                        child: Text('Excluir'),
+                                      ),
+                                    ];
+                                  },
+                                  onSelected: (String value) {
+                                    if (value == 'Update') {
+                                    } else if (value == 'Delete') {}
+                                  },
+                                ),
+                              ],
+                            ),
+                            Text(
+                              '${event.name}',
+                              style: const TextStyle(
+                                  fontFamily: GiraFonts.poorStory,
+                                  fontSize: 18),
+                            ),
+                            Text(
+                              '${event.description}',
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: GiraFonts.poorStory),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        Positioned( 
+          top: 590,
+          left: 320,
+          child: InkWell(
+          onTap: () {
+              Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>  CreateEventPage(
+                                )));
+          },
+          child: const CircleAvatar(
+            radius: 25,
+            backgroundColor: GiraColors.loginBoxColor,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
           ),
-        ],
-      ),
-    );
+        ))
+      ],
+    ));
   }
 }

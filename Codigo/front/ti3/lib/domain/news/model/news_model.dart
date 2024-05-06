@@ -43,4 +43,15 @@ class NewsModel {
       likes: json['likes'] as int?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'description': description,
+      'date': date?.toIso8601String(),
+      'image': image,
+      'author': author,
+      'likes': likes,
+    };
+  }
 }

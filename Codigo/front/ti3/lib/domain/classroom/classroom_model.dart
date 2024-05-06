@@ -26,4 +26,13 @@ class ClassroomModel {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'students': students?.map((student) => student.toJson()).toList(),
+      'teachers': teachers?.map((teacher) => teacher.toJson()).toList(),
+    };
+  }
 }
