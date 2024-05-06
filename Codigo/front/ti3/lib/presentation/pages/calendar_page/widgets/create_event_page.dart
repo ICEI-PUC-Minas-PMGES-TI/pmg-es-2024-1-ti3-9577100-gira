@@ -11,14 +11,15 @@ class CreateEventPage extends StatefulWidget {
 
 class CreateEventPageState extends State<CreateEventPage> {
   final isUpdate = Get.arguments != null ? Get.arguments['isUpdate'] : false;
-  final eventToUpdate = Get.arguments != null ? Get.arguments['eventToUpdate'] : null;
+  final eventToUpdate =
+      Get.arguments != null ? Get.arguments['eventToUpdate'] : null;
 
   final CalendarController calendarController = CalendarController();
   TextEditingController textController = TextEditingController();
 
   DateTime pickedDate = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDateAndTime(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: pickedDate,
@@ -26,10 +27,22 @@ class CreateEventPageState extends State<CreateEventPage> {
       lastDate: DateTime(2101),
     );
     if (picked != null) {
-      setState(() {
-        pickedDate = picked;
-        calendarController.dateController = picked;
-      });
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        setState(() {
+          pickedDate = DateTime(
+            picked.year,
+            picked.month,
+            picked.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+          calendarController.selectedDate = pickedDate;
+        });
+      }
     }
   }
 
@@ -100,20 +113,34 @@ class CreateEventPageState extends State<CreateEventPage> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Data do Evento:',
                   style: TextStyle(color: Colors.grey),
                 ),
-                ElevatedButton(
-                  onPressed: () => _selectDate(context),
-                  child: Text(
-                    // ignore: unnecessary_null_comparison
-                    calendarController.selectedDate != null
-                        ? '${calendarController.selectedDate.day}/${calendarController.selectedDate.month}/${calendarController.selectedDate.year}'
-                        : 'Selecionar Data',
+                GestureDetector(
+                  onTap: () => _selectDateAndTime(context),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    decoration: BoxDecoration(
+                      color: GiraColors.fields,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          '${pickedDate.day}/${pickedDate.month}/${pickedDate.year}',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -123,7 +150,10 @@ class CreateEventPageState extends State<CreateEventPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () => isUpdate ? _updateEvent() : _createEvent(),
+                  onPressed: () {
+                    isUpdate ? _updateEvent() : _createEvent();
+                    Navigator.pop(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -150,6 +180,7 @@ class CreateEventPageState extends State<CreateEventPage> {
     var updateEvent = eventToUpdate;
     updateEvent.name = calendarController.titleController.text;
     updateEvent.description = calendarController.descriptionController.text;
+    updateEvent.date = calendarController.selectedDate;
     calendarController.updateEvent(updateEvent);
   }
 
@@ -157,7 +188,7 @@ class CreateEventPageState extends State<CreateEventPage> {
     EventCreateModel newEvent = EventCreateModel(
         name: calendarController.titleController.text,
         description: calendarController.descriptionController.text,
-        date: calendarController.dateController ?? DateTime.now(),
+        date: calendarController.selectedDate,
         author: 'Jubiscreia',
         classroom: 1);
     calendarController.createEvent(newEvent);

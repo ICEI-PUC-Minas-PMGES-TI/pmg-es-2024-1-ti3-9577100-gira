@@ -21,9 +21,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   TextEditingController descriptionController = TextEditingController();
 
   @observable
-  DateTime selectedDate = DateTime.now();
-  @observable
-  DateTime dateController = DateTime.now();
+  DateTime selectedDate = DateTime.now(); // Renomeie a propriedade dateController para selectedDate
 
   EventsModel eventToUpdate = EventsModel();
 
@@ -103,5 +101,11 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
       print('Error deleting event: $e');
       rethrow;
     }
+  }
+
+  // Adicione este método para atualizar a data selecionada
+  @action
+  void _updateSelectedDate(DateTime newDate) {
+    selectedDate = newDate;
   }
 }

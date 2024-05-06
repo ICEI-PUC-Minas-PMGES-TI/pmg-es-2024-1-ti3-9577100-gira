@@ -74,22 +74,6 @@ mixin _$CalendarController on CalendarControllerStore, Store {
     });
   }
 
-  late final _$dateControllerAtom =
-      Atom(name: 'CalendarControllerStore.dateController', context: context);
-
-  @override
-  DateTime get dateController {
-    _$dateControllerAtom.reportRead();
-    return super.dateController;
-  }
-
-  @override
-  set dateController(DateTime value) {
-    _$dateControllerAtom.reportWrite(value, super.dateController, () {
-      super.dateController = value;
-    });
-  }
-
   late final _$getEventsAsyncAction =
       AsyncAction('CalendarControllerStore.getEvents', context: context);
 
@@ -122,14 +106,27 @@ mixin _$CalendarController on CalendarControllerStore, Store {
     return _$deleteEventAsyncAction.run(() => super.deleteEvent(eventId));
   }
 
+  late final _$CalendarControllerStoreActionController =
+      ActionController(name: 'CalendarControllerStore', context: context);
+
+  @override
+  void _updateSelectedDate(DateTime newDate) {
+    final _$actionInfo = _$CalendarControllerStoreActionController.startAction(
+        name: 'CalendarControllerStore._updateSelectedDate');
+    try {
+      return super._updateSelectedDate(newDate);
+    } finally {
+      _$CalendarControllerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 events: ${events},
 titleController: ${titleController},
 descriptionController: ${descriptionController},
-selectedDate: ${selectedDate},
-dateController: ${dateController}
+selectedDate: ${selectedDate}
     ''';
   }
 }
