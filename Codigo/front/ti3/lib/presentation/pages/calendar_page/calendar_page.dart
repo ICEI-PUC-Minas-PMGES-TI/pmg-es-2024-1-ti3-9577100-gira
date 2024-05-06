@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:ti3/domain/events/model/events_model.dart';
 import 'package:ti3/presentation/pages/calendar_page/controller/calendar_controller.dart';
 import 'package:ti3/presentation/pages/calendar_page/utils.dart';
 import 'package:ti3/presentation/pages/calendar_page/widgets/create_event_page.dart';
+import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
@@ -38,9 +41,7 @@ class _CalendarPageState extends State<CalendarPage> {
     allEvents = await controller.getEvents();
   }
 
-  void _createEvent() async {
-
-  }
+  void _createEvent() async {}
 
   @override
   void dispose() {
@@ -187,6 +188,12 @@ class _CalendarPageState extends State<CalendarPage> {
                                   },
                                   onSelected: (String value) {
                                     if (value == 'Update') {
+                                      try {
+                                        controller.eventToUpdate = event;
+                                        Get.toNamed(Paths.eventPage, arguments: {'isUpdate': true, 'eventToUpdate': event});
+                                      } catch (E) {
+                                        print(E);
+                                      }
                                     } else if (value == 'Delete') {}
                                   },
                                 ),
@@ -217,26 +224,22 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ],
         ),
-        Positioned( 
-          top: 590,
-          left: 320,
-          child: InkWell(
-          onTap: () {
-              Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  CreateEventPage(
-                                )));
-          },
-          child: const CircleAvatar(
-            radius: 25,
-            backgroundColor: GiraColors.loginBoxColor,
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ))
+        Positioned(
+            top: 590,
+            left: 320,
+            child: InkWell(
+              onTap: () {
+                Get.toNamed(Paths.eventPage, arguments: {'isUpdate': false});
+              },
+              child: const CircleAvatar(
+                radius: 25,
+                backgroundColor: GiraColors.loginBoxColor,
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
+            ))
       ],
     ));
   }

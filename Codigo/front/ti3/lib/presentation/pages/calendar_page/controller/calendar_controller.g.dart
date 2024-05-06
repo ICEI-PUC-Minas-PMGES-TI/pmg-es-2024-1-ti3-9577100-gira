@@ -106,6 +106,14 @@ mixin _$CalendarController on CalendarControllerStore, Store {
     return _$createEventAsyncAction.run(() => super.createEvent(eventModel));
   }
 
+  late final _$updateEventAsyncAction =
+      AsyncAction('CalendarControllerStore.updateEvent', context: context);
+
+  @override
+  Future<bool> updateEvent(EventsModel updatedEvent) {
+    return _$updateEventAsyncAction.run(() => super.updateEvent(updatedEvent));
+  }
+
   @override
   String toString() {
     return '''

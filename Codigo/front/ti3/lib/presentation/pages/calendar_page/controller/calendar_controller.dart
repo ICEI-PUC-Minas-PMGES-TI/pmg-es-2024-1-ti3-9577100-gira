@@ -14,7 +14,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   List<EventsModel> events = ObservableList<EventsModel>();
   final DioClient client = DioClient();
   List<String> feedItems = [];
-  
+
   @observable
   TextEditingController titleController = TextEditingController();
   @observable
@@ -25,6 +25,8 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   @observable
   DateTime dateController = DateTime.now();
 
+  EventsModel eventToUpdate = EventsModel();
+
   @action
   Future<List<EventsModel>> getEvents() async {
     try {
@@ -34,6 +36,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
         List<EventsModel> fetchedEvents = EventsDTO.fromListJSON(data);
         events.clear();
         events.addAll(fetchedEvents);
+        events = fetchedEvents;
         return fetchedEvents;
       } else {
         throw Exception('Failed to load events');
@@ -58,6 +61,28 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
       }
     } catch (e) {
       print('Error creating event: $e');
+      rethrow;
+    }
+  }
+
+  @action
+  Future<bool> updateEvent(EventsModel updatedEvent) async {
+    try {
+      final response = await client.dio.put(
+        'http://192.168.0.29:8080/event/${updatedEvent.id}',
+        data: updatedEvent.toJson(),
+      );
+      if (response.statusCode == 200) {
+        int index = events.indexWhere((event) => event.id == updatedEvent.id);
+        if (index != -1) {
+          events[index] = updatedEvent;
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error updating event: $e');
       rethrow;
     }
   }
