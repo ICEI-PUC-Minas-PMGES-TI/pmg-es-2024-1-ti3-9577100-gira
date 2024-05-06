@@ -17,7 +17,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   @action
   Future<List<EventsModel>> getEvents() async {
     try {
-      final response = await client.dio.get('http://192.168.0.31:8080/event');
+      final response = await client.dio.get('http://192.168.0.29:8080/event');
       if (response.statusCode == 200) {
         var data = response.data as List<dynamic>;
         List<EventsModel> fetchedEvents = EventsDTO.fromListJSON(data);

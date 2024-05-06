@@ -1,31 +1,46 @@
 class NewsModel {
-  int id;
-  String description;
-  String image;
-  String author;
-  DateTime date;
-  int likes;
+  int? id;
+  String? description;
+  DateTime? date;
+  String? image;
+  String? author;
+  int? likes;
 
   NewsModel({
-    required this.id,
-    required this.description,
-    required this.image,
-    required this.author,
-    required this.date,
-    required this.likes,
+    this.id,
+    this.description,
+    this.image,
+    this.author,
+    this.date,
+    this.likes,
   });
 
   String getTime() {
     final now = DateTime.now();
-    final difference = now.difference(date);
-    if (difference.inDays > 0) {
-      return '${difference.inDays} dias';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} horas';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minutos';
+    if (date != null) {
+      final difference = now.difference(date!);
+      if (difference.inDays > 0) {
+        return '${difference.inDays} dias';
+      } else if (difference.inHours > 0) {
+        return '${difference.inHours} horas';
+      } else if (difference.inMinutes > 0) {
+        return '${difference.inMinutes} minutos';
+      } else {
+        return '${difference.inSeconds} segundos';
+      }
     } else {
-      return '${difference.inSeconds} segundos';
+      return '';
     }
+  }
+
+  static NewsModel fromJson(Map<String, dynamic> json) {
+    return NewsModel(
+      id: json['id'] as int?,
+      description: json['description'] as String?,
+      date: DateTime.parse(json['date'] as String),
+      image: json['image'] as String?,
+      author: json['author'] as String?,
+      likes: json['likes'] as int?,
+    );
   }
 }

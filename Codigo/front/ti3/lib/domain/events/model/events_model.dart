@@ -1,18 +1,20 @@
 
+import 'package:ti3/domain/classroom/classroom_model.dart';
+
 class EventsModel {
-  int id;
-  String name;
-  String description;
-  DateTime date;
-  String author;
-  String classroom; // mudar
+  int? id;
+  String? name;
+  String? description;
+  DateTime? date;
+  String? author;
+  ClassroomModel? classroom; 
 
   EventsModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.date,
-    required this.author,
-    required this.classroom,
+    this.id,
+    this.name,
+    this.description,
+    this.date,
+    this.author,
+    this.classroom,
   });
 }

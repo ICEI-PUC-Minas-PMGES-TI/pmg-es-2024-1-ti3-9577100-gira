@@ -43,7 +43,7 @@ abstract class FeedControllerStore extends DisposableInterface with Store {
 
     result.processResult(
         onSuccess: (List<NewsModel> result) {
-          result.sort((a, b) => b.date.compareTo(a.date));
+          result.sort((a, b) => b.date!.compareTo(a.date!));
           feedItems = result;
         },
         onFailure: (Exception e) {

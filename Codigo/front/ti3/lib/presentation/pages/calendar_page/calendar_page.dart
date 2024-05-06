@@ -6,14 +6,14 @@ import 'package:ti3/presentation/pages/calendar_page/utils.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+  const CalendarPage({Key? key}) : super(key: key);
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  late final ValueNotifier<List<Event>> _selectedEvents;
+late final ValueNotifier<List<EventsModel>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   DateTime _focusedDay = DateTime.now();
@@ -33,7 +33,8 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   void _getAllEvents() async {
-    allEvents =  await controller.getEvents();
+    allEvents = await controller.getEvents();
+    print(allEvents);
   }
 
   @override
@@ -42,16 +43,12 @@ class _CalendarPageState extends State<CalendarPage> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    return kEvents[day] ?? [];
+  List<EventsModel> _getEventsForDay(DateTime day) {
+    return allEvents.where((event) => isSameDay(event.date, day)).toList();
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    final days = daysInRange(start, end);
-
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
+  List<EventsModel> _getEventsForRange(DateTime start, DateTime end) {
+    return allEvents.where((event) => event.date!.isAfter(start) && event.date!.isBefore(end)).toList();
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -59,7 +56,7 @@ class _CalendarPageState extends State<CalendarPage> {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
@@ -77,7 +74,6 @@ class _CalendarPageState extends State<CalendarPage> {
       _rangeSelectionMode = RangeSelectionMode.toggledOn;
     });
 
-    // `start` or `end` could be null
     if (start != null && end != null) {
       _selectedEvents.value = _getEventsForRange(start, end);
     } else if (start != null) {
@@ -92,7 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       body: Column(
         children: [
-          TableCalendar<Event>(
+          TableCalendar<EventsModel>(
             availableCalendarFormats: const {
               CalendarFormat.month: 'mês',
               CalendarFormat.week: 'semana',
@@ -127,12 +123,13 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
           const SizedBox(height: 8.0),
           Expanded(
-            child: ValueListenableBuilder<List<Event>>(
+            child: ValueListenableBuilder<List<EventsModel>>(
               valueListenable: _selectedEvents,
               builder: (context, value, _) {
                 return ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
+                    final event = value[index];
                     return Container(
                       padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.symmetric(
@@ -146,23 +143,24 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.circle_outlined, color: Colors.blue, size: 13,),
-                                const SizedBox(width: 5,),
-                                const Text('10:00 - 11:00', style: TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 12),),
-                                const Spacer(),
-                                InkWell(
-                                  child: const Icon(Icons.more_horiz,),
-                                  onTap: () {},
-                                )
-                              ],
-                            ),
-                            Text('${value[index]}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 18),),
-                            const Text('Descrição de um evento muito dahora', style: TextStyle(color: Colors.grey, fontFamily: GiraFonts.poorStory),)
-                          ],
-                        ));
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.circle_outlined, color: Colors.blue, size: 13,),
+                              const SizedBox(width: 5,),
+                              Text('${event.date}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 12),),
+                              const Spacer(),
+                              InkWell(
+                                child: const Icon(Icons.more_horiz,),
+                                onTap: () {},
+                              )
+                            ],
+                          ),
+                          Text('${event.name}', style: const TextStyle(fontFamily: GiraFonts.poorStory, fontSize: 18),),
+                          Text('${event.description}', style: const TextStyle(color: Colors.grey, fontFamily: GiraFonts.poorStory),)
+                        ],
+                      ),
+                    );
                   },
                 );
               },

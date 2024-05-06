@@ -31,16 +31,16 @@ class CurrentUserManager {
 }
 
 enum UserTypeEnum {
-  @JsonValue('administrator')
-  administrator,
-  @JsonValue('teacher')
+  @JsonValue('TEACHER')
   teacher,
-  @JsonValue('parents')
-  parents,
-  @JsonValue('student')
+  @JsonValue('ADMINISTRATOR')
+  administrator,
+  @JsonValue('STUDENT')
   student,
-  @JsonValue('classroom')
+  @JsonValue('PARENTS')
+  parents,
+  @JsonValue('CLASSROOM')
   classroom,
-  @JsonValue('undefined')
+  @JsonValue('UNDEFINED')
   undefined,
 }
