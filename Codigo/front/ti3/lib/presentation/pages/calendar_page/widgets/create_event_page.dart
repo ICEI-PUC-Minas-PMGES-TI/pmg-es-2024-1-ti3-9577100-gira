@@ -19,10 +19,21 @@ class CreateEventPageState extends State<CreateEventPage> {
 
   DateTime pickedDate = DateTime.now();
 
+  @override
+  void initState() {
+    super.initState();
+    if (calendarController.eventToUpdate.name != null) {
+      calendarController.eventToUpdate = eventToUpdate;
+      calendarController.titleController.text = eventToUpdate.name ?? '';
+      calendarController.descriptionController.text = eventToUpdate.description ?? '';
+      calendarController.selectedDate = eventToUpdate.date ?? DateTime.now();
+    }
+  }
+
   Future<void> _selectDateAndTime(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: pickedDate,
+      initialDate: calendarController.selectedDate,
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
     );
@@ -189,7 +200,7 @@ class CreateEventPageState extends State<CreateEventPage> {
         name: calendarController.titleController.text,
         description: calendarController.descriptionController.text,
         date: calendarController.selectedDate,
-        author: 'Jubiscreia',
+        author: 'jULIANA',
         classroom: 1);
     calendarController.createEvent(newEvent);
   }

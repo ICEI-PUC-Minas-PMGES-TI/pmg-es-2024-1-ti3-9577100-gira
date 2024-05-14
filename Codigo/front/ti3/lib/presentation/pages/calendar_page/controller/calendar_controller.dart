@@ -21,14 +21,14 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   TextEditingController descriptionController = TextEditingController();
 
   @observable
-  DateTime selectedDate = DateTime.now(); // Renomeie a propriedade dateController para selectedDate
+  DateTime selectedDate = DateTime.now(); 
 
   EventsModel eventToUpdate = EventsModel();
 
   @action
   Future<List<EventsModel>> getEvents() async {
     try {
-      final response = await client.dio.get('http://192.168.0.29:8080/event');
+      final response = await client.dio.get('http://172.20.10.4:8080/event');
       if (response.statusCode == 200) {
         var data = response.data as List<dynamic>;
         List<EventsModel> fetchedEvents = EventsDTO.fromListJSON(data);
@@ -49,7 +49,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   Future<bool> createEvent(EventCreateModel eventModel) async {
     try {
       final response = await client.dio.post(
-        'http://192.168.0.29:8080/event',
+        'http://172.20.10.4:8080/event',
         data: eventModel.toJson(),
       );
       if (response.statusCode == 201 || response.statusCode == 200) {
@@ -67,7 +67,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   Future<bool> updateEvent(EventsModel updatedEvent) async {
     try {
       final response = await client.dio.put(
-        'http://192.168.0.29:8080/event/${updatedEvent.id}',
+        'http://172.20.10.4:8080/event/${updatedEvent.id}',
         data: updatedEvent.toJson(),
       );
       if (response.statusCode == 200) {
@@ -89,7 +89,7 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
   Future<bool> deleteEvent(int eventId) async {
     try {
       final response = await client.dio.delete(
-        'http://192.168.0.29:8080/event/$eventId',
+        'http://172.20.10.4:8080/event/$eventId',
       );
       if (response.statusCode == 204) {
         events.removeWhere((event) => event.id == eventId);
@@ -103,7 +103,6 @@ abstract class CalendarControllerStore extends DisposableInterface with Store {
     }
   }
 
-  // Adicione este método para atualizar a data selecionada
   @action
   void _updateSelectedDate(DateTime newDate) {
     selectedDate = newDate;

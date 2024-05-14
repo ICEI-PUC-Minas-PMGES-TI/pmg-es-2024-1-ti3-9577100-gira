@@ -241,7 +241,6 @@ class _CalendarPageState extends State<CalendarPage> {
                                     onSelected: (String value) {
                                       if (value == 'Update') {
                                         try {
-                                          controller.eventToUpdate = event;
                                           Get.toNamed(Paths.eventPage,
                                               arguments: {
                                                 'isUpdate': true,
