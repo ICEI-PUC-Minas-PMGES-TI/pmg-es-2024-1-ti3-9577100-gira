@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: GiraColors.loginBoxColor,
         unselectedItemColor: Colors.pink,

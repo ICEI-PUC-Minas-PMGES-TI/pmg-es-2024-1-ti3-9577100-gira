@@ -2,15 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
-import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
 import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/shared/widgets/rounded_image_widget.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({super.key});
+  DrawerWidget({Key? key});
+
+  final List<Map<String, dynamic>> allMenuOptions = [
+    {'text': 'Home', 'onPressed': const HomePage()},
+    {'text': 'Gerenciar professores', 'type': UserTypeEnum.teacher},
+    {'text': 'Gerenciar alunos', 'type': UserTypeEnum.student},
+    {'text': 'Gerenciar responsáveis', 'type': UserTypeEnum.parents},
+    {'text': 'Gerenciar turmas', 'type': UserTypeEnum.classroom},
+    {'text': 'Sair', 'onPressed': () => Get.toNamed(Paths.loginPage)},
+  ];
+
+  final List<Map<String, dynamic>> parentsMenuOptions = [
+    {'text': 'Home', 'onPressed': const HomePage()},
+    {'text': 'Sair', 'onPressed': () => Get.toNamed(Paths.loginPage)},
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> menuOptions =
+        CurrentUserManager.currentUser.type == UserTypeEnum.parents
+            ? parentsMenuOptions
+            : allMenuOptions;
     return Drawer(
       child: Column(
         children: [
@@ -22,9 +39,7 @@ class DrawerWidget extends StatelessWidget {
                   name: CurrentUserManager.currentUser.name ?? 'ERRO',
                   size: 90,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Text(
                   CurrentUserManager.currentUser.name ?? 'ERRO',
                   style: const TextStyle(
@@ -32,97 +47,39 @@ class DrawerWidget extends StatelessWidget {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                const SizedBox(height: 10),
+                Text(
+                  CurrentUserManager.currentUser.type.toString(),
+                  style: const TextStyle(color: Colors.grey, fontSize: 18),
                 ),
-                Text(CurrentUserManager.currentUser.type.toString(),
-                    style: const TextStyle(color: Colors.grey, fontSize: 18)),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Divider(
-                  color: Colors.grey,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.teacher,
-                                )),
-                      );
-                    },
-                    child: const Text(
-                      'Gerenciar professores',
-                      style: TextStyle(color: Colors.black),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.student,
-                                )),
-                      );
-                    },
-                    child: const Text(
-                      'Gerenciar alunos',
-                      style: TextStyle(color: Colors.black),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.parents,
-                                )),
-                      );
-                    },
-                    child: const Text(
-                      'Gerenciar responsáveis',
-                      style: TextStyle(color: Colors.black),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MenageUsersPage(
-                                  type: UserTypeEnum.classroom,
-                                )),
-                      );
-                    },
-                    child: const Text(
-                      'Gerenciar turmas',
-                      style: TextStyle(color: Colors.black),
-                    )),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomePage()),
-                      );
-                    },
-                    child: const Text(
-                      'Home',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                ),
-                TextButton(
-                    onPressed: () {
-                      Get.toNamed(Paths.loginPage);
-                    },
-                    child: const Text(
-                      'Sair',
-                      style: TextStyle(color: Colors.black),
-                    ),
+                const SizedBox(height: 10),
+                const Divider(color: Colors.grey),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: menuOptions.length,
+                  itemBuilder: (context, index) {
+                    return TextButton(
+                      onPressed: () {
+                        final onPressed = menuOptions[index]['onPressed'];
+                        if (onPressed is Widget) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => onPressed),
+                          );
+                        } else if (onPressed is Function) {
+                          onPressed();
+                        }
+                      },
+                      child: Text(
+                        menuOptions[index]['text'],
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
