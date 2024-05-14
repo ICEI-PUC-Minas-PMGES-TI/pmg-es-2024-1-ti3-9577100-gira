@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/domain/login/use_cases/do_login.dart';
+import 'package:ti3/shared/statics/endpoints.dart';
 import 'package:ti3/shared/widgets/paths.dart';
 
 import '../../../../domain/login/model/user_model.dart';
@@ -18,8 +19,9 @@ abstract class LoginControllerStore with Store {
 
   LoginControllerStore({required this.doLogin});
 
-  final String door = '192.168.0.20:8080';
-  final List<String> endpoints = [
+  final String door = Endpoints.baseUrl;
+  
+  final List<String> loginEndpoints = [
     'administrator/login',
     'parents/login',
     'teacher/login',
