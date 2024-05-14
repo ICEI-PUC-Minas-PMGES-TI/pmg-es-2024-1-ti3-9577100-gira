@@ -35,8 +35,8 @@ class DrawerWidget extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text('Diretora',
-                    style: TextStyle(color: Colors.grey, fontSize: 18)),
+                Text(CurrentUserManager.currentUser.type.toString(),
+                    style: const TextStyle(color: Colors.grey, fontSize: 18)),
                 const SizedBox(
                   height: 10,
                 ),
