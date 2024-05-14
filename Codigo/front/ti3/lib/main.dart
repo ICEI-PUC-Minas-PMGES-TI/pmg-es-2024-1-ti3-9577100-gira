@@ -12,7 +12,7 @@ void main() {
   injector.setup();
 
   runApp(GetMaterialApp(
-    initialRoute: Paths.homePage,
+    initialRoute: Paths.loginPage,
     getPages: Routes.pages,
     debugShowCheckedModeBanner: false,
     localizationsDelegates: [
