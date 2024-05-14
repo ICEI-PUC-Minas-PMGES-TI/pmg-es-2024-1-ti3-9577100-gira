@@ -130,7 +130,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          item.author,
+                                          item.author ?? 'Autor',
                                           style: const TextStyle(
                                             fontFamily: GiraFonts.poorStory,
                                             fontSize: 14,
@@ -166,7 +166,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                                                 ),
                                                 TextButton(
                                                   onPressed: () {
-                                                    controller.deleteNews(item.id);
+                                                    controller.deleteNews(item.id!);
                                                     Navigator.pop(context);
                                                   },
                                                   child: const Text("Excluir"),
@@ -189,7 +189,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                                   color: Colors.grey.shade300,
                                 ),
                                 child: Image.file(
-                                  File(item.image),
+                                  File(item.image ?? ''),
                                   fit: BoxFit.cover,
                                   width: MediaQuery.of(context).size.width,
                                   height: 200,
@@ -199,7 +199,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                 child: Text(
-                                  item.description,
+                                  item.description ?? 'Descrição',
                                   style: const TextStyle(
                                     fontFamily: GiraFonts.poorStory,
                                     fontSize: 16,
@@ -217,7 +217,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                                           // item.changeLike();
                                         });
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         false ? Icons.favorite : Icons.favorite_outline,
                                         color: GiraColors.loginBoxColor,
                                       ),

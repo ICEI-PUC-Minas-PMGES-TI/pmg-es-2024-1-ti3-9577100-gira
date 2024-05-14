@@ -33,8 +33,8 @@ public class EventService {
     }
 
     public Event create(EventRecord eventRecord) {
-        Object authenticatedUser = authenticationService.getAuthenticatedUser();
-        authenticationService.validateAuthorizedUser(authenticatedUser);
+//        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+//        authenticationService.validateAuthorizedUser(authenticatedUser);
 
         Long classroomId = eventRecord.classroom().getId();
         Classroom classroom = classRepository.findById(classroomId)
@@ -42,7 +42,7 @@ public class EventService {
 
         Event event = new Event(eventRecord);
         event.setClassrooms(classroom);
-        event.setAuthor(getAuthorName(authenticatedUser));
+        //event.setAuthor(getAuthorName(authenticatedUser));
 
         return saveEvent(event);
     }

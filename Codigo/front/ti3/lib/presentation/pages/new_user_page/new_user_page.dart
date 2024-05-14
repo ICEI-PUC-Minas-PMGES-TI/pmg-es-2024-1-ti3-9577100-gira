@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/new_user_page/controller/new_user_controller.dart';
 import 'package:ti3/utils/gira_colors.dart';

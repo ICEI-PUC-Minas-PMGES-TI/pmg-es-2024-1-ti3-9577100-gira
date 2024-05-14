@@ -70,10 +70,6 @@ class NewClassPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text(
-                    'Concluir',
-                    style: TextStyle(color: GiraColors.loginBoxColor, fontSize: 20),
-                  ),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -82,6 +78,10 @@ class NewClassPage extends StatelessWidget {
                     ),
                     minimumSize: Size(300, 50),
                     
+                  ),
+                  child: const Text(
+                    'Concluir',
+                    style: TextStyle(color: GiraColors.loginBoxColor, fontSize: 20),
                   ),
                 ),
               ],
