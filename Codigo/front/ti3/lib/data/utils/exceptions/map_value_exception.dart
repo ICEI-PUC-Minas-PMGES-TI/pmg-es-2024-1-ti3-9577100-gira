@@ -1,1 +1,0 @@
-class MapValueException implements Exception {}
