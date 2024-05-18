@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/domain/events/model/events_model.dart';
 import 'package:ti3/presentation/pages/calendar_page/controller/calendar_controller.dart';
 import 'package:ti3/presentation/pages/calendar_page/utils.dart';
@@ -170,6 +171,7 @@ class _CalendarPageState extends State<CalendarPage> {
               ),
             ],
           ),
+          CurrentUserManager.currentUser.type != UserTypeEnum.parents ?
           Positioned(
             top: 590,
             left: 320,
@@ -186,7 +188,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 ),
               ),
             ),
-          ),
+          ) : Container(),
         ],
       ),
     );
