@@ -205,7 +205,7 @@ class _EditClassroomPageState extends State<EditClassroomPage> {
               GestureDetector(
                 onTap: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // implementar
+                     Navigator.of(context).pop();
                   }
                 },
                 child: Container(
@@ -344,9 +344,9 @@ class _EditClassroomPageState extends State<EditClassroomPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Atenção!'),
+          title: const Text('Atenção!', style: TextStyle(fontFamily: GiraFonts.poorStory)),
           content: Text(
-              'Tem certeza de que deseja excluir a turma ${widget.classroom.name} permanentemente?'),
+              'Tem certeza de que deseja excluir a turma ${widget.classroom.name} permanentemente?', style: TextStyle(fontFamily: GiraFonts.poorStory)),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -356,7 +356,6 @@ class _EditClassroomPageState extends State<EditClassroomPage> {
             ),
             TextButton(
               onPressed: () {
-                // TODO: Implementar lógica de exclusão
                 Navigator.of(context).pop();
               },
               child: const Text('Confirmar'),
