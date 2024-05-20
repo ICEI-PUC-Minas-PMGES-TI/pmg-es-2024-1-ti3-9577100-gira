@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/home_page/home_page.dart';
+import 'package:ti3/presentation/pages/menage_classrooms/menage_classrooms_page.dart';
 import 'package:ti3/presentation/pages/menage_users/menage_users_page.dart';
 import 'package:ti3/presentation/pages/new_user_page/new_user_page.dart';
 import 'package:ti3/shared/widgets/paths.dart';
@@ -14,8 +15,12 @@ class DrawerWidget extends StatelessWidget {
     Get.to(() => NewUserPage(type: userType));
   }
 
-  void _navigateToMenageTeatchers(UserTypeEnum userType) {
+  void _navigateToMenageUsers(UserTypeEnum userType) {
     Get.to(() => MenageUsersPage(type: userType));
+  }
+
+  void _navigateToClassroomsPage() {
+    Get.to(() => MenageClassroomsPage());
   }
 
   @override
@@ -58,7 +63,7 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 if (!isParent)
                   TextButton(
-                    onPressed: () => _navigateToMenageTeatchers(UserTypeEnum.teacher),
+                    onPressed: () => _navigateToMenageUsers(UserTypeEnum.teacher),
                     child: Text(
                       'Gerenciar professores',
                       style: const TextStyle(color: Colors.black),
@@ -82,7 +87,7 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 if (!isParent)
                   TextButton(
-                    onPressed: () => _navigateToNewUserPage(UserTypeEnum.classroom),
+                    onPressed: () => _navigateToClassroomsPage(),
                     child: Text(
                       'Gerenciar turmas',
                       style: const TextStyle(color: Colors.black),
