@@ -18,7 +18,8 @@
 
 name: Deploy Java project to Azure Function App
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'giracloud'   # set this to your function app name on Azure
