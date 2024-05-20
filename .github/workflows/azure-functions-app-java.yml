@@ -18,7 +18,9 @@
 
 name: Deploy Java project to Azure Function App
 
-on: 
+on:
+  push:
+    branches: ["deploy"]
   workflow_dispatch:
 
 env:
