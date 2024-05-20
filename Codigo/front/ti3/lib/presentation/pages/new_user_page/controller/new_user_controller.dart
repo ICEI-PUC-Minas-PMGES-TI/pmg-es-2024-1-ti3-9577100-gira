@@ -2,21 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mobx/mobx.dart';
-import 'package:ti3/context/current_user.dart';
 import 'package:http/http.dart' as http;
+import 'package:ti3/context/current_user.dart';
+import 'package:ti3/shared/statics/endpoints.dart';
 
 part 'new_user_controller.g.dart';
 
 class NewUserController = NewUserControllerStore with _$NewUserController;
 
 abstract class NewUserControllerStore with Store {
-  final String door = '192.168.0.20:8080';
+  final String door = Endpoints.baseUrl;
+
   List<String> endpoints = [
-    'http://192.168.0.20:8080/administrator',
-    'http://192.168.0.20:8080/teacher',
-    'http://192.168.0.20:8080/parents',
+    '${Endpoints.baseUrl}administrator',
+    '${Endpoints.baseUrl}teacher',
+    '${Endpoints.baseUrl}parents',
   ];
 
   @observable
@@ -32,6 +33,7 @@ abstract class NewUserControllerStore with Store {
 
     try {
       final selectedEndpoint = _getEndpointForType(type); 
+      print(selectedEndpoint);
 
       final response = await http.post(
         Uri.parse(selectedEndpoint),
@@ -45,17 +47,18 @@ abstract class NewUserControllerStore with Store {
         }),
       );
 
-      print(response);
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar('Salvo', 'Novo usuário registrado');
+        Get.snackbar('Sucesso', 'Novo usuário registrado com sucesso');
       } else {
-        Get.snackbar('Erro', 'Erro ao registrar novo usuário');
+        final errorMessage = json.decode(response.body)['message'] ?? 'Erro desconhecido';
+        Get.snackbar('Erro', errorMessage);
       }
     } catch (e) {
       print(e);
       Get.snackbar(
-          'Erro', 'Um erro inesperado ocorreu. Tente novamente mais tarde.');
+        'Erro', 
+        'Um erro inesperado ocorreu. Tente novamente mais tarde.'
+      );
     }
   }
 
@@ -72,5 +75,3 @@ abstract class NewUserControllerStore with Store {
     }
   }
 }
-
-

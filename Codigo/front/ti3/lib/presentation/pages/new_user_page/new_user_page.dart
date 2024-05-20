@@ -6,7 +6,10 @@ import 'package:ti3/utils/gira_colors.dart';
 
 class NewUserPage extends StatelessWidget {
   final NewUserController controller = Get.put(NewUserController());
-  final type = Get.arguments['type'];
+  // final type = Get.arguments['type'];
+  final UserTypeEnum? type;
+
+  NewUserPage({super.key, this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class NewUserPage extends StatelessWidget {
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         foregroundColor: GiraColors.loginBoxColor,
-        title: const Text('Cadastro de Novo Usuário'),
+        title: Text(getTitle()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -81,22 +84,22 @@ class NewUserPage extends StatelessWidget {
                   onPressed: () {
                     var userType = UserTypeEnum.administrator;
 
-                    if(type == UserTypeEnum.teacher.toString()) {
+                    if (type == UserTypeEnum.teacher) {
                       userType = UserTypeEnum.teacher;
-                    } else if(type == UserTypeEnum.student.toString()) {
+                    } else if (type == UserTypeEnum.student) {
                       userType = UserTypeEnum.student;
-                    } else if(type == UserTypeEnum.parents.toString()) {
+                    } else if (type == UserTypeEnum.parents) {
                       userType = UserTypeEnum.parents;
-                    } else if(type == UserTypeEnum.classroom.toString()) {
+                    } else if (type == UserTypeEnum.classroom) {
                       userType = UserTypeEnum.classroom;
-                    } else if(type == UserTypeEnum.administrator.toString()) {
+                    } else if (type == UserTypeEnum.administrator) {
                       userType = UserTypeEnum.administrator;
                     } else {
                       userType = UserTypeEnum.parents;
                     }
-                    
 
                     controller.register(userType);
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
@@ -118,5 +121,18 @@ class NewUserPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getTitle() {
+    switch (type) {
+      case UserTypeEnum.teacher:
+        return 'Cadastro de Professor';
+      case UserTypeEnum.parents:
+        return 'Cadastro de Responsável';
+      case UserTypeEnum.administrator:
+        return 'Cadastro de Admin';
+      default:
+        return 'Title';
+    }
   }
 }
