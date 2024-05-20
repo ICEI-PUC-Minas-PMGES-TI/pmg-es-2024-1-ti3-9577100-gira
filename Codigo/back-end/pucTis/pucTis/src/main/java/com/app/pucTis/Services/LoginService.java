@@ -4,6 +4,8 @@ import com.app.pucTis.Entities.LoginRequest;
 import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Teacher;
+import com.app.pucTis.Exceptions.AlreadyDislikedException;
+import com.app.pucTis.Exceptions.NewPassNeededException;
 import com.app.pucTis.Repositories.AdiministratorRepository;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
@@ -46,8 +48,12 @@ public class LoginService {
             Parents parents = parentsOptional.get();
 
             if (parents.getPassword().equals(password)) {
-                SeesionManager.setAuthenticatedParents(parents);
-                return parents;
+                if(parents.getValidPass()==true){
+                    SeesionManager.setAuthenticatedParents(parents);
+                    return parents;
+                }else{
+                    throw new NewPassNeededException("Your password is expired, please change it.");
+                }
             }
         }
 
@@ -69,6 +75,59 @@ public class LoginService {
         SeesionManager.clearAuthenticatedTeacher();
         SeesionManager.clearAuthenticatedParents();
     }
+
+    public void resetPassword(LoginRequest loginRequest) throws Exception {
+        String username = loginRequest.getUsername();
+        String newPassword = loginRequest.getPassword();
+
+        Optional<Administrator> adminOptional = administratorRepository.findByName(username);
+        if (adminOptional.isPresent()) {
+            Administrator administrator = adminOptional.get();
+
+            if (administrator.getPassword().equals(newPassword)) {
+                administrator.setPassword(newPassword);
+                administratorRepository.save(administrator);
+                administrator.setValidPass(true);
+                return;
+            }else{
+                throw new Exception("Wrong Password");
+            }
+
+        }
+
+        Optional<Parents> parentsOptional = parentsRepository.findByName(username);
+        if (parentsOptional.isPresent()) {
+            Parents parents = parentsOptional.get();
+
+            if (parents.getPassword().equals(newPassword)) {
+                parents.setPassword(newPassword);
+                parentsRepository.save(parents);
+                parents.setValidPass(true);
+                return;
+            }else{
+                throw new Exception("Wrong Password");
+            }
+
+        }
+
+        Optional<Teacher> teacherOptional = teacherRepository.findByName(username);
+        if (teacherOptional.isPresent()) {
+            Teacher teacher = teacherOptional.get();
+
+            if (teacher.getPassword().equals(newPassword)) {
+                teacher.setPassword(newPassword);
+                teacherRepository.save(teacher);
+                teacher.setValidPass(true);
+                return;
+            }else{
+                throw new Exception("Wrong Password");
+            }
+
+        }
+
+        throw new Exception("User not found");
+    }
+
 }
 
 

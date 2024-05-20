@@ -56,4 +56,14 @@ public class LoginController {
         loginService.logout();
         return ResponseEntity.ok("Logged out successfully");
     }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody LoginRequest loginRequest) {
+        try {
+            loginService.resetPassword(loginRequest);
+            return ResponseEntity.ok("Password reset successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to reset password: " + e.getMessage());
+        }
+    }
 }

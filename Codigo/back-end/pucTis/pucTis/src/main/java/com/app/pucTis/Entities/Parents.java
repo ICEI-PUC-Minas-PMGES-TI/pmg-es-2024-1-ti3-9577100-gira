@@ -62,13 +62,9 @@ public class Parents {
         this.password = password;
     }
 
+    public void setValidPass(Boolean validPass) {this.validPass = validPass;}
 
-    public void setValidPass(Boolean validPass) {
-        this.validPass = validPass;
-    }
-    public Boolean getValidPass() {
-        return validPass;
-    }
+    public Boolean getValidPass() {return validPass;}
 
     public List<News> getLikedNews() {return likedNews;}
 
