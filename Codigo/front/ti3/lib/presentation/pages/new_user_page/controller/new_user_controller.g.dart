@@ -57,12 +57,37 @@ mixin _$NewUserController on NewUserControllerStore, Store {
     });
   }
 
+  late final _$classroomsAtom =
+      Atom(name: 'NewUserControllerStore.classrooms', context: context);
+
+  @override
+  ObservableList<ClassroomModel> get classrooms {
+    _$classroomsAtom.reportRead();
+    return super.classrooms;
+  }
+
+  @override
+  set classrooms(ObservableList<ClassroomModel> value) {
+    _$classroomsAtom.reportWrite(value, super.classrooms, () {
+      super.classrooms = value;
+    });
+  }
+
+  late final _$initAsyncAction =
+      AsyncAction('NewUserControllerStore.init', context: context);
+
+  @override
+  Future<void> init(UserTypeEnum type) {
+    return _$initAsyncAction.run(() => super.init(type));
+  }
+
   @override
   String toString() {
     return '''
 codeController: ${codeController},
 passwordController: ${passwordController},
-userType: ${userType}
+userType: ${userType},
+classrooms: ${classrooms}
     ''';
   }
 }

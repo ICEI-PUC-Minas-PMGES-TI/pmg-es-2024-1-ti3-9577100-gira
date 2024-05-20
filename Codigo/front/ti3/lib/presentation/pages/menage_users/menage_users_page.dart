@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/menage_users/controller/menage_users_controller.dart';
+import 'package:ti3/presentation/pages/menage_users/dtos/student.dart';
 import 'package:ti3/presentation/pages/menage_users/dtos/teacher.dart';
 import 'package:ti3/presentation/pages/menage_users/widgets/teacher_card_item.dart';
 import 'package:ti3/presentation/pages/new_user_page/new_user_page.dart';
@@ -26,6 +27,7 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
 
   int selectedIndex = 0;
   List<Teacher> allTeachers = [];
+  List<Student> allStudents = [];
 
   @override
   void initState() {
@@ -39,6 +41,8 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
       setState(() {
         allTeachers = fetchedTrachers;
       });
+    } else if (widget.type == UserTypeEnum.student) {
+      var fetchedStudents = await controller.fetchStudents();
     }
   }
 
