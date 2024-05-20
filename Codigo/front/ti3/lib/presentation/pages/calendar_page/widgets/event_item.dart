@@ -38,7 +38,7 @@ class EventItem extends StatelessWidget {
                 width: 5,
               ),
               Text(
-                '${event.date}',
+                '${formatDate(event.date!)} - ${event.author}',
                 style: const TextStyle(
                     fontFamily: GiraFonts.poorStory, fontSize: 12),
               ),
@@ -121,4 +121,12 @@ class EventItem extends StatelessWidget {
       },
     );
   }
+
+  String formatDate(DateTime date) {
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+  String year = date.year.toString();
+  
+  return '$day/$month/$year';
+}
 }

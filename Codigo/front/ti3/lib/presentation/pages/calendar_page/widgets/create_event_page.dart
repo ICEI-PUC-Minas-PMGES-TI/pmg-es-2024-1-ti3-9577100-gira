@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ti3/context/current_user.dart';
 import 'package:ti3/domain/events/model/events_model.dart';
 import 'package:ti3/presentation/pages/calendar_page/controller/calendar_controller.dart';
 import 'package:ti3/utils/gira_colors.dart';
@@ -200,7 +201,7 @@ class CreateEventPageState extends State<CreateEventPage> {
         name: calendarController.titleController.text,
         description: calendarController.descriptionController.text,
         date: calendarController.selectedDate,
-        author: 'jULIANA',
+        author: CurrentUserManager.currentUser.name,
         classroom: 1);
     calendarController.createEvent(newEvent);
   }

@@ -8,7 +8,6 @@ import 'package:ti3/presentation/pages/calendar_page/utils.dart';
 import 'package:ti3/presentation/pages/calendar_page/widgets/event_item.dart';
 import 'package:ti3/shared/widgets/paths.dart';
 import 'package:ti3/utils/gira_colors.dart';
-import 'package:ti3/utils/gira_fonts.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);

@@ -100,7 +100,9 @@ class _HomePageState extends State<HomePage> {
           FeedPage(),
           CalendarPage(),
           NotificationPage(),
-          AlbumPage(),
+          const Center(
+            child: Text('Álbum')
+          ),
         ],
       ),
     );

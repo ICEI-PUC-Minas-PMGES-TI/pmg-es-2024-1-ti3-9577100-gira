@@ -29,7 +29,7 @@ class _PublicationPageState extends State<PublicationPage> {
         actions: [
           IconButton(
             onPressed: () {
-              controller.reset();
+              controller.publish();
               setState(() {
                 imagePath = '';
               });
