@@ -5,7 +5,7 @@ class ApiRoutes {
   String get createNews => 'news';
   String get deleteNews => 'news/';
   String get getNews => 'news/all';
-  String get createNotifications => 'notifications/';
-  String get getNotifications => 'notifications';
-  String get deleteNotifications => 'notifications/delete/';
+  String get createNotifications => 'notification/send';
+  String get getNotifications => 'notification/all';
+  String get deleteNotifications => 'notification/delete/';
 }
