@@ -38,7 +38,7 @@ jobs:
 
     # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
     - name: 'Login via Azure CLI'
-      uses: azure/login@v2
+      uses: azure/login@v1
       with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
@@ -56,7 +56,7 @@ jobs:
         popd
 
     - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v2
+      uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
