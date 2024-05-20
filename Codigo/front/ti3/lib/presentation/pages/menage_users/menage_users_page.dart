@@ -4,6 +4,7 @@ import 'package:ti3/context/current_user.dart';
 import 'package:ti3/presentation/pages/menage_users/controller/menage_users_controller.dart';
 import 'package:ti3/presentation/pages/menage_users/dtos/teacher.dart';
 import 'package:ti3/presentation/pages/menage_users/widgets/teacher_card_item.dart';
+import 'package:ti3/presentation/pages/new_user_page/new_user_page.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
@@ -112,7 +113,7 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
         onPressed: () {
           widget.type == UserTypeEnum.classroom
               ? Get.toNamed(Paths.newClassPage,)
-              : Get.toNamed(Paths.newUserPage, arguments: {'type': '${widget.type}'});
+              : Get.to(NewUserPage(type: widget.type,));
         },
         backgroundColor: GiraColors.loginBoxColor,
         shape: const CircleBorder(),

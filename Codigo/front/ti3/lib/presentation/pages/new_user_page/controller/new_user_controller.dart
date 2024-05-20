@@ -5,6 +5,11 @@ import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 import 'package:ti3/context/current_user.dart';
+import 'package:ti3/domain/classroom/classroom_model.dart';
+import 'package:ti3/domain/classroom/repository/menage_classrooms_repository.dart';
+import 'package:ti3/domain/student/repository/student_repository.dart';
+import 'package:ti3/domain/teatcher/repository/teacher_repository.dart';
+import 'package:ti3/presentation/pages/menage_users/dtos/teacher.dart';
 import 'package:ti3/shared/statics/endpoints.dart';
 
 part 'new_user_controller.g.dart';
@@ -13,6 +18,9 @@ class NewUserController = NewUserControllerStore with _$NewUserController;
 
 abstract class NewUserControllerStore with Store {
   final String door = Endpoints.baseUrl;
+  final TeacherRepository teacherRepository = TeacherRepository();
+  final StudentRepository studentRepository = StudentRepository();
+  final ClassroomRepository classroomRepository = ClassroomRepository();
 
   List<String> endpoints = [
     '${Endpoints.baseUrl}administrator',
@@ -26,6 +34,42 @@ abstract class NewUserControllerStore with Store {
   TextEditingController passwordController = TextEditingController();
   @observable
   UserTypeEnum userType = UserTypeEnum.undefined;
+  
+  @observable
+  ObservableList<ClassroomModel> classrooms = ObservableList<ClassroomModel>();
+
+  @action
+  Future<void> init(UserTypeEnum type) async {
+    userType = type;
+    if (type == UserTypeEnum.student) {
+      try {
+        classrooms.clear();
+        final classroomsResponse = await getAllClassrooms();
+        classrooms.addAll(classroomsResponse);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  Future<List<ClassroomModel>> getAllClassrooms() async {
+    try {
+      final response = await classroomRepository.fetchClassrooms();
+      return response;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<Teacher>> getAllTeachers() async {
+    try {
+      final response = await teacherRepository.getAllTeachers();
+      return response;
+    } catch(e) {
+      print(e);
+      return [];
+    }
+  }
 
   Future<void> register(UserTypeEnum type) async {
     var code = codeController.text;

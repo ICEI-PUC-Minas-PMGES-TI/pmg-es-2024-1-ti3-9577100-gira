@@ -71,7 +71,7 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 if (!isParent)
                   TextButton(
-                    onPressed: () => _navigateToNewUserPage(UserTypeEnum.student),
+                    onPressed: () => _navigateToMenageUsers(UserTypeEnum.student),
                     child: Text(
                       'Gerenciar alunos',
                       style: const TextStyle(color: Colors.black),

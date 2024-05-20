@@ -16,8 +16,6 @@ class NewUserPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
         foregroundColor: GiraColors.loginBoxColor,
         title: Text(getTitle()),
       ),
@@ -131,8 +129,10 @@ class NewUserPage extends StatelessWidget {
         return 'Cadastro de Responsável';
       case UserTypeEnum.administrator:
         return 'Cadastro de Admin';
+      case UserTypeEnum.student:
+        return 'Registro de Aluno';
       default:
-        return 'Title';
+        return 'Título';
     }
   }
 }
