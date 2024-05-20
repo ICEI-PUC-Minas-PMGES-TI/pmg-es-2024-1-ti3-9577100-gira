@@ -1,39 +1,56 @@
-import 'package:ti3/context/current_user.dart';
+import 'dart:convert';
 import 'package:ti3/domain/classroom/classroom_model.dart';
 
 class Teacher {
-  String? id;
-  String? name;
-  UserTypeEnum? type;
-  List<ClassroomModel>? schoolClasses;
+  final int id;
+  final String name;
+  final String password;
+  final String type;
+  final List<ClassroomModel> schoolClasses; 
+  final dynamic validPass;
+  final List<dynamic> likedNews;
 
   Teacher({
-    this.id,
-    this.name,
-    this.type,
-    this.schoolClasses,
+    required this.id,
+    required this.name,
+    required this.password,
+    required this.type,
+    required this.schoolClasses,
+    required this.validPass,
+    required this.likedNews,
   });
 
-  static Teacher fromJson(Map<String, dynamic> json) {
+  factory Teacher.fromJson(Map<String, dynamic> json) {
     return Teacher(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      type: json['type'] != null
-          ? UserTypeEnum.values.firstWhere(
-              (e) => e.toString().split('.').last == json['type'])
-          : null,
-      schoolClasses: (json['schoolClasses'] as List<dynamic>?)
-          ?.map((e) => ClassroomModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      id: json['id'],
+      name: json['name'],
+      password: json['password'],
+      type: json['type'],
+      schoolClasses: (json['schoolClasses'] as List<dynamic>)
+          .map((e) => ClassroomModel.fromJson(e as Map<String, dynamic>))
+          .toList(), 
+      validPass: json['validPass'],
+      likedNews: json['likedNews'],
     );
+  }
+
+  factory Teacher.fromJsonString(String jsonString) {
+    return Teacher.fromJson(json.decode(jsonString));
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
-      'type': type?.toString().split('.').last,
-      'schoolClasses': schoolClasses?.map((schoolClass) => schoolClass.toJson()).toList(),
+      'password': password,
+      'type': type,
+      'schoolClasses': schoolClasses.map((classroom) => classroom.toJson()).toList(),
+      'validPass': validPass,
+      'likedNews': likedNews,
     };
+  }
+
+  String toJsonString() {
+    return json.encode(toJson());
   }
 }

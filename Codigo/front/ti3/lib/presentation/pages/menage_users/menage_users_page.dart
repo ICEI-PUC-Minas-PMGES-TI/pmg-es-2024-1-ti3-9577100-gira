@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ti3/context/current_user.dart';
+import 'package:ti3/presentation/pages/menage_users/controller/menage_users_controller.dart';
+import 'package:ti3/presentation/pages/menage_users/dtos/teacher.dart';
+import 'package:ti3/presentation/pages/menage_users/widgets/teacher_card_item.dart';
 import 'package:ti3/shared/widgets/drawer_widget.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
@@ -18,12 +21,24 @@ class MenageUsersPage extends StatefulWidget {
 
 class _MenageUsersPageState extends State<MenageUsersPage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  ManageUsersController controller = ManageUsersController();
 
   int selectedIndex = 0;
+  List<Teacher> allTeachers = [];
 
   @override
   void initState() {
     super.initState();
+    getUsers();
+  }
+
+  Future<void> getUsers() async {
+    if (widget.type == UserTypeEnum.teacher) {
+      var fetchedTrachers = await controller.fetchTeachers();
+      setState(() {
+        allTeachers = fetchedTrachers;
+      });
+    }
   }
 
   @override
@@ -80,12 +95,17 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(16.0),
-          //   child: ListView.builder(
-          //
-          //   ),
-          // ),
+          if (widget.type == UserTypeEnum.teacher) 
+            Container(
+              height: 500,
+              width: 350,
+              child: ListView.builder(
+                itemCount: allTeachers.length,
+                itemBuilder: (context, index) {
+                  return TeacherCardItem(teacher: allTeachers[index]);
+                },
+              ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
