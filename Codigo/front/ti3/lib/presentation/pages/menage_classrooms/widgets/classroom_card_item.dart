@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ti3/domain/classroom/classroom_model.dart';
+import 'package:ti3/presentation/pages/edit_classroom/edit_classroom_page.dart';
 import 'package:ti3/utils/gira_colors.dart';
 import 'package:ti3/utils/gira_fonts.dart';
 
@@ -26,7 +28,7 @@ class ClassroomCardItem extends StatelessWidget {
               icon: const Icon(Icons.more_horiz, color: GiraColors.loginBoxColor),
               onSelected: (String value) {
                 if (value == 'Edit') {
-                  // mudar
+                  Get.to(EditClassroomPage(classroom: classroom,));
                 } else if (value == 'Attach') {
                   // mudar
                 }
