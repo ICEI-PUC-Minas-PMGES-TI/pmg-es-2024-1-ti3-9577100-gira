@@ -10,4 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ParentsRepository extends JpaRepository<Parents, Long> {
     Optional<Parents> findByName(String name);
+    Optional<Parents> findByCode(String code);
+
+    boolean existsByCode(String code);
 }

@@ -23,6 +23,7 @@ public class Parents {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String code;
     private String password;
     private UserType type;
     @OneToMany(mappedBy = "parents")
@@ -36,6 +37,7 @@ public class Parents {
 
     public Parents(ParentsRecord data){
         this.name = data.name();
+        this.code = data.code();
         this.password = data.password();
         this.type = data.type();
         this.students = data.students();
@@ -77,4 +79,12 @@ public class Parents {
     public  void addLikeNews(News news){likedNews.add(news);}
 
     public void removeLikedNews(News news) {likedNews.remove(news);}
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

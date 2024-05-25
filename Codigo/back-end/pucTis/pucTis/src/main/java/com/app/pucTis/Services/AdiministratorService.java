@@ -11,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpHeaders;
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AdiministratorService {
@@ -25,6 +28,8 @@ public class AdiministratorService {
 
     public Administrator createAdiministrator(AdiministratorRecord dataAdm) {
         Administrator newAdiministrator = new Administrator(dataAdm);
+        String code = generateCode(newAdiministrator.getName());
+        newAdiministrator.setCode(code);
         this.saveAdiministrator(newAdiministrator);
         return newAdiministrator;
     }
@@ -40,6 +45,40 @@ public class AdiministratorService {
     public Optional<Administrator> findByNameOrId(Administrator administratorService) {
         return adiministratorRepository.findByName(administratorService.getName());
     }
+
+    private String generateCode(String name) {
+        return generateUniqueCode(name);
+    }
+
+    private String generateUniqueCode(String name) {
+        LocalDate createdAt = LocalDate.now();
+        int year = createdAt.getYear();
+        String initials = shuffleString(name.replaceAll("[^A-Za-z]", "").toUpperCase());
+
+        String code = year + initials;
+
+        if (code.length() > 8) {
+            code = code.substring(0, 8); // Limita o código a 8 caracteres
+        }
+
+        if (adiministratorRepository.existsByCode(code)) {
+            return generateUniqueCode(name);
+        } else {
+            return code;
+        }
+    }
+
+    private String shuffleString(String input) {
+        List<Character> characters = input.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toList());
+        Collections.shuffle(characters);
+        StringBuilder sb = new StringBuilder();
+        characters.forEach(sb::append);
+        return sb.toString();
+    }
+
+
 
 }
 

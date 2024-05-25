@@ -29,9 +29,10 @@ public class LoginService {
 
     public Object authenticateUser(LoginRequest loginRequest) throws Exception {
         String username = loginRequest.getUsername();
+        String code  = loginRequest.getCode();
         String password = loginRequest.getPassword();
 
-        Optional<Administrator> adminOptional = administratorRepository.findByName(username);
+        Optional<Administrator>adminOptional = administratorRepository.findByCode(code);
         if (adminOptional.isPresent()) {
             Administrator administrator = adminOptional.get();
 
@@ -41,7 +42,7 @@ public class LoginService {
             }
         }
 
-        Optional<Parents> parentsOptional = parentsRepository.findByName(username);
+        Optional<Parents> parentsOptional = parentsRepository.findByCode(code);
         if (parentsOptional.isPresent()) {
             Parents parents = parentsOptional.get();
 
@@ -51,7 +52,7 @@ public class LoginService {
             }
         }
 
-        Optional<Teacher> teacherOptional = teacherRepository.findByName(username);
+        Optional<Teacher> teacherOptional = teacherRepository.findByCode(code);
         if (teacherOptional.isPresent()) {
             Teacher teacher = teacherOptional.get();
 
