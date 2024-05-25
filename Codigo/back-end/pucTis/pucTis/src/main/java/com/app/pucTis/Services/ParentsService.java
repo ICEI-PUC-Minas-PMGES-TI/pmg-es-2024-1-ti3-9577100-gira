@@ -7,6 +7,7 @@ import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.StudentRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,10 @@ public class ParentsService {
         Parents newParents = new Parents(dataParents);
         String code = generateCode(newParents.getName());
         newParents.setCode(code);
+
+        String hashedPassword = BCrypt.hashpw(dataParents.password(), BCrypt.gensalt());
+        newParents.setPassword(hashedPassword);
+
         this.saveParents(newParents);
         return newParents;
     }

@@ -5,6 +5,7 @@ import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Repositories.AdiministratorRepository;
 import com.sun.net.httpserver.Headers;
 import org.hibernate.query.sqm.UnknownPathException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,10 @@ public class AdiministratorService {
         Administrator newAdiministrator = new Administrator(dataAdm);
         String code = generateCode(newAdiministrator.getName());
         newAdiministrator.setCode(code);
+
+        String hashedPassword = BCrypt.hashpw(dataAdm.password(), BCrypt.gensalt());
+        newAdiministrator.setPassword(hashedPassword);
+
         this.saveAdiministrator(newAdiministrator);
         return newAdiministrator;
     }
@@ -58,7 +63,7 @@ public class AdiministratorService {
         String code = year + initials;
 
         if (code.length() > 8) {
-            code = code.substring(0, 8); // Limita o código a 8 caracteres
+            code = code.substring(0, 8);
         }
 
         if (adiministratorRepository.existsByCode(code)) {
@@ -77,6 +82,8 @@ public class AdiministratorService {
         characters.forEach(sb::append);
         return sb.toString();
     }
+
+
 
 
 

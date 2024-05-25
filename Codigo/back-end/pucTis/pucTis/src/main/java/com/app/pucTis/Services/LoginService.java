@@ -7,6 +7,7 @@ import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.AdiministratorRepository;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class LoginService {
         if (adminOptional.isPresent()) {
             Administrator administrator = adminOptional.get();
 
-            if (administrator.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, administrator.getPassword())) {
                 SeesionManager.setAuthenticatedAdministrator(administrator);
                 return administrator;
             }
@@ -46,7 +47,7 @@ public class LoginService {
         if (parentsOptional.isPresent()) {
             Parents parents = parentsOptional.get();
 
-            if (parents.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, parents.getPassword())) {
                 SeesionManager.setAuthenticatedParents(parents);
                 return parents;
             }
@@ -56,7 +57,7 @@ public class LoginService {
         if (teacherOptional.isPresent()) {
             Teacher teacher = teacherOptional.get();
 
-            if (teacher.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, teacher.getPassword())) {
                 SeesionManager.setAuthenticatedTeacher(teacher);
                 return teacher;
             }
@@ -64,6 +65,11 @@ public class LoginService {
 
         throw new Exception("User authentication failed");
     }
+
+    public boolean authenticate(String enteredPassword, String storedHash) {
+        return BCrypt.checkpw(enteredPassword, storedHash);
+    }
+
 
     public void logout() {
         SeesionManager.clearAuthenticatedAdministrator();

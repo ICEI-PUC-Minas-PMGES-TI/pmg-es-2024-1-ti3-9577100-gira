@@ -5,6 +5,7 @@ import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.*;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.TeacherRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,10 @@ public class TeacherService {
         Teacher newTeacher = new Teacher(dataTeacher);
         String code = generateCode(newTeacher.getName());
         newTeacher.setCode(code);
+
+        String hashedPassword = BCrypt.hashpw(dataTeacher.password(), BCrypt.gensalt());
+        newTeacher.setPassword(hashedPassword);
+
         this.saveTeacher(newTeacher);
         return newTeacher;
     }
@@ -67,7 +72,7 @@ public class TeacherService {
         String code = year + initials;
 
         if (code.length() > 8) {
-            code = code.substring(0, 8); // Limita o código a 8 caracteres
+            code = code.substring(0, 8);
         }
 
         if (teacherRepository.existsByCode(code)) {
