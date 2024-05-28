@@ -44,6 +44,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 16,),
+              CurrentUserManager.currentUser.type == UserTypeEnum.parents ?
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
@@ -75,7 +76,8 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                     ],
                   ),
                 ),
-              ),
+              )
+              : Container(),
               const SizedBox(height: 32,),
               if(controller.feedItems.isEmpty)
                 ...[
