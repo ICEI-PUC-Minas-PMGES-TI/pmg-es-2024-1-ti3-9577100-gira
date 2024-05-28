@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface AdiministratorRepository extends JpaRepository<Administrator, Long> {
     Optional<Administrator> findAdiministratorById(Long id);
     Optional<Administrator> findByName(String name);
+    Optional<Administrator> findByCode(String code);
+    boolean existsByCode(String code);
 
 }

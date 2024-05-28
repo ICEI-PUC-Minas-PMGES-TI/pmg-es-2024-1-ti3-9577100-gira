@@ -13,6 +13,7 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String code;
     private String password;
     private UserType type;
     @ManyToMany
@@ -28,6 +29,7 @@ public class Teacher {
 
     public Teacher(TeacherRecord data) {
         this.name = data.name();
+        this.code = data.code();
         this.password = data.password();
         this.type = data.type();
         this.schoolClasses = data.schoolClasses();
@@ -89,4 +91,11 @@ public class Teacher {
 
     public void removeLikedNews(News news) {likedNews.remove(news);}
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

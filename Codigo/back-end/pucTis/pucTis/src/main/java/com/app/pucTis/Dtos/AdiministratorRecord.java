@@ -14,9 +14,9 @@ public record AdiministratorRecord(
         Long id,
         @NotBlank
         String name,
+        String code,
         @NotBlank
         @Size(min = 5)
-
         String password,
         UserType type,
         Boolean validPass,
