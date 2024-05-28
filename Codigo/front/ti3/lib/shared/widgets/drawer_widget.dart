@@ -48,7 +48,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  CurrentUserManager.currentUser.type.toString(),
+                  getType(CurrentUserManager.currentUser.type ?? UserTypeEnum.undefined),
                   style: const TextStyle(color: Colors.grey, fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -106,6 +106,17 @@ class DrawerWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getType(UserTypeEnum type) {
+    switch (type) {
+      case UserTypeEnum.administrator:
+        return 'Admin';
+      case UserTypeEnum.teacher:
+        return 'Professor(a)';
+      default:
+        return 'Responsável';
+    }
   }
 }
 
