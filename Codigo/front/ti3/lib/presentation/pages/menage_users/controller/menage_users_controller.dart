@@ -17,6 +17,14 @@ class ManageUsersController extends GetxController {
     fetchTeachers();
   }
 
+  Future<void> deleteProfessor(String id) async {
+    try {
+      
+    } catch (e) {
+      print('Erro');
+    }
+  }
+
   Future<List<Teacher>> fetchTeachers() async {
     try {
       List<Teacher> fetchedTeachers = await _teacherRepository.getAllTeachers();

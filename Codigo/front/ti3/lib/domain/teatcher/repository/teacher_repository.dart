@@ -6,6 +6,10 @@ import 'package:ti3/shared/statics/endpoints.dart';
 class TeacherRepository {
   final String baseUrl = '${Endpoints.baseUrl}teacher';
 
+  Future<void> deleteTeatcher(String id) async {
+    
+  }
+
   Future<List<Teacher>> getAllTeachers() async {
     try {
       print(baseUrl);

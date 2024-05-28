@@ -107,7 +107,9 @@ class _MenageUsersPageState extends State<MenageUsersPage> {
               child: ListView.builder(
                 itemCount: allTeachers.length,
                 itemBuilder: (context, index) {
-                  return TeacherCardItem(teacher: allTeachers[index]);
+                  return TeacherCardItem(teacher: allTeachers[index], onDeleteTeacher: (id) {
+                    controller.deleteProfessor(id);
+                  },);
                 },
               ),
             ),
