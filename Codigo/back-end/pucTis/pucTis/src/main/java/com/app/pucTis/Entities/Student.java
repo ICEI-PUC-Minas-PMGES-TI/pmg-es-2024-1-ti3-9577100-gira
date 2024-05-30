@@ -4,6 +4,7 @@ import com.app.pucTis.Dtos.StudentRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer registration;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private UserType type;
     private boolean status;

@@ -4,6 +4,8 @@ import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 @Entity
@@ -12,8 +14,12 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private String code;
+    @NotBlank
+    @Column(nullable = false)
     @JsonIgnore
     private String password;
     private UserType type;

@@ -2,6 +2,7 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.ClassroomRecord;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String name;
     private boolean status;
     @OneToMany(mappedBy = "schoolClass")

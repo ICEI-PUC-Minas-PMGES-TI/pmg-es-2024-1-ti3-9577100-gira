@@ -5,6 +5,7 @@ import com.app.pucTis.Entities.Enuns.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,8 +22,12 @@ public class Administrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private String code;
+    @NotBlank
+    @Column(nullable = false)
     @JsonIgnore
     private String password;
     private UserType type;

@@ -4,6 +4,7 @@ import com.app.pucTis.Dtos.ParentsRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,13 @@ public class Parents {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
     private String code;
     @JsonIgnore
+    @NotBlank
+    @Column(nullable = false)
     private String password;
     private UserType type;
     private boolean status;
