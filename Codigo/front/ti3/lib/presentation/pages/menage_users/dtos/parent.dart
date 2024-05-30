@@ -5,6 +5,7 @@ import 'package:ti3/presentation/pages/menage_users/dtos/student.dart';
 class Parent {
   int? id;
   String? name;
+  String? code;
   UserTypeEnum? type;
   List<Student>? students;
   List<NewsModel>? likedNews;
@@ -12,6 +13,7 @@ class Parent {
   Parent({
     this.id,
     this.name,
+    this.code,
     this.type,
     this.students,
     this.likedNews,
@@ -21,6 +23,7 @@ class Parent {
     return Parent(
       id: json['id'] as int?,
       name: json['name'] as String?,
+      code: json['code'] as String?,
       type: json['type'] != null
           ? UserTypeEnum.values.firstWhere(
               (e) => e.toString().split('.').last == json['type'])
@@ -38,6 +41,7 @@ class Parent {
     return {
       'id': id,
       'name': name,
+      'code': code,
       'type': type?.toString().split('.').last,
       'students': students?.map((student) => student.toJson()).toList(),
       'likedNews': likedNews?.map((news) => news.toJson()).toList(),

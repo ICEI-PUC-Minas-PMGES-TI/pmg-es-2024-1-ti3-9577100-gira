@@ -4,6 +4,7 @@ import 'package:ti3/domain/classroom/classroom_model.dart';
 class Teacher {
   final int id;
   final String name;
+  final String code;
   final String password;
   final String type;
   final List<ClassroomModel> schoolClasses; 
@@ -13,6 +14,7 @@ class Teacher {
   Teacher({
     required this.id,
     required this.name,
+    required this.code,
     required this.password,
     required this.type,
     required this.schoolClasses,
@@ -24,6 +26,7 @@ class Teacher {
     return Teacher(
       id: json['id'],
       name: json['name'],
+      code: json['code'],
       password: json['password'],
       type: json['type'],
       schoolClasses: (json['schoolClasses'] as List<dynamic>)
@@ -42,6 +45,7 @@ class Teacher {
     return {
       'id': id,
       'name': name,
+      'code': code,
       'password': password,
       'type': type,
       'schoolClasses': schoolClasses.map((classroom) => classroom.toJson()).toList(),
