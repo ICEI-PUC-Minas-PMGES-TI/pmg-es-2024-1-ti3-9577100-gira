@@ -29,6 +29,36 @@ public class NewsController {
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deactivateNews(@PathVariable Long id) {
+        boolean deactivated = newsService.deactivateNews(id);
+        if (deactivated) {
+            return ResponseEntity.ok("News deactivated successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateNews(@PathVariable Long id) {
+        boolean activated = newsService.activateNews(id);
+        if (activated) {
+            return ResponseEntity.ok("News activated successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<News> getNewsById(@PathVariable Long id) {
+        News news = newsService.findNewsById(id);
+        if (news != null) {
+            return ResponseEntity.ok(news);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/likes")
     public ResponseEntity<Integer> countLikes() throws ChangeSetPersister.NotFoundException {
         int likesCount = newsService.countLikesNews(1);

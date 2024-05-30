@@ -41,6 +41,39 @@ public class NewsService {
         return saveNews(news);
     }
 
+    public boolean deactivateNews(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            news.setStatus(false);
+            newsRepository.save(news);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean activateNews(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            news.setStatus(true);
+            newsRepository.save(news);
+            return true;
+        }
+        return false;
+    }
+
+    public News findNewsById(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            if (news.isStatus()) {
+                return news;
+            }
+        }
+        return null;
+    }
+
     private News createNews(NewsRecord newsRecord, Object user) {
 
         News news = new News(newsRecord);
@@ -71,7 +104,7 @@ public class NewsService {
     }
 
     public List<News> getAllNews() {
-        return newsRepository.findAll();
+        return newsRepository.findByStatusTrue();
     }
 
     public News update(Long newsId, NewsRecord newsRecord) throws ChangeSetPersister.NotFoundException {
