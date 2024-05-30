@@ -30,8 +30,10 @@ public class Administrator {
     @Column(nullable = false)
     @JsonIgnore
     private String password;
+    @JsonIgnore
     private UserType type;
     private Boolean validPass;
+    @JsonIgnore
     private boolean status;
     @ManyToMany
     @JoinTable(name = "administrator_liked_news", joinColumns = @JoinColumn(name = "administrator_id"), inverseJoinColumns = @JoinColumn(name = "news_id"))

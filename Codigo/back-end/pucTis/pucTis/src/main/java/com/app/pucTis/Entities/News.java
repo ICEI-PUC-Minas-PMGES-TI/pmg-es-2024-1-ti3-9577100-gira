@@ -1,6 +1,8 @@
 package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.NewsRecord;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ public class News {
     @Column(nullable = false)
     private String author;
     private int likes;
+    @JsonIgnore
     private boolean status;
 
     public News(NewsRecord data) {

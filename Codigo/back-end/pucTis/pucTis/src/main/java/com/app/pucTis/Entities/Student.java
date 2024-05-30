@@ -23,14 +23,13 @@ public class Student {
     @NotBlank
     @Column(nullable = false)
     private String name;
+    @JsonIgnore
     private UserType type;
+    @JsonIgnore
     private boolean status;
-
     @JsonIgnore
     @ManyToOne
     private Classroom schoolClass;
-    @ManyToOne
-    private Parents parents;
 
     public void setId(Long id) {
         this.id = id;
@@ -58,10 +57,9 @@ public class Student {
 
     public Student(StudentRecord data) {
         this.name = data.name();
-        this.type = data.type(); // Tomar cuidado com import do enum la nos record, pode afetar aqui
+        this.type = data.type();
         this.schoolClass = data.schoolClass();
         this.registration = data.registration();
-        this.parents = data.parents();
         this.status = true;
     }
 
@@ -93,11 +91,4 @@ public class Student {
         this.schoolClass = schoolClass;
     }
 
-    public Parents getParents() {
-        return parents;
-    }
-
-    public void setParents(Parents parents) {
-        this.parents = parents;
-    }
 }

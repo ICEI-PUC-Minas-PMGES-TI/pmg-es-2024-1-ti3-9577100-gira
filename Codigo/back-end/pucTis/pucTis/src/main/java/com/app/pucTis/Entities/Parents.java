@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,10 +30,12 @@ public class Parents {
     @NotBlank
     @Column(nullable = false)
     private String password;
+    @JsonIgnore
     private UserType type;
+    @JsonIgnore
     private boolean status;
-    @OneToMany(mappedBy = "parents")
-    private List<Student> students;
+    @ElementCollection
+    private List<Long> studentIds = new ArrayList<>();
     private Boolean validPass;
     @ManyToMany
     @JoinTable(name = "parents_liked_news", joinColumns = @JoinColumn(name = "parents_id"), inverseJoinColumns = @JoinColumn(name = "news_id"))
@@ -42,7 +46,6 @@ public class Parents {
         this.code = data.code();
         this.password = data.password();
         this.type = data.type();
-        this.students = data.students();
         this.validPass = data.validPass();
         this.likedNews = data.likedNews();
         this.status = true;
@@ -124,16 +127,24 @@ public class Parents {
         this.status = status;
     }
 
-    public List<Student> getStudents() {
-        return this.students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
     public Boolean isValidPass() {
         return this.validPass;
+    }
+
+    public List<Long> getStudentIds() {
+        return this.studentIds;
+    }
+
+    public void setStudentIds(List<Long> studentIds) {
+        this.studentIds = studentIds;
+    }
+
+    public void addStudentId(Long studentId) {
+        studentIds.add(studentId);
+    }
+
+    public void removeStudentId(Long studentId) {
+        studentIds.remove(studentId);
     }
 
 }

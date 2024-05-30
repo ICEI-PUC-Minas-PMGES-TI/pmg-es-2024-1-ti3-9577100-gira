@@ -1,6 +1,8 @@
 package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.ClassroomRecord;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ public class Classroom {
     @NotBlank
     @Column(nullable = false, unique = true)
     private String name;
+    @JsonIgnore
     private boolean status;
     @OneToMany(mappedBy = "schoolClass")
     private List<Student> students;

@@ -1,6 +1,8 @@
 package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.EventRecord;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ public class Event {
     private String description;
     private Date date;
     private String author;
+    @JsonIgnore
     private boolean status;
     @ManyToOne
     @JoinColumn(name = "classroom_id")

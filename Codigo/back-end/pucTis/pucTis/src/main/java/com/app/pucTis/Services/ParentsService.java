@@ -2,11 +2,18 @@ package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.ParentsRecord;
 import com.app.pucTis.Entities.Parents;
+import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Repositories.ParentsRepository;
+import com.app.pucTis.Repositories.StudentRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +23,8 @@ import java.util.stream.Collectors;
 public class ParentsService {
     @Autowired
     private ParentsRepository parentsRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
     private void saveParents(Parents parents) {
         this.parentsRepository.save(parents);
@@ -127,9 +136,7 @@ public class ParentsService {
             if (dataParents.getType() != null) {
                 parents.setType(dataParents.getType());
             }
-            if (dataParents.getStudents() != null) {
-                parents.setStudents(dataParents.getStudents());
-            }
+
             if (dataParents.getValidPass() != null) {
                 parents.setValidPass(dataParents.getValidPass());
             }
@@ -143,6 +150,52 @@ public class ParentsService {
         } else {
             return "Parents not found.";
         }
+    }
+
+    public ResponseEntity<String> addStudentToParents(Long parentId, Long studentId) {
+        Optional<Parents> optionalParents = parentsRepository.findById(parentId);
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+
+        if (optionalParents.isPresent() && optionalStudent.isPresent()) {
+            Parents parents = optionalParents.get();
+            Student student = optionalStudent.get();
+            parents.addStudentId(studentId);
+            parentsRepository.save(parents);
+            return ResponseEntity.ok("Student added to parents successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<String> removeStudentFromParents(Long parentId, Long studentId) {
+        Optional<Parents> optionalParents = parentsRepository.findById(parentId);
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+
+        if (optionalParents.isPresent() && optionalStudent.isPresent()) {
+            Parents parents = optionalParents.get();
+            Student student = optionalStudent.get();
+            parents.removeStudentId(studentId);
+            parentsRepository.save(parents);
+            return ResponseEntity.ok("Student removed from parents successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public List<Student> getAllStudentsByParentId(Long parentId) {
+        Parents parent = parentsRepository.findById(parentId)
+                .orElseThrow(() -> new EntityNotFoundException("Parent not found with id: " + parentId));
+
+        List<Long> studentIds = parent.getStudentIds();
+        List<Student> students = new ArrayList<>();
+
+        for (Long studentId : studentIds) {
+            Student student = studentRepository.findById(studentId)
+                    .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + studentId));
+            students.add(student);
+        }
+
+        return students;
     }
 
 }

@@ -75,9 +75,6 @@ public class StudentService {
             if (updatedData.schoolClass() != null) {
                 student.setSchoolClass(updatedData.schoolClass());
             }
-            if (updatedData.parents() != null) {
-                student.setParents(updatedData.parents());
-            }
 
             studentRepository.save(student);
             return student;

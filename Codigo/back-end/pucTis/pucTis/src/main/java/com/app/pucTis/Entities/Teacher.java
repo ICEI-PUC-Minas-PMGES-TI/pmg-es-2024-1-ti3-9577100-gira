@@ -22,7 +22,9 @@ public class Teacher {
     @Column(nullable = false)
     @JsonIgnore
     private String password;
+    @JsonIgnore
     private UserType type;
+    @JsonIgnore
     private boolean status;
     @ManyToMany
     private List<Classroom> schoolClasses;
