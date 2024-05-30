@@ -21,20 +21,48 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int registration;
+    private Integer registration;
     private String name;
     private UserType type;
+    private boolean status;
+
     @JsonIgnore
     @ManyToOne
-    private Classroom schoolClass; //O estudante esta relacionado a uma unica turma
+    private Classroom schoolClass;
     @ManyToOne
     private Parents parents;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getRegistration() {
+        return this.registration;
+    }
+
+    public void setRegistration(int registration) {
+        this.registration = registration;
+    }
+
+    public boolean isStatus() {
+        return this.status;
+    }
+
+    public boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public Student(StudentRecord data) {
         this.name = data.name();
-        this.type = data.type(); //Tomar cuidado com import do enum la nos record, pode afetar aqui
+        this.type = data.type(); // Tomar cuidado com import do enum la nos record, pode afetar aqui
         this.schoolClass = data.schoolClass();
-        this.parents = data.parents(); // Correção aqui
+        this.registration = data.registration();
+        this.parents = data.parents();
+        this.status = true;
     }
 
     public Long getId() {
