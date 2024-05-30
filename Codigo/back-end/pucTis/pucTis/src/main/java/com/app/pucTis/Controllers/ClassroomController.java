@@ -81,4 +81,14 @@ public class ClassroomController {
         return ResponseEntity.ok("Classroom updated successfully");
     }
 
+    @PostMapping("/{classroomId}/addStudent/{studentId}")
+    public ResponseEntity<String> addStudentToClassroom(@PathVariable Long classroomId, @PathVariable Long studentId) {
+        boolean added = classroomService.addStudentToClassroom(classroomId, studentId);
+        if (added) {
+            return ResponseEntity.status(HttpStatus.OK).body("Student added to classroom successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add student to classroom");
+        }
+    }
+
 }

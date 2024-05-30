@@ -13,4 +13,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     Optional<Notification> findByIdAndStatusTrue(Long id);
 
     List<Notification> findByClassroomIdAndStatusTrue(Long classroomId);
+
+    List<Notification> findByClassroomIdAndStatus(Long classroomId, boolean b);
 }

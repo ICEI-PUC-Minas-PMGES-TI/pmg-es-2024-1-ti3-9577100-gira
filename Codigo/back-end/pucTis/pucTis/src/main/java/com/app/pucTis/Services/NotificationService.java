@@ -31,7 +31,7 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsByClassroomId(Long classroomId) {
-        return notificationRepository.findByClassroomIdAndStatusTrue(classroomId);
+        return notificationRepository.findByClassroomId(classroomId);
     }
 
     public boolean createNotification(NotificationRecord data) {
@@ -39,6 +39,7 @@ public class NotificationService {
         Notification notification = new Notification();
         Teacher teacher = SeesionManager.getAuthenticatedTeacher();
         Administrator administrator = new Administrator();
+
         SeesionManager.setAuthenticatedAdministrator(administrator);
 
         if (administrator != null || teacher != null) {
@@ -46,6 +47,7 @@ public class NotificationService {
             notification.setSenderName(administrator != null ? administrator.getName() : teacher.getName());
             notification.setDate(LocalDate.now());
             notification.setMessage(data.message());
+            notification.setStatus(true);
             notificationRepository.save(notification);
             return true;
         }
@@ -86,6 +88,10 @@ public class NotificationService {
 
     public Optional<Notification> findActiveNotificationById(Long id) {
         return notificationRepository.findByIdAndStatusTrue(id);
+    }
+
+    public List<Notification> getNotificationsByStudentId(Long studentId) {
+        return notificationRepository.findByClassroomIdAndStatus(studentId, true);
     }
 
 }

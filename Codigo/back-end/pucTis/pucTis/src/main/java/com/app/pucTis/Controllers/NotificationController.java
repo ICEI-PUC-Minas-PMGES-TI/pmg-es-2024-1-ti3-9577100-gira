@@ -2,11 +2,13 @@ package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.NotificationRecord;
 import com.app.pucTis.Entities.Notification;
+import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Services.NotificationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,9 @@ public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @PostMapping("/send")
     public ResponseEntity<String> addNotification(@Valid @RequestBody NotificationRecord notificationRecord) {
@@ -84,6 +89,28 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.OK).body("Notification edited successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification not found");
+        }
+    }
+
+    @GetMapping("/class/{classroomId}")
+    public ResponseEntity<?> getNotificationsByClassroomId(@PathVariable Long classroomId) {
+        List<Notification> notifications = notificationService.getNotificationsByClassroomId(classroomId);
+
+        if (!notifications.isEmpty()) {
+            return ResponseEntity.ok(notifications);
+        } else {
+            return ((BodyBuilder) ResponseEntity.notFound())
+                    .body("Nenhuma notificação encontrada para o id da sala fornecido.");
+        }
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<?> getNotificationsByStudentId(@PathVariable Long studentId) {
+        List<Notification> notifications = notificationService.getNotificationsByStudentId(studentId);
+        if (!notifications.isEmpty()) {
+            return ResponseEntity.ok(notifications);
+        } else {
+            return ((BodyBuilder) ResponseEntity.notFound()).body("No notifications found for the given student");
         }
     }
 
