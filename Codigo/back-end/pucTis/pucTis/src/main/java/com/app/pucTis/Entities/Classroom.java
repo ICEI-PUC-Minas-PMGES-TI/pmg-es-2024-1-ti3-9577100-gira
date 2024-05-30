@@ -1,6 +1,5 @@
 package com.app.pucTis.Entities;
 
-import com.app.pucTis.Dtos.AdiministratorRecord;
 import com.app.pucTis.Dtos.ClassroomRecord;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

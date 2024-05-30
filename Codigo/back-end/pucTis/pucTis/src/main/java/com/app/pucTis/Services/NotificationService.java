@@ -5,12 +5,9 @@ import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Notification;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.NotificationRepository;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

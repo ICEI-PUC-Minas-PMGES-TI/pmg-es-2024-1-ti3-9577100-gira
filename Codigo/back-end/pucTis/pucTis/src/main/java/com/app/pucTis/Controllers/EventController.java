@@ -3,14 +3,11 @@ package com.app.pucTis.Controllers;
 import com.app.pucTis.Dtos.EventRecord;
 import com.app.pucTis.Dtos.EventRecordWithClassrooms;
 import com.app.pucTis.Entities.Event;
-import com.app.pucTis.Entities.Parents;
-import com.app.pucTis.Services.AuthenticationService;
 import com.app.pucTis.Services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,7 +16,6 @@ import java.util.List;
 public class EventController {
     @Autowired
     private EventService eventService;
-    private AuthenticationService authenticationService;
 
     @PostMapping
     public ResponseEntity<Event> createEvent(
@@ -41,23 +37,24 @@ public class EventController {
         List<Event> events = eventService.getEventsByClassroom(classroomId);
         return ResponseEntity.ok(events);
     }
-/**
-   // @GetMapping("/parent")
-    public ResponseEntity<List<Event>> getEventsForParent() {
-        Object authenticatedUser = authenticationService.getAuthenticatedUser();
 
-        if (!(authenticatedUser instanceof Parents)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(null);
-        }
-
-        Parents parents = (Parents) authenticatedUser;
-        Long parentId = parents.getId();
-
-        List<Event> events = eventService.getEventsForParent(parentId);
-        return ResponseEntity.ok(events);
-    }**/
-
+    /**
+     * // @GetMapping("/parent")
+     * public ResponseEntity<List<Event>> getEventsForParent() {
+     * Object authenticatedUser = authenticationService.getAuthenticatedUser();
+     * 
+     * if (!(authenticatedUser instanceof Parents)) {
+     * return ResponseEntity.status(HttpStatus.FORBIDDEN)
+     * .body(null);
+     * }
+     * 
+     * Parents parents = (Parents) authenticatedUser;
+     * Long parentId = parents.getId();
+     * 
+     * List<Event> events = eventService.getEventsForParent(parentId);
+     * return ResponseEntity.ok(events);
+     * }
+     **/
 
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable Long id) {
@@ -82,9 +79,5 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 
 }

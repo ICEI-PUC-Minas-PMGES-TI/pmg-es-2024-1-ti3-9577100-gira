@@ -3,15 +3,9 @@ package com.app.pucTis.Services;
 import com.app.pucTis.Dtos.AdiministratorRecord;
 import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Repositories.AdiministratorRepository;
-import com.sun.net.httpserver.Headers;
-import org.hibernate.query.sqm.UnknownPathException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.net.http.HttpHeaders;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;

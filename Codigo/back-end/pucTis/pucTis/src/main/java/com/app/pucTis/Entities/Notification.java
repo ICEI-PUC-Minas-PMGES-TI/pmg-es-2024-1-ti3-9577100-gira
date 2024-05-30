@@ -2,11 +2,11 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.NotificationRecord;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.util.modeler.NotificationInfo;
-
 import java.time.LocalDate;
 
 @Entity
@@ -18,9 +18,15 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
+    @Column(nullable = false)
     private Long classroomId;
+    @NotBlank
+    @Column(nullable = false)
     private String senderName;
     private LocalDate date;
+    @NotBlank
+    @Column(nullable = false)
     private String message;
     private boolean status;
 

@@ -4,13 +4,10 @@ import com.app.pucTis.Dtos.NewsRecord;
 import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Exceptions.SaveNewsException;
-import com.app.pucTis.Exceptions.UnauthorizedUserException;
 import com.app.pucTis.Repositories.*;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +23,10 @@ public class NewsService {
 
     @Autowired
     public NewsService(NewsRepository newsRepository,
-                       AuthenticationService authenticationService,
-                       AdiministratorRepository administratorRepository,
-                       TeacherRepository teacherRepository,
-                       ParentsRepository parentsRepository) {
+            AuthenticationService authenticationService,
+            AdiministratorRepository administratorRepository,
+            TeacherRepository teacherRepository,
+            ParentsRepository parentsRepository) {
         this.newsRepository = newsRepository;
         this.authenticationService = authenticationService;
         this.administratorRepository = administratorRepository;
@@ -85,8 +82,10 @@ public class NewsService {
             authenticationService.validateAuthorizedUser(authenticatedUser);
 
             String authorName = news.getAuthor();
-            if ((authenticatedUser instanceof Administrator && ((Administrator) authenticatedUser).getName().equals(authorName)) ||
-                    (authenticatedUser instanceof Teacher && ((Teacher) authenticatedUser).getName().equals(authorName))) {
+            if ((authenticatedUser instanceof Administrator
+                    && ((Administrator) authenticatedUser).getName().equals(authorName)) ||
+                    (authenticatedUser instanceof Teacher
+                            && ((Teacher) authenticatedUser).getName().equals(authorName))) {
                 news.setDescription(newsRecord.description());
                 news.setImage(newsRecord.image());
                 return newsRepository.save(news);
@@ -135,6 +134,7 @@ public class NewsService {
 
         return news.getLikes();
     }
+
     public int toggleLike(long newsId) throws ChangeSetPersister.NotFoundException {
         Optional<News> optionalNews = newsRepository.findById(newsId);
 
@@ -146,17 +146,18 @@ public class NewsService {
         Object authenticatedUser = authenticationService.getAuthenticatedUser();
         authenticationService.validateAuthorizedUser(authenticatedUser);
 
-
         boolean hasLiked = hasUserLikedNews(authenticatedUser, news);
 
         if (hasLiked) {
             news.setLikes(news.getLikes() - 1);
             removeLikeFromUser(authenticatedUser, news);
-            System.out.println("Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         } else {
             news.setLikes(news.getLikes() + 1);
             addLikeToUser(authenticatedUser, news);
-            System.out.println("Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         }
 
         newsRepository.save(news);
@@ -164,10 +165,6 @@ public class NewsService {
 
         return news.getLikes();
     }
-
-
-
-
 
     private boolean hasUserLikedNews(Object user, News news) {
 
@@ -211,9 +208,5 @@ public class NewsService {
             }
         }
     }
-
-
-
-
 
 }

@@ -1,16 +1,11 @@
 package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.ParentsRecord;
-import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
-import com.app.pucTis.Entities.Parents;
-import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Services.ParentsService;
 import jakarta.validation.Valid;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

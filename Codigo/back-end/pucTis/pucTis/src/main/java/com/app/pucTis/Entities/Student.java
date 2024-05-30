@@ -2,14 +2,11 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.StudentRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Table(name = "tb_student")

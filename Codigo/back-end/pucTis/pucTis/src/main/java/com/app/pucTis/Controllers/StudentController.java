@@ -1,17 +1,13 @@
 package com.app.pucTis.Controllers;
 
-import com.app.pucTis.Dtos.ParentsRecord;
 import com.app.pucTis.Dtos.StudentRecord;
-import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
-import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +16,6 @@ import java.util.Optional;
 public class StudentController {
     @Autowired
     private StudentService studentService;
-    @Autowired
-    private StudentRepository studentRepository;
 
     @PostMapping
     ResponseEntity<Student> registerStudent(@RequestBody @Valid StudentRecord newStudent) {
@@ -69,7 +63,7 @@ public class StudentController {
     public ResponseEntity<String> updateStudent(@PathVariable Long id,
             @RequestBody @Valid StudentRecord updatedStudent) {
         try {
-            Student student = studentService.updateStudent(id, updatedStudent);
+            studentService.updateStudent(id, updatedStudent);
             return ResponseEntity.status(HttpStatus.OK).body("Student successfully updated");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

@@ -1,10 +1,8 @@
 package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.ClassroomRecord;
-import com.app.pucTis.Dtos.ParentsRecord;
 import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.Classroom;
-import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.ClassroomRepository;
@@ -12,10 +10,8 @@ import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClassroomService {
@@ -25,11 +21,6 @@ public class ClassroomService {
     private StudentRepository studentRepository;
     @Autowired
     private TeacherRepository teacherRepository;
-
-    private void saveClassroom(Classroom classroom) {
-        this.classroomRepository.save(classroom);
-
-    }
 
     public boolean createClassroom(ClassroomRecord classroomRecord) {
         try {
@@ -43,10 +34,6 @@ public class ClassroomService {
             return false;
         }
     }
-
-    // public List<Classroom> getAllClassrooms() {
-    // return classroomRepository.findAll();
-    // }
 
     public boolean addStudentToClassroom(Long classroomId, Long studentId) {
         Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
