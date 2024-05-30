@@ -12,4 +12,6 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
     Optional<Classroom> findByIdAndStatus(Long id, boolean b);
 
     List<Classroom> findByStatus(boolean b);
+
+    Optional<Classroom> findByIdAndStatusIsTrue(Long classroomId);
 }

@@ -57,14 +57,20 @@ public class EventController {
      **/
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Event event = eventService.getEventById(id);
+    public ResponseEntity<?> getEventById(@PathVariable Long id) {
+        Event event = eventService.getActiveEventById(id);
+        if (event == null) {
+            return ResponseEntity.ok("Evento não encontrado.");
+        }
+        if (!event.isStatus()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O evento está inativo.");
+        }
         return ResponseEntity.ok(event);
     }
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventService.getAllEvents();
+        List<Event> events = eventService.getAllActiveEvents();
         return ResponseEntity.ok(events);
     }
 
@@ -74,10 +80,24 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        eventService.deleteEvent(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
+        String message = eventService.deleteEvent(id);
+        if (message.equals("Event deactivated successfully")) {
+            return ResponseEntity.ok(message);
+        } else {
+            return ResponseEntity.badRequest().body(message);
+        }
+    }
+
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateEvent(@PathVariable Long id) {
+        String message = eventService.activateEvent(id);
+        if (message.equals("Event activated successfully")) {
+            return ResponseEntity.ok(message);
+        } else {
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
 }

@@ -6,7 +6,6 @@ import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.SaveNewsException;
 import com.app.pucTis.Repositories.ClassroomRepository;
 import com.app.pucTis.Repositories.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -19,7 +18,6 @@ public class EventService {
     private final AuthenticationService authenticationService;
     private final ParentsService parentsService;
 
-    @Autowired
     public EventService(EventRepository eventRepository,
             ClassroomRepository classRepository,
             AuthenticationService authenticationService,
@@ -31,8 +29,8 @@ public class EventService {
     }
 
     public Event create(EventRecord eventRecord) {
-        // Object authenticatedUser = authenticationService.getAuthenticatedUser();
-        // authenticationService.validateAuthorizedUser(authenticatedUser);
+        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        authenticationService.validateAuthorizedUser(authenticatedUser);
 
         Long classroomId = eventRecord.classroom().getId();
         Classroom classroom = classRepository.findById(classroomId)
@@ -40,17 +38,23 @@ public class EventService {
 
         Event event = new Event(eventRecord);
         event.setClassrooms(classroom);
-        // event.setAuthor(getAuthorName(authenticatedUser));
+        event.setAuthor(getAuthorName(authenticatedUser));
 
         return saveEvent(event);
     }
 
     public List<Event> createEventsForClassrooms(EventRecordWithClassrooms eventRecordWithClassrooms) {
+        Administrator administrator = new Administrator();
+        administrator.setName("Gabriel Henrique");
+        SeesionManager.setAuthenticatedAdministrator(administrator);
+
         List<Long> classroomIds = eventRecordWithClassrooms.classroomIds();
+
         List<Event> createdEvents = classroomIds.stream()
                 .map(classroomId -> {
-                    Classroom classroom = classRepository.findById(classroomId)
-                            .orElseThrow(() -> new SaveNewsException("Classroom ID is invalid"));
+                    Classroom classroom = classRepository.findByIdAndStatusIsTrue(classroomId)
+                            .orElseThrow(
+                                    () -> new SaveNewsException("Classroom ID is invalid or its status is not true"));
 
                     EventRecord eventRecord = new EventRecord(
                             eventRecordWithClassrooms.id(),
@@ -91,8 +95,12 @@ public class EventService {
                 .orElseThrow(() -> new ExpressionException("Event not found with id: " + id));
     }
 
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public Event getActiveEventById(Long id) {
+        return eventRepository.findByIdAndStatusIsTrue(id);
+    }
+
+    public List<Event> getAllActiveEvents() {
+        return eventRepository.findAllActiveEvents();
     }
 
     public List<Event> getEventsByClassroom(Long classroomId) {
@@ -114,8 +122,30 @@ public class EventService {
         return eventRepository.save(existingEvent);
     }
 
-    public void deleteEvent(Long id) {
-        Event existingEvent = getEventById(id);
-        eventRepository.delete(existingEvent);
+    public String deleteEvent(Long id) {
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+
+        if (!existingEvent.isStatus()) {
+            return "Event is already inactive";
+        }
+
+        existingEvent.setStatus(false);
+        eventRepository.save(existingEvent);
+        return "Event deactivated successfully";
     }
+
+    public String activateEvent(Long id) {
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+
+        if (existingEvent.isStatus()) {
+            return "Event is already active";
+        }
+
+        existingEvent.setStatus(true);
+        eventRepository.save(existingEvent);
+        return "Event activated successfully";
+    }
+
 }
