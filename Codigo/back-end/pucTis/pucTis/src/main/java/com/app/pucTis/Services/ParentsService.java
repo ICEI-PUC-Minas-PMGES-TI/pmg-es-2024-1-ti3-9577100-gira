@@ -24,12 +24,9 @@ public class ParentsService {
     @Autowired
     private StudentRepository studentRepository;
 
-
     private void saveParents(Parents parents) {
         this.parentsRepository.save(parents);
     }
-
-
 
     public Parents createParents(ParentsRecord dataParents) {
         Parents newParents = new Parents(dataParents);
@@ -77,6 +74,82 @@ public class ParentsService {
         StringBuilder sb = new StringBuilder();
         characters.forEach(sb::append);
         return sb.toString();
+    }
+
+    public List<Parents> getAllActiveParents() {
+        return parentsRepository.findByStatus(true);
+    }
+
+    public Optional<Parents> getParentsById(Long id) {
+        return parentsRepository.findByIdAndStatus(id, true);
+    }
+
+    public String deactivateParents(Long id) {
+        Optional<Parents> parentsOptional = parentsRepository.findById(id);
+        if (parentsOptional.isPresent()) {
+            Parents parents = parentsOptional.get();
+            if (parents.getStatus()) {
+                parents.setStatus(false);
+                parentsRepository.save(parents);
+                return "Parents deactivated successfully.";
+            } else {
+                return "Parents is already deactivated.";
+            }
+        } else {
+            return "Parents not found.";
+        }
+    }
+
+    public String activateParents(Long id) {
+        Optional<Parents> parentsOptional = parentsRepository.findById(id);
+        if (parentsOptional.isPresent()) {
+            Parents parents = parentsOptional.get();
+            if (!parents.getStatus()) {
+                parents.setStatus(true);
+                parentsRepository.save(parents);
+                return "Parents activated successfully.";
+            } else {
+                return "Parents is already active.";
+            }
+        } else {
+            return "Parents not found.";
+        }
+    }
+
+    public String updateParents(Long id, Parents dataParents) {
+        Optional<Parents> parentsOptional = parentsRepository.findById(id);
+
+        if (parentsOptional.isPresent()) {
+            Parents parents = parentsOptional.get();
+
+            if (dataParents.getName() != null) {
+                parents.setName(dataParents.getName());
+            }
+            if (dataParents.getCode() != null) {
+                parents.setCode(dataParents.getCode());
+            }
+            if (dataParents.getPassword() != null) {
+                parents.setPassword(dataParents.getPassword());
+            }
+            if (dataParents.getType() != null) {
+                parents.setType(dataParents.getType());
+            }
+            if (dataParents.getStudents() != null) {
+                parents.setStudents(dataParents.getStudents());
+            }
+            if (dataParents.getValidPass() != null) {
+                parents.setValidPass(dataParents.getValidPass());
+            }
+            if (dataParents.getLikedNews() != null) {
+                parents.setLikedNews(dataParents.getLikedNews());
+            }
+
+            parentsRepository.save(parents);
+
+            return "Parents updated successfully.";
+        } else {
+            return "Parents not found.";
+        }
     }
 
 }
