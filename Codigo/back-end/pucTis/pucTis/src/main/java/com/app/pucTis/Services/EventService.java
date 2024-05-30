@@ -44,9 +44,6 @@ public class EventService {
     }
 
     public List<Event> createEventsForClassrooms(EventRecordWithClassrooms eventRecordWithClassrooms) {
-        Administrator administrator = new Administrator();
-        administrator.setName("Gabriel Henrique");
-        SeesionManager.setAuthenticatedAdministrator(administrator);
 
         List<Long> classroomIds = eventRecordWithClassrooms.classroomIds();
 
