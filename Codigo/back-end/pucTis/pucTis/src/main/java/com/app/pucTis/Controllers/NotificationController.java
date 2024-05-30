@@ -30,25 +30,48 @@ public class NotificationController {
     public ResponseEntity<String> addNotification(@Valid @RequestBody NotificationRecord notificationRecord) {
         boolean status = notificationService.createNotification(notificationRecord);
 
-        if(status){
+        if (status) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Notification added successfully");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteNotification(@PathVariable Long id) {
-        boolean deleted = notificationService.deleteNotificationById(id);
 
-        if (deleted) {
-            return ResponseEntity.status(HttpStatus.OK).body("Notification deleted successfully");
+    @GetMapping
+    public ResponseEntity<List<Notification>> getAllNotifications() {
+        List<Notification> notifications = notificationService.findAllNotifications();
+        return ResponseEntity.ok(notifications);
+    }
+
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateNotification(@PathVariable Long id) {
+        boolean updated = notificationService.activateNotificationById(id);
+
+        if (updated) {
+            return ResponseEntity.status(HttpStatus.OK).body("Notification activated successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification not found");
         }
     }
-    @GetMapping("/all")
-    public ResponseEntity<List<Notification>> getAllNotification(){
-        return ResponseEntity.ok(notificationService.findAllNotifications());
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Notification> getActiveNotificationById(@PathVariable Long id) {
+        Optional<Notification> notification = notificationService.findActiveNotificationById(id);
+
+        return notification.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteNotification(@PathVariable Long id) {
+        boolean updated = notificationService.deleteNotificationById(id);
+
+        if (updated) {
+            return ResponseEntity.status(HttpStatus.OK).body("Notification status updated to false successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification not found");
+        }
+    }
+
     @GetMapping("/classNotificationId/{classroomId}")
     public ResponseEntity<List<Notification>> getClassroomNotifications(@PathVariable Long classroomId) {
         List<Notification> notifications = notificationService.getNotificationsByClassroomId(classroomId);

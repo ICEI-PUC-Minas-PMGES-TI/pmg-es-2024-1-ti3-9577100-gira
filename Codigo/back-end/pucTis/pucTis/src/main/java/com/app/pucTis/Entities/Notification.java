@@ -22,14 +22,15 @@ public class Notification {
     private String senderName;
     private LocalDate date;
     private String message;
+    private boolean status;
 
     public Notification(NotificationRecord data) {
         this.senderName = data.senderName();
         this.date = LocalDate.now();
         this.message = data.message();
         this.classroomId = data.classroomId();
+        this.status = true;
     }
-
 
     public Long getClassroomId() {
         return classroomId;
@@ -63,7 +64,6 @@ public class Notification {
         this.message = message;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -71,4 +71,17 @@ public class Notification {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public boolean isStatus() {
+        return this.status;
+    }
+
+    public boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

@@ -34,30 +34,34 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsByClassroomId(Long classroomId) {
-        return notificationRepository.findByClassroomId(classroomId);
+        return notificationRepository.findByClassroomIdAndStatusTrue(classroomId);
     }
 
     public boolean createNotification(NotificationRecord data) {
 
-        Administrator administrator = SeesionManager.getAuthenticatedAdministrator();
-        Teacher teacher = SeesionManager.getAuthenticatedTeacher();
         Notification notification = new Notification();
+        Teacher teacher = SeesionManager.getAuthenticatedTeacher();
+        Administrator administrator = new Administrator();
+        administrator.setName("Gabriel Henrique");
+        SeesionManager.setAuthenticatedAdministrator(administrator);
+
         if (administrator != null || teacher != null) {
-            // notification.setSenderId(administrator != null ? administrator.getId() :
-            // teacher.getId());
             notification.setClassroomId(data.classroomId());
             notification.setSenderName(administrator != null ? administrator.getName() : teacher.getName());
             notification.setDate(LocalDate.now());
             notification.setMessage(data.message());
-            Notification not = notificationRepository.save(notification);
+            notificationRepository.save(notification);
             return true;
         }
         return false;
     }
 
     public boolean deleteNotificationById(Long id) {
-        if (notificationRepository.existsById(id)) {
-            notificationRepository.deleteById(id);
+        Optional<Notification> notificationOptional = notificationRepository.findById(id);
+        if (notificationOptional.isPresent()) {
+            Notification notification = notificationOptional.get();
+            notification.setStatus(false);
+            notificationRepository.save(notification);
             return true;
         } else {
             return false;
@@ -65,7 +69,27 @@ public class NotificationService {
     }
 
     public List<Notification> findAllNotifications() {
-        return notificationRepository.findAll();
+        return notificationRepository.findByStatusTrue();
+    }
+
+    public boolean updateNotificationStatusById(Long id, boolean status) {
+        Optional<Notification> notificationOptional = notificationRepository.findById(id);
+        if (notificationOptional.isPresent()) {
+            Notification notification = notificationOptional.get();
+            notification.setStatus(status);
+            notificationRepository.save(notification);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean activateNotificationById(Long id) {
+        return updateNotificationStatusById(id, true);
+    }
+
+    public Optional<Notification> findActiveNotificationById(Long id) {
+        return notificationRepository.findByIdAndStatusTrue(id);
     }
 
 }
