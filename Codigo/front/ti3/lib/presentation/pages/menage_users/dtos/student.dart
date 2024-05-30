@@ -8,7 +8,7 @@ class Student {
   int? registration;
   UserTypeEnum? type;
   ClassroomModel? schoolClass;
-  Parent? parents;
+  List<Parent>? parents;
 
   Student({
     this.id,
@@ -25,14 +25,16 @@ class Student {
       name: json['name'] as String?,
       registration: json['registration'] as int?,
       type: json['type'] != null
-          ? UserTypeEnum.values.firstWhere(
-              (e) => e.toString().split('.').last == json['type'])
+          ? UserTypeEnum.values
+              .firstWhere((e) => e.toString().split('.').last == json['type'])
           : null,
       schoolClass: json['schoolClass'] != null
           ? ClassroomModel.fromJson(json['schoolClass'] as Map<String, dynamic>)
           : null,
       parents: json['parents'] != null
-          ? Parent.fromJson(json['parents'] as Map<String, dynamic>)
+          ? (json['parents'] as List<dynamic>)
+              .map((parent) => Parent.fromJson(parent as Map<String, dynamic>))
+              .toList()
           : null,
     );
   }
@@ -44,7 +46,7 @@ class Student {
       'registration': registration,
       'type': type?.toString().split('.').last,
       'schoolClass': schoolClass?.toJson(),
-      'parents': parents?.toJson(),
+      'parents': parents?.map((parent) => parent.toJson()).toList(),
     };
   }
 }
