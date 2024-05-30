@@ -7,7 +7,7 @@ import com.app.pucTis.Entities.Classroom;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Teacher;
-import com.app.pucTis.Repositories.SchoolClassRepository;
+import com.app.pucTis.Repositories.ClassroomRepository;
 import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ClassroomService {
     @Autowired
-    private SchoolClassRepository classroomRepository;
+    private ClassroomRepository classroomRepository;
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -44,9 +44,9 @@ public class ClassroomService {
         }
     }
 
-    public List<Classroom> getAllClassrooms() {
-        return classroomRepository.findAll();
-    }
+    // public List<Classroom> getAllClassrooms() {
+    // return classroomRepository.findAll();
+    // }
 
     public boolean addStudentToClassroom(Long classroomId, Long studentId) {
         Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
@@ -61,6 +61,7 @@ public class ClassroomService {
         }
         return false;
     }
+
     public boolean createTeacher(TeacherRecord teacherRecord) {
         try {
             Teacher teacher = new Teacher(teacherRecord);
@@ -93,5 +94,41 @@ public class ClassroomService {
         return false;
     }
 
+    public List<Classroom> getActiveClassrooms() {
+        return classroomRepository.findByStatus(true);
+    }
+
+    public Optional<Classroom> getActiveClassroomById(Long id) {
+        return classroomRepository.findByIdAndStatus(id, true);
+    }
+
+    public void activateClassroom(Long id) {
+        Optional<Classroom> classroomOptional = classroomRepository.findById(id);
+        classroomOptional.ifPresent(classroom -> {
+            classroom.setStatus(true);
+            classroomRepository.save(classroom);
+        });
+    }
+
+    public void deactivateClassroom(Long id) {
+        Optional<Classroom> classroomOptional = classroomRepository.findById(id);
+        classroomOptional.ifPresent(classroom -> {
+            classroom.setStatus(false);
+            classroomRepository.save(classroom);
+        });
+    }
+
+    public boolean updateClassroom(Long id, Classroom classroomRecord) {
+        Optional<Classroom> optionalClassroom = classroomRepository.findById(id);
+        if (optionalClassroom.isPresent()) {
+            Classroom classroom = optionalClassroom.get();
+            if (classroomRecord.getName() != null) {
+                classroom.setName(classroomRecord.getName());
+            }
+            classroomRepository.save(classroom);
+            return true;
+        }
+        return false;
+    }
 
 }

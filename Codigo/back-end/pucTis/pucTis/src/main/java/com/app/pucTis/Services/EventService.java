@@ -4,8 +4,8 @@ import com.app.pucTis.Dtos.EventRecord;
 import com.app.pucTis.Dtos.EventRecordWithClassrooms;
 import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.SaveNewsException;
+import com.app.pucTis.Repositories.ClassroomRepository;
 import com.app.pucTis.Repositories.EventRepository;
-import com.app.pucTis.Repositories.SchoolClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
-    private final SchoolClassRepository classRepository;
+    private final ClassroomRepository classRepository;
     private final AuthenticationService authenticationService;
     private final ParentsService parentsService;
 
     @Autowired
     public EventService(EventRepository eventRepository,
-                        SchoolClassRepository classRepository,
-                        AuthenticationService authenticationService,
-                        ParentsService parentsService) {
+            ClassroomRepository classRepository,
+            AuthenticationService authenticationService,
+            ParentsService parentsService) {
         this.eventRepository = eventRepository;
         this.classRepository = classRepository;
         this.authenticationService = authenticationService;
@@ -33,8 +33,8 @@ public class EventService {
     }
 
     public Event create(EventRecord eventRecord) {
-//        Object authenticatedUser = authenticationService.getAuthenticatedUser();
-//        authenticationService.validateAuthorizedUser(authenticatedUser);
+        // Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        // authenticationService.validateAuthorizedUser(authenticatedUser);
 
         Long classroomId = eventRecord.classroom().getId();
         Classroom classroom = classRepository.findById(classroomId)
@@ -42,7 +42,7 @@ public class EventService {
 
         Event event = new Event(eventRecord);
         event.setClassrooms(classroom);
-        //event.setAuthor(getAuthorName(authenticatedUser));
+        // event.setAuthor(getAuthorName(authenticatedUser));
 
         return saveEvent(event);
     }
@@ -60,8 +60,7 @@ public class EventService {
                             eventRecordWithClassrooms.description(),
                             eventRecordWithClassrooms.date(),
                             eventRecordWithClassrooms.author(),
-                            classroom
-                    );
+                            classroom);
 
                     return create(eventRecord);
                 })
@@ -102,10 +101,10 @@ public class EventService {
         return eventRepository.findByClassroomId(classroomId);
     }
 
-   // public List<Event> getEventsForParent(Long parentId) {
-       // Long classroomId = parentsService.getClassroomIdByParent(parentId);
-     //   return eventRepository.findByClassroomId(classroomId);
-   // }
+    // public List<Event> getEventsForParent(Long parentId) {
+    // Long classroomId = parentsService.getClassroomIdByParent(parentId);
+    // return eventRepository.findByClassroomId(classroomId);
+    // }
 
     public Event updateEvent(Long id, Event updatedEvent) {
         Event existingEvent = getEventById(id);
@@ -122,4 +121,3 @@ public class EventService {
         eventRepository.delete(existingEvent);
     }
 }
-

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/classroom")
@@ -31,17 +32,16 @@ public class ClassroomController {
         }
     }
 
+    // @GetMapping
+    // public ResponseEntity<List<Classroom>> getAllClassrooms() {
+    // List<Classroom> classrooms = classroomService.getAllClassrooms();
 
-    @GetMapping
-    public ResponseEntity<List<Classroom>> getAllClassrooms() {
-        List<Classroom> classrooms = classroomService.getAllClassrooms();
-
-        if (!classrooms.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(classrooms);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
+    // if (!classrooms.isEmpty()) {
+    // return ResponseEntity.status(HttpStatus.OK).body(classrooms);
+    // } else {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    // }
+    // }
 
     @GetMapping("/find/{classroomId}")
     public ResponseEntity<List<Student>> getClassroomStudents(@PathVariable Long classroomId) {
@@ -63,6 +63,36 @@ public class ClassroomController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error adding teacher to classroom");
         }
+    }
+
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateClassroom(@PathVariable Long id) {
+        classroomService.activateClassroom(id);
+        return ResponseEntity.ok("Classroom activated successfully");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Classroom>> getActiveClassrooms() {
+        List<Classroom> activeClassrooms = classroomService.getActiveClassrooms();
+        return ResponseEntity.ok(activeClassrooms);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Classroom> getActiveClassroomById(@PathVariable Long id) {
+        Optional<Classroom> classroomOptional = classroomService.getActiveClassroomById(id);
+        return classroomOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deactivateClassroom(@PathVariable Long id) {
+        classroomService.deactivateClassroom(id);
+        return ResponseEntity.ok("Classroom deactivated successfully");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateClassroom(@PathVariable Long id, @RequestBody Classroom classroomRecord) {
+        classroomService.updateClassroom(id, classroomRecord);
+        return ResponseEntity.ok("Classroom updated successfully");
     }
 
 }

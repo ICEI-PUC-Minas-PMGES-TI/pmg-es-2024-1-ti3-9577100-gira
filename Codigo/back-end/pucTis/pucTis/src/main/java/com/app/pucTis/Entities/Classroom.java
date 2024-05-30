@@ -19,14 +19,12 @@ public class Classroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private boolean status;
     @OneToMany(mappedBy = "schoolClass")
     private List<Student> students;
 
     @ManyToMany
-    @JoinTable(
-            name = "TEACHER_CLASS", //TABELA
-            joinColumns = @JoinColumn(name = "SCHOOL_ID"), //COLUNA QUE REFERENCIA A ESCOLA
-            inverseJoinColumns = @JoinColumn(name = "TEACHER_ID")
+    @JoinTable(name = "TEACHER_CLASS", joinColumns = @JoinColumn(name = "SCHOOL_ID"), inverseJoinColumns = @JoinColumn(name = "TEACHER_ID")
 
     )
     private List<Teacher> teachers;
@@ -35,6 +33,7 @@ public class Classroom {
         this.students = data.students();
         this.teachers = data.teachers();
         this.name = data.name();
+        this.status = true;
     }
 
     public Classroom(Long id) {
@@ -76,5 +75,16 @@ public class Classroom {
     public void setTeacher(Teacher teacher) {
     }
 
+    public boolean isStatus() {
+        return this.status;
+    }
+
+    public boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
 }
