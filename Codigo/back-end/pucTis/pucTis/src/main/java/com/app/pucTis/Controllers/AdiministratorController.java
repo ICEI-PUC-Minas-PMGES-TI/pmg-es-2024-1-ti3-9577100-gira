@@ -2,7 +2,8 @@ package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.AdiministratorRecord;
 import com.app.pucTis.Entities.Administrator;
-import com.app.pucTis.Services.AdiministratorService;
+import com.app.pucTis.Services.AdministratorService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,25 +18,50 @@ import java.util.Optional;
 @RequestMapping("/administrator")
 public class AdiministratorController {
     @Autowired
-    private AdiministratorService adiministratorService;
+    private AdministratorService administratorService;
+
     @PostMapping
-    public ResponseEntity<Administrator> registerAdiministrator(@RequestBody @Valid AdiministratorRecord newAdiministrator){
-        Administrator adiministrator = adiministratorService.createAdiministrator(newAdiministrator);
+    public ResponseEntity<Administrator> registerAdiministrator(
+            @RequestBody @Valid AdiministratorRecord newAdiministrator) {
+        Administrator adiministrator = administratorService.createAdiministrator(newAdiministrator);
         return new ResponseEntity<>(adiministrator, HttpStatus.CREATED);
     }
+
     @GetMapping
-    public ResponseEntity<List<Administrator>> getAllAdiministrator() {
-        List<Administrator> adiministratorList = adiministratorService.getAllAdiministrators();
-        if (adiministratorList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<List<Administrator>> getAllActiveAdministrators() {
+        List<Administrator> administrators = administratorService.getAllActiveAdministrators();
+        return ResponseEntity.ok().body(administrators);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Administrator> getActiveAdministratorById(@PathVariable Long id) {
+        Optional<Administrator> administratorOptional = administratorService.getActiveAdministratorById(id);
+
+        if (administratorOptional.isPresent()) {
+            Administrator administrator = administratorOptional.get();
+            return ResponseEntity.ok().body(administrator);
         } else {
-            return new ResponseEntity<>(adiministratorList, HttpStatus.OK);
+            return ResponseEntity.notFound().build();
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deactivateAdministrator(@PathVariable Long id) {
+        String message = administratorService.deactivateAdministrator(id);
+        return ResponseEntity.ok().body(message);
+    }
 
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateAdministrator(@PathVariable Long id) {
+        String message = administratorService.activateAdministrator(id);
+        return ResponseEntity.ok().body(message);
+    }
 
-
-
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateAdministrator(@PathVariable Long id,
+            @RequestBody Administrator dataAdministrator) {
+        String message = administratorService.updateAdministrator(id, dataAdministrator);
+        return ResponseEntity.ok().body(message);
+    }
 
 }
