@@ -2,9 +2,12 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.TeacherRecord;
 import com.app.pucTis.Entities.Enuns.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_teacher")
@@ -14,18 +17,17 @@ public class Teacher {
     private Long id;
     private String name;
     private String code;
+    @JsonIgnore
     private String password;
     private UserType type;
+    private boolean status;
     @ManyToMany
     private List<Classroom> schoolClasses;
     private Boolean validPass;
 
     @ManyToMany
-    @JoinTable(name="teacher_liked_news",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "news_id"))
+    @JoinTable(name = "teacher_liked_news", joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "news_id"))
     private List<News> likedNews;
-
 
     public Teacher(TeacherRecord data) {
         this.name = data.name();
@@ -35,6 +37,7 @@ public class Teacher {
         this.schoolClasses = data.schoolClasses();
         this.validPass = data.validPass();
         this.likedNews = data.likedNews();
+        this.status = true;
     }
 
     public Teacher() {
@@ -73,23 +76,37 @@ public class Teacher {
         this.schoolClasses = schoolClasses;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 
-    public String getPassword() {return password;}
+    public String getPassword() {
+        return password;
+    }
 
     public void setValidPass(Boolean validPass) {
         this.validPass = validPass;
     }
 
-    public Boolean getValidPass() {return validPass;}
+    public Boolean getValidPass() {
+        return validPass;
+    }
 
-    public List<News> getLikedNews() {return likedNews;}
+    public List<News> getLikedNews() {
+        return likedNews;
+    }
 
-    public void setLikedNews(List<News> likedNews) {this.likedNews = likedNews;}
+    public void setLikedNews(List<News> likedNews) {
+        this.likedNews = likedNews;
+    }
 
-    public  void addLikeNews(News news){likedNews.add(news);}
+    public void addLikeNews(News news) {
+        likedNews.add(news);
+    }
 
-    public void removeLikedNews(News news) {likedNews.remove(news);}
+    public void removeLikedNews(News news) {
+        likedNews.remove(news);
+    }
 
     public String getCode() {
         return code;
@@ -98,4 +115,21 @@ public class Teacher {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public boolean isStatus() {
+        return this.status;
+    }
+
+    public boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public Boolean isValidPass() {
+        return this.validPass;
+    }
+
 }

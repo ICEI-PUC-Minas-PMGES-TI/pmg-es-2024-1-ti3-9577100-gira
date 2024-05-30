@@ -20,10 +20,11 @@ public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
 
-    public void saveTeacher(Teacher teacher){
+    public void saveTeacher(Teacher teacher) {
         this.teacherRepository.save(teacher);
     }
-    public Teacher createTeacher(TeacherRecord dataTeacher){
+
+    public Teacher createTeacher(TeacherRecord dataTeacher) {
         Teacher newTeacher = new Teacher(dataTeacher);
         String code = generateCode(newTeacher.getName());
         newTeacher.setCode(code);
@@ -34,8 +35,9 @@ public class TeacherService {
         this.saveTeacher(newTeacher);
         return newTeacher;
     }
-    public List<Teacher> getAllTeachers() {
-        return teacherRepository.findAll();
+
+    public List<Teacher> getAllActiveTeachers() {
+        return teacherRepository.findByStatusTrue();
     }
 
     public Optional<Teacher> findByNameOrId(Teacher teacherService) {
@@ -49,14 +51,15 @@ public class TeacherService {
         Optional<Teacher> optional = teacherRepository
                 .findByCode(teacherService.getCode());
 
-        Teacher authenticated =  optional.filter(storedTeacher ->
-                        storedTeacher.getPassword().equals(teacherService.getPassword()))
+        Teacher authenticated = optional
+                .filter(storedTeacher -> storedTeacher.getPassword().equals(teacherService.getPassword()))
                 .orElseThrow(() -> new Exception("User or password invalid"));
         SeesionManager.setAuthenticatedTeacher(authenticated);
 
         return authenticated;
     }
-    public boolean authenticatePass(Teacher parentService){
+
+    public boolean authenticatePass(Teacher parentService) {
         return parentService.getValidPass();
     }
 
@@ -91,4 +94,74 @@ public class TeacherService {
         characters.forEach(sb::append);
         return sb.toString();
     }
+
+    public String deactivateTeacher(Long id) {
+        Optional<Teacher> teacherOptional = teacherRepository.findById(id);
+        if (teacherOptional.isPresent()) {
+            Teacher teacher = teacherOptional.get();
+            if (teacher.getStatus()) {
+                teacher.setStatus(false);
+                teacherRepository.save(teacher);
+                return "Teacher deactivated successfully.";
+            } else {
+                return "Teacher is already deactivated.";
+            }
+        } else {
+            return "Teacher not found.";
+        }
+    }
+
+    public String activateTeacher(Long id) {
+        Optional<Teacher> teacherOptional = teacherRepository.findById(id);
+        if (teacherOptional.isPresent()) {
+            Teacher teacher = teacherOptional.get();
+            if (!teacher.getStatus()) {
+                teacher.setStatus(true);
+                teacherRepository.save(teacher);
+                return "Teacher activated successfully.";
+            } else {
+                return "Teacher is already active.";
+            }
+        } else {
+            return "Teacher not found.";
+        }
+    }
+
+    public Teacher getTeacherById(Long id) {
+        Optional<Teacher> teacherOptional = teacherRepository.findByIdAndStatus(id, true);
+        return teacherOptional.orElse(null);
+    }
+
+    public String updateTeacher(Long id, Teacher dataTeacher) {
+        Optional<Teacher> teacherOptional = teacherRepository.findById(id);
+        if (teacherOptional.isPresent()) {
+            Teacher teacher = teacherOptional.get();
+            if (dataTeacher.getName() != null) {
+                teacher.setName(dataTeacher.getName());
+            }
+            if (dataTeacher.getCode() != null) {
+                teacher.setCode(dataTeacher.getCode());
+            }
+            if (dataTeacher.getPassword() != null) {
+                teacher.setPassword(dataTeacher.getPassword());
+            }
+            if (dataTeacher.getType() != null) {
+                teacher.setType(dataTeacher.getType());
+            }
+            if (dataTeacher.getSchoolClasses() != null) {
+                teacher.setSchoolClasses(dataTeacher.getSchoolClasses());
+            }
+            if (dataTeacher.getValidPass() != null) {
+                teacher.setValidPass(dataTeacher.getValidPass());
+            }
+            if (dataTeacher.getLikedNews() != null) {
+                teacher.setLikedNews(dataTeacher.getLikedNews());
+            }
+            teacherRepository.save(teacher);
+            return "Teacher updated successfully.";
+        } else {
+            return "Teacher not found.";
+        }
+    }
+
 }
