@@ -39,7 +39,6 @@ public class NotificationService {
         Notification notification = new Notification();
         Teacher teacher = SeesionManager.getAuthenticatedTeacher();
         Administrator administrator = new Administrator();
-        administrator.setName("Gabriel Henrique");
         SeesionManager.setAuthenticatedAdministrator(administrator);
 
         if (administrator != null || teacher != null) {
