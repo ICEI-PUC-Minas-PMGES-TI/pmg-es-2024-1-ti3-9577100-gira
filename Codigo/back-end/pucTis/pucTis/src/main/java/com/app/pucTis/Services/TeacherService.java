@@ -1,7 +1,9 @@
 package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.TeacherRecord;
+import com.app.pucTis.Entities.Classroom;
 import com.app.pucTis.Entities.Teacher;
+import com.app.pucTis.Repositories.ClassroomRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class TeacherService {
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private ClassroomRepository classroomRepository;
 
     public void saveTeacher(Teacher teacher) {
         this.teacherRepository.save(teacher);
@@ -159,6 +163,11 @@ public class TeacherService {
         } else {
             return "Teacher not found.";
         }
+    }
+
+    public List<Classroom> getClassroomsByTeacherId(Long teacherId) {
+        List<Classroom> classrooms = classroomRepository.findByTeachers_Id(teacherId);
+        return classrooms;
     }
 
 }

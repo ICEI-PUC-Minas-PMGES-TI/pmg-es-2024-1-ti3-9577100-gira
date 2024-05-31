@@ -1,6 +1,7 @@
 package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.TeacherRecord;
+import com.app.pucTis.Entities.Classroom;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Services.TeacherService;
 import jakarta.validation.Valid;
@@ -55,6 +56,11 @@ public class TeacherController {
     public ResponseEntity<String> updateTeacher(@PathVariable Long id, @RequestBody @Valid Teacher updatedTeacher) {
         String message = teacherService.updateTeacher(id, updatedTeacher);
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/{teacherId}/classrooms")
+    public List<Classroom> getClassroomsByTeacherId(@PathVariable Long teacherId) {
+        return teacherService.getClassroomsByTeacherId(teacherId);
     }
 
 }
