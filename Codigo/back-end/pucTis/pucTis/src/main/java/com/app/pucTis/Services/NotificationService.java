@@ -3,8 +3,11 @@ package com.app.pucTis.Services;
 import com.app.pucTis.Dtos.NotificationRecord;
 import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Notification;
+import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.NotificationRepository;
+import com.app.pucTis.Repositories.StudentRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -16,6 +19,9 @@ public class NotificationService {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     public boolean editNotification(Long id, String newMessage) {
         Optional<Notification> optionalNotification = notificationRepository.findById(id);
@@ -31,7 +37,7 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsByClassroomId(Long classroomId) {
-        return notificationRepository.findByClassroomId(classroomId);
+        return notificationRepository.findByClassroomIdAndStatus(classroomId, true);
     }
 
     public boolean createNotification(NotificationRecord data) {
@@ -91,7 +97,14 @@ public class NotificationService {
     }
 
     public List<Notification> getNotificationsByStudentId(Long studentId) {
-        return notificationRepository.findByClassroomIdAndStatus(studentId, true);
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        if (student != null && student.getSchoolClass() != null) {
+            Long classroomId = student.getSchoolClass().getId();
+            return notificationRepository.findByClassroomIdAndStatus(classroomId, true);
+        }
+
+        return null;
     }
 
 }

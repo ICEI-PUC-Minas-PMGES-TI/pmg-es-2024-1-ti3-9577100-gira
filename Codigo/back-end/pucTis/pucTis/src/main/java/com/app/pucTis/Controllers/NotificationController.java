@@ -107,10 +107,12 @@ public class NotificationController {
     @GetMapping("/student/{studentId}")
     public ResponseEntity<?> getNotificationsByStudentId(@PathVariable Long studentId) {
         List<Notification> notifications = notificationService.getNotificationsByStudentId(studentId);
-        if (!notifications.isEmpty()) {
+
+        if (notifications != null && !notifications.isEmpty()) {
             return ResponseEntity.ok(notifications);
         } else {
-            return ((BodyBuilder) ResponseEntity.notFound()).body("No notifications found for the given student");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No active notifications found for the student's classroom");
         }
     }
 
