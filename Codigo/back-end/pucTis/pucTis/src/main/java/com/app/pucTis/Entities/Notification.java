@@ -2,7 +2,6 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.NotificationRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

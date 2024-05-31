@@ -2,13 +2,11 @@ package com.app.pucTis.Entities;
 
 import com.app.pucTis.Dtos.EventRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
 @Entity

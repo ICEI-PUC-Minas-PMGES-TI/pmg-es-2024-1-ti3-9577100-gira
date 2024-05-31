@@ -5,9 +5,7 @@ import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.StudentRepository;
-
 import jakarta.persistence.EntityNotFoundException;
-
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

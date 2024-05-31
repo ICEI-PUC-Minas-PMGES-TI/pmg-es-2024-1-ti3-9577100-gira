@@ -2,7 +2,6 @@ package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.NotificationRecord;
 import com.app.pucTis.Entities.Notification;
-import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Services.NotificationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
-
-    @Autowired
-    private StudentRepository studentRepository;
 
     @PostMapping("/send")
     public ResponseEntity<String> addNotification(@Valid @RequestBody NotificationRecord notificationRecord) {

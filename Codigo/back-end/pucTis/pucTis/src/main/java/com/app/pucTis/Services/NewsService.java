@@ -5,7 +5,6 @@ import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Exceptions.SaveNewsException;
 import com.app.pucTis.Repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class NewsService {
     private final TeacherRepository teacherRepository;
     private final ParentsRepository parentsRepository;
 
-    @Autowired
     public NewsService(NewsRepository newsRepository,
             AuthenticationService authenticationService,
             AdiministratorRepository administratorRepository,

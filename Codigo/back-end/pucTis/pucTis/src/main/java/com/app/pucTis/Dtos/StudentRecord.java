@@ -6,10 +6,10 @@ import com.app.pucTis.Entities.Classroom;
 import jakarta.validation.constraints.NotBlank;
 
 public record StudentRecord(
-                Long id,
-                @NotBlank String name,
-                UserType type,
-                Classroom schoolClass,
-                Integer registration,
-                Parents parents) {
+        Long id,
+        @NotBlank String name,
+        UserType type,
+        Classroom schoolClass,
+        Integer registration,
+        Parents parents) {
 }

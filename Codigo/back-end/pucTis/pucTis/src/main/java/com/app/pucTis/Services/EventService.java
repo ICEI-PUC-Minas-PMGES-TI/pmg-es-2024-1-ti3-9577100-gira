@@ -16,6 +16,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final ClassroomRepository classRepository;
     private final AuthenticationService authenticationService;
+    @SuppressWarnings("unused")
     private final ParentsService parentsService;
 
     public EventService(EventRepository eventRepository,

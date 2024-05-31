@@ -7,7 +7,6 @@ import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.NotificationRepository;
 import com.app.pucTis.Repositories.StudentRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;

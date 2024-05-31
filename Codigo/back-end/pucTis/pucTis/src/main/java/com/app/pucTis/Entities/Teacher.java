@@ -5,7 +5,6 @@ import com.app.pucTis.Entities.Enuns.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 
 @Entity

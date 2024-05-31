@@ -5,7 +5,6 @@ import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Repositories.StudentRepository;
 import com.app.pucTis.Services.ParentsService;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -74,7 +73,6 @@ public class ParentsController {
         return ResponseEntity.ok().body(message);
     }
 
-    // Endpoint para adicionar um aluno a um pai
     @PostMapping("parentId/{parentId}/addStudent/{studentId}")
     public ResponseEntity<String> addStudentToParents(@PathVariable Long parentId, @PathVariable Long studentId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);
@@ -85,7 +83,6 @@ public class ParentsController {
         }
     }
 
-    // Endpoint para remover um aluno de um pai
     @DeleteMapping("/parentId/{parentId}/removeStudent/{studentId}")
     public ResponseEntity<String> removeStudentFromParents(@PathVariable Long parentId, @PathVariable Long studentId) {
         Optional<Student> optionalStudent = studentRepository.findById(studentId);

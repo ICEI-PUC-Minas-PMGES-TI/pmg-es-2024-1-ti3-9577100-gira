@@ -6,11 +6,9 @@ import com.app.pucTis.Entities.LoginRequest;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Services.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +18,6 @@ import java.util.Map;
 public class LoginController {
     private final LoginService loginService;
 
-    @Autowired
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
@@ -29,7 +26,6 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             Object authenticatedUser = loginService.authenticateUser(loginRequest);
-
 
             UserType userType = null;
             if (authenticatedUser instanceof Administrator) {
@@ -49,7 +45,6 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to login: " + e.getMessage());
         }
     }
-
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {

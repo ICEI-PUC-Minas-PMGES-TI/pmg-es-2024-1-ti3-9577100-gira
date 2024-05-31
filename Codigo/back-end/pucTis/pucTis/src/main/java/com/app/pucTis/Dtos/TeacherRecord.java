@@ -9,12 +9,12 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record TeacherRecord(
-                Long id,
-                @NotBlank String name,
-                String code,
-                @NotBlank @Size(min = 5) String password,
-                UserType type,
-                List<Classroom> schoolClasses,
-                Boolean validPass,
-                List<News> likedNews) {
+        Long id,
+        @NotBlank String name,
+        String code,
+        @NotBlank @Size(min = 5) String password,
+        UserType type,
+        List<Classroom> schoolClasses,
+        Boolean validPass,
+        List<News> likedNews) {
 }
