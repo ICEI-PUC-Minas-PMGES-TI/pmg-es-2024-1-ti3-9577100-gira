@@ -2,6 +2,7 @@ package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.ClassroomRecord;
 import com.app.pucTis.Entities.Classroom;
+import com.app.pucTis.Entities.Event;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Services.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,36 @@ public class ClassroomController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add student to classroom");
         }
+    }
+
+    @PostMapping("/{classroomId}/events")
+    public ResponseEntity<String> addEventIdsToClassroom(
+            @PathVariable Long classroomId,
+            @RequestBody List<Long> eventIds) {
+        try {
+            classroomService.addEventIdsToClassroom(classroomId, eventIds);
+            return ResponseEntity.ok("Events added successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{classroomId}/events")
+    public ResponseEntity<String> removeEventIdsFromClassroom(
+            @PathVariable Long classroomId,
+            @RequestBody List<Long> eventIds) {
+        try {
+            classroomService.removeEventIdsFromClassroom(classroomId, eventIds);
+            return ResponseEntity.ok("Events removed successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/events/{classroomId}")
+    public ResponseEntity<List<Event>> getEventsByClassroomId(@PathVariable Long classroomId) {
+        List<Event> events = classroomService.getEventsByClassroomId(classroomId);
+        return ResponseEntity.ok().body(events);
     }
 
 }

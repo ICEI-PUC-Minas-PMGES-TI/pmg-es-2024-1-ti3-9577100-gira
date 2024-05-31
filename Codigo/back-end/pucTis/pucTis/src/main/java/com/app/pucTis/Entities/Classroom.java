@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,10 +29,13 @@ public class Classroom {
     private List<Student> students;
 
     @ManyToMany
-    @JoinTable(name = "TEACHER_CLASS", joinColumns = @JoinColumn(name = "SCHOOL_ID"), inverseJoinColumns = @JoinColumn(name = "TEACHER_ID")
-
-    )
+    @JoinTable(name = "TEACHER_CLASS", joinColumns = @JoinColumn(name = "SCHOOL_ID"), inverseJoinColumns = @JoinColumn(name = "TEACHER_ID"))
     private List<Teacher> teachers;
+
+    @ElementCollection
+    @CollectionTable(name = "classroom_event_ids", joinColumns = @JoinColumn(name = "classroom_id"))
+    @Column(name = "event_id")
+    private List<Long> eventIds = new ArrayList<>();
 
     public Classroom(ClassroomRecord data) {
         this.students = data.students();
@@ -90,4 +95,20 @@ public class Classroom {
         this.status = status;
     }
 
+    public List<Long> getEventIds() {
+        return this.eventIds;
+    }
+
+    public void setEventIds(List<Long> eventIds) {
+        this.eventIds = eventIds;
+    }
+
+    public void addEventId(Long eventId) {
+        this.eventIds.add(eventId);
+    }
+
+    public void removeEventId(Long eventId) {
+        this.eventIds.remove(eventId);
+    }   
+    
 }

@@ -100,4 +100,8 @@ public class News {
         this.status = status;
     }
 
+    public void addImage(String imageUrl) {
+        this.image = imageUrl;
+    }
+
 }

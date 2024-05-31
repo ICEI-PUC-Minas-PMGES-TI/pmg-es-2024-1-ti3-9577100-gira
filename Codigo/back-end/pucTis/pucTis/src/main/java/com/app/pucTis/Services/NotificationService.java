@@ -43,9 +43,8 @@ public class NotificationService {
 
         Notification notification = new Notification();
         Teacher teacher = SeesionManager.getAuthenticatedTeacher();
-        Administrator administrator = new Administrator();
 
-        SeesionManager.setAuthenticatedAdministrator(administrator);
+        Administrator administrator = SeesionManager.getAuthenticatedAdministrator();
 
         if (administrator != null || teacher != null) {
             notification.setClassroomId(data.classroomId());

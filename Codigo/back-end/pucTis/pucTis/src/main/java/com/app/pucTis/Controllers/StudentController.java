@@ -1,6 +1,8 @@
 package com.app.pucTis.Controllers;
 
 import com.app.pucTis.Dtos.StudentRecord;
+import com.app.pucTis.Entities.Classroom;
+import com.app.pucTis.Entities.Event;
 import com.app.pucTis.Entities.Student;
 import com.app.pucTis.Services.StudentService;
 import jakarta.validation.Valid;
@@ -70,4 +72,12 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("/{studentId}/classroom")
+    public ResponseEntity<Classroom> getStudentClassroom(@PathVariable Long studentId) {
+        Optional<Classroom> classroomOptional = studentService.getStudentClassroomById(studentId);
+        return classroomOptional.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
 }

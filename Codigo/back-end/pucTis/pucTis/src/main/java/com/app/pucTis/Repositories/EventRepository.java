@@ -12,4 +12,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e WHERE e.status = true")
     List<Event> findAllActiveEvents();
+
+    List<Event> findByClassroomStudentsId(Long studentId);
 }

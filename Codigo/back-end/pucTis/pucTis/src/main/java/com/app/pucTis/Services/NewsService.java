@@ -5,8 +5,13 @@ import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Exceptions.SaveNewsException;
 import com.app.pucTis.Repositories.*;
+import jakarta.transaction.Transactional;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -238,6 +243,37 @@ public class NewsService {
                 parentsRepository.save((Parents) user);
             }
         }
+    }
+
+    @Transactional
+    public void addImageToNews(Long newsId, MultipartFile image) throws IOException {
+        News news = newsRepository.findById(newsId)
+                .orElseThrow(() -> new IllegalArgumentException("News with id " + newsId + " not found"));
+
+        byte[] imageBytes = image.getBytes();
+        String imagePath = saveImageToStorage(imageBytes, newsId);
+
+        news.setImage(imagePath);
+        newsRepository.save(news);
+    }
+
+    private String saveImageToStorage(byte[] imageBytes, Long newsId) throws IOException {
+        String uploadDir = "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\n" + //
+                "ovo-gira\\pmg-es-2024-1-ti3-9577100-gira\\Codigo\\back-end\\images\\";
+        String fileName = newsId + ".png";
+
+        File uploadPath = new File(uploadDir);
+        if (!uploadPath.exists()) {
+            uploadPath.mkdirs();
+        }
+
+        String filePath = uploadDir + fileName;
+
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(imageBytes);
+        }
+
+        return filePath;
     }
 
 }

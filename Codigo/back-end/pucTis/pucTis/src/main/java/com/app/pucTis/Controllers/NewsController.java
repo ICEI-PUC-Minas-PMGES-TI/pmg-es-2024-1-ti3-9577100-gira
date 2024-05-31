@@ -10,6 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -122,6 +123,18 @@ public class NewsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred while removing like");
+        }
+    }
+
+    @PostMapping("/{newsId}/image")
+    public ResponseEntity<String> addImageToNews(@PathVariable Long newsId,
+            @RequestParam("image") MultipartFile image) {
+        try {
+            newsService.addImageToNews(newsId, image);
+            return ResponseEntity.ok("Image added to news successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to add image to news: " + e.getMessage());
         }
     }
 

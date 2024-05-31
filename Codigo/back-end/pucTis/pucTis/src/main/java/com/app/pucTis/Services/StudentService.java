@@ -1,8 +1,13 @@
 package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.StudentRecord;
+import com.app.pucTis.Entities.Classroom;
+import com.app.pucTis.Entities.Event;
 import com.app.pucTis.Entities.Student;
+import com.app.pucTis.Repositories.EventRepository;
 import com.app.pucTis.Repositories.StudentRepository;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,10 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private ClassroomService classroomService;
 
     private void saveStudent(Student student) {
         this.studentRepository.save(student);
@@ -81,6 +90,15 @@ public class StudentService {
         } else {
             throw new IllegalArgumentException("Student not found with id: " + id);
         }
+    }
+
+    public Optional<Classroom> getStudentClassroomById(Long studentId) {
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            return Optional.ofNullable(student.getSchoolClass());
+        }
+        return Optional.empty();
     }
 
 }
