@@ -84,9 +84,9 @@
 		        <version>2.13.0</version>
 		        <configuration>
 		            <schemaVersion>v2</schemaVersion>
-		            <resourceGroup>pucTis-1717271998191-rg</resourceGroup>
-		            <appName>pucTis-1717271998191</appName>
-		            <pricingTier>P1v2</pricingTier>
+		            <resourceGroup>gira_group</resourceGroup>
+		            <appName>giracloud</appName>
+		            <pricingTier>F1</pricingTier>
 		            <region>brazilsouth</region>
 		            <runtime>
 		                <os>Linux</os>
