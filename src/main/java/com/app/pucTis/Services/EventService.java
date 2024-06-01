@@ -4,28 +4,25 @@ import com.app.pucTis.Dtos.EventRecord;
 import com.app.pucTis.Dtos.EventRecordWithClassrooms;
 import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.SaveNewsException;
+import com.app.pucTis.Repositories.ClassroomRepository;
 import com.app.pucTis.Repositories.EventRepository;
-import com.app.pucTis.Repositories.SchoolClassRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class EventService {
     private final EventRepository eventRepository;
-    private final SchoolClassRepository classRepository;
+    private final ClassroomRepository classRepository;
     private final AuthenticationService authenticationService;
+    @SuppressWarnings("unused")
     private final ParentsService parentsService;
 
-    @Autowired
     public EventService(EventRepository eventRepository,
-                        SchoolClassRepository classRepository,
-                        AuthenticationService authenticationService,
-                        ParentsService parentsService) {
+            ClassroomRepository classRepository,
+            AuthenticationService authenticationService,
+            ParentsService parentsService) {
         this.eventRepository = eventRepository;
         this.classRepository = classRepository;
         this.authenticationService = authenticationService;
@@ -33,8 +30,8 @@ public class EventService {
     }
 
     public Event create(EventRecord eventRecord) {
-//        Object authenticatedUser = authenticationService.getAuthenticatedUser();
-//        authenticationService.validateAuthorizedUser(authenticatedUser);
+        Object authenticatedUser = authenticationService.getAuthenticatedUser();
+        authenticationService.validateAuthorizedUser(authenticatedUser);
 
         Long classroomId = eventRecord.classroom().getId();
         Classroom classroom = classRepository.findById(classroomId)
@@ -42,17 +39,20 @@ public class EventService {
 
         Event event = new Event(eventRecord);
         event.setClassrooms(classroom);
-        //event.setAuthor(getAuthorName(authenticatedUser));
+        event.setAuthor(getAuthorName(authenticatedUser));
 
         return saveEvent(event);
     }
 
     public List<Event> createEventsForClassrooms(EventRecordWithClassrooms eventRecordWithClassrooms) {
+
         List<Long> classroomIds = eventRecordWithClassrooms.classroomIds();
+
         List<Event> createdEvents = classroomIds.stream()
                 .map(classroomId -> {
-                    Classroom classroom = classRepository.findById(classroomId)
-                            .orElseThrow(() -> new SaveNewsException("Classroom ID is invalid"));
+                    Classroom classroom = classRepository.findByIdAndStatusIsTrue(classroomId)
+                            .orElseThrow(
+                                    () -> new SaveNewsException("Classroom ID is invalid or its status is not true"));
 
                     EventRecord eventRecord = new EventRecord(
                             eventRecordWithClassrooms.id(),
@@ -60,8 +60,7 @@ public class EventService {
                             eventRecordWithClassrooms.description(),
                             eventRecordWithClassrooms.date(),
                             eventRecordWithClassrooms.author(),
-                            classroom
-                    );
+                            classroom);
 
                     return create(eventRecord);
                 })
@@ -94,18 +93,22 @@ public class EventService {
                 .orElseThrow(() -> new ExpressionException("Event not found with id: " + id));
     }
 
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public Event getActiveEventById(Long id) {
+        return eventRepository.findByIdAndStatusIsTrue(id);
+    }
+
+    public List<Event> getAllActiveEvents() {
+        return eventRepository.findAllActiveEvents();
     }
 
     public List<Event> getEventsByClassroom(Long classroomId) {
         return eventRepository.findByClassroomId(classroomId);
     }
 
-   // public List<Event> getEventsForParent(Long parentId) {
-       // Long classroomId = parentsService.getClassroomIdByParent(parentId);
-     //   return eventRepository.findByClassroomId(classroomId);
-   // }
+    // public List<Event> getEventsForParent(Long parentId) {
+    // Long classroomId = parentsService.getClassroomIdByParent(parentId);
+    // return eventRepository.findByClassroomId(classroomId);
+    // }
 
     public Event updateEvent(Long id, Event updatedEvent) {
         Event existingEvent = getEventById(id);
@@ -117,9 +120,30 @@ public class EventService {
         return eventRepository.save(existingEvent);
     }
 
-    public void deleteEvent(Long id) {
-        Event existingEvent = getEventById(id);
-        eventRepository.delete(existingEvent);
-    }
-}
+    public String deleteEvent(Long id) {
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
 
+        if (!existingEvent.isStatus()) {
+            return "Event is already inactive";
+        }
+
+        existingEvent.setStatus(false);
+        eventRepository.save(existingEvent);
+        return "Event deactivated successfully";
+    }
+
+    public String activateEvent(Long id) {
+        Event existingEvent = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + id));
+
+        if (existingEvent.isStatus()) {
+            return "Event is already active";
+        }
+
+        existingEvent.setStatus(true);
+        eventRepository.save(existingEvent);
+        return "Event activated successfully";
+    }
+
+}

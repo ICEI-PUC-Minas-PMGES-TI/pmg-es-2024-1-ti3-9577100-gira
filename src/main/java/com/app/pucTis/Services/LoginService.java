@@ -7,10 +7,11 @@ import com.app.pucTis.Entities.Teacher;
 import com.app.pucTis.Repositories.AdiministratorRepository;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class LoginService {
 
@@ -18,10 +19,9 @@ public class LoginService {
     private final ParentsRepository parentsRepository;
     private final TeacherRepository teacherRepository;
 
-    @Autowired
     public LoginService(AdiministratorRepository administratorRepository,
-                        ParentsRepository parentsRepository,
-                        TeacherRepository teacherRepository) {
+            ParentsRepository parentsRepository,
+            TeacherRepository teacherRepository) {
         this.administratorRepository = administratorRepository;
         this.parentsRepository = parentsRepository;
         this.teacherRepository = teacherRepository;
@@ -29,33 +29,34 @@ public class LoginService {
 
     public Object authenticateUser(LoginRequest loginRequest) throws Exception {
         String username = loginRequest.getUsername();
+        String code = loginRequest.getCode();
         String password = loginRequest.getPassword();
 
-        Optional<Administrator> adminOptional = administratorRepository.findByName(username);
+        Optional<Administrator> adminOptional = administratorRepository.findByCode(code);
         if (adminOptional.isPresent()) {
             Administrator administrator = adminOptional.get();
 
-            if (administrator.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, administrator.getPassword())) {
                 SeesionManager.setAuthenticatedAdministrator(administrator);
                 return administrator;
             }
         }
 
-        Optional<Parents> parentsOptional = parentsRepository.findByName(username);
+        Optional<Parents> parentsOptional = parentsRepository.findByCode(code);
         if (parentsOptional.isPresent()) {
             Parents parents = parentsOptional.get();
 
-            if (parents.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, parents.getPassword())) {
                 SeesionManager.setAuthenticatedParents(parents);
                 return parents;
             }
         }
 
-        Optional<Teacher> teacherOptional = teacherRepository.findByName(username);
+        Optional<Teacher> teacherOptional = teacherRepository.findByCode(code);
         if (teacherOptional.isPresent()) {
             Teacher teacher = teacherOptional.get();
 
-            if (teacher.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, teacher.getPassword())) {
                 SeesionManager.setAuthenticatedTeacher(teacher);
                 return teacher;
             }
@@ -64,12 +65,13 @@ public class LoginService {
         throw new Exception("User authentication failed");
     }
 
+    public boolean authenticate(String enteredPassword, String storedHash) {
+        return BCrypt.checkpw(enteredPassword, storedHash);
+    }
+
     public void logout() {
         SeesionManager.clearAuthenticatedAdministrator();
         SeesionManager.clearAuthenticatedTeacher();
         SeesionManager.clearAuthenticatedParents();
     }
 }
-
-
-

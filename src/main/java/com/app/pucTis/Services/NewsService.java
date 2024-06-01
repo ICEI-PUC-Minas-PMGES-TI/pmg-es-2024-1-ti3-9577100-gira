@@ -4,13 +4,14 @@ import com.app.pucTis.Dtos.NewsRecord;
 import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Exceptions.SaveNewsException;
-import com.app.pucTis.Exceptions.UnauthorizedUserException;
 import com.app.pucTis.Repositories.*;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +25,11 @@ public class NewsService {
     private final TeacherRepository teacherRepository;
     private final ParentsRepository parentsRepository;
 
-    @Autowired
     public NewsService(NewsRepository newsRepository,
-                       AuthenticationService authenticationService,
-                       AdiministratorRepository administratorRepository,
-                       TeacherRepository teacherRepository,
-                       ParentsRepository parentsRepository) {
+            AuthenticationService authenticationService,
+            AdiministratorRepository administratorRepository,
+            TeacherRepository teacherRepository,
+            ParentsRepository parentsRepository) {
         this.newsRepository = newsRepository;
         this.authenticationService = authenticationService;
         this.administratorRepository = administratorRepository;
@@ -42,6 +42,39 @@ public class NewsService {
         authenticationService.validateAuthorizedUser(authenticatedUser);
         News news = createNews(newsRecord, authenticatedUser);
         return saveNews(news);
+    }
+
+    public boolean deactivateNews(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            news.setStatus(false);
+            newsRepository.save(news);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean activateNews(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            news.setStatus(true);
+            newsRepository.save(news);
+            return true;
+        }
+        return false;
+    }
+
+    public News findNewsById(Long id) {
+        Optional<News> optionalNews = newsRepository.findById(id);
+        if (optionalNews.isPresent()) {
+            News news = optionalNews.get();
+            if (news.isStatus()) {
+                return news;
+            }
+        }
+        return null;
     }
 
     private News createNews(NewsRecord newsRecord, Object user) {
@@ -74,7 +107,7 @@ public class NewsService {
     }
 
     public List<News> getAllNews() {
-        return newsRepository.findAll();
+        return newsRepository.findByStatusTrue();
     }
 
     public News update(Long newsId, NewsRecord newsRecord) throws ChangeSetPersister.NotFoundException {
@@ -85,8 +118,10 @@ public class NewsService {
             authenticationService.validateAuthorizedUser(authenticatedUser);
 
             String authorName = news.getAuthor();
-            if ((authenticatedUser instanceof Administrator && ((Administrator) authenticatedUser).getName().equals(authorName)) ||
-                    (authenticatedUser instanceof Teacher && ((Teacher) authenticatedUser).getName().equals(authorName))) {
+            if ((authenticatedUser instanceof Administrator
+                    && ((Administrator) authenticatedUser).getName().equals(authorName)) ||
+                    (authenticatedUser instanceof Teacher
+                            && ((Teacher) authenticatedUser).getName().equals(authorName))) {
                 news.setDescription(newsRecord.description());
                 news.setImage(newsRecord.image());
                 return newsRepository.save(news);
@@ -135,6 +170,7 @@ public class NewsService {
 
         return news.getLikes();
     }
+
     public int toggleLike(long newsId) throws ChangeSetPersister.NotFoundException {
         Optional<News> optionalNews = newsRepository.findById(newsId);
 
@@ -146,17 +182,18 @@ public class NewsService {
         Object authenticatedUser = authenticationService.getAuthenticatedUser();
         authenticationService.validateAuthorizedUser(authenticatedUser);
 
-
         boolean hasLiked = hasUserLikedNews(authenticatedUser, news);
 
         if (hasLiked) {
             news.setLikes(news.getLikes() - 1);
             removeLikeFromUser(authenticatedUser, news);
-            System.out.println("Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         } else {
             news.setLikes(news.getLikes() + 1);
             addLikeToUser(authenticatedUser, news);
-            System.out.println("Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         }
 
         newsRepository.save(news);
@@ -164,10 +201,6 @@ public class NewsService {
 
         return news.getLikes();
     }
-
-
-
-
 
     private boolean hasUserLikedNews(Object user, News news) {
 
@@ -212,8 +245,35 @@ public class NewsService {
         }
     }
 
+    @Transactional
+    public void addImageToNews(Long newsId, MultipartFile image) throws IOException {
+        News news = newsRepository.findById(newsId)
+                .orElseThrow(() -> new IllegalArgumentException("News with id " + newsId + " not found"));
 
+        byte[] imageBytes = image.getBytes();
+        String imagePath = saveImageToStorage(imageBytes, newsId);
 
+        news.setImage(imagePath);
+        newsRepository.save(news);
+    }
 
+    private String saveImageToStorage(byte[] imageBytes, Long newsId) throws IOException {
+        String uploadDir = "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\n" + //
+                "ovo-gira\\pmg-es-2024-1-ti3-9577100-gira\\Codigo\\back-end\\images\\";
+        String fileName = newsId + ".png";
+
+        File uploadPath = new File(uploadDir);
+        if (!uploadPath.exists()) {
+            uploadPath.mkdirs();
+        }
+
+        String filePath = uploadDir + fileName;
+
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(imageBytes);
+        }
+
+        return filePath;
+    }
 
 }

@@ -3,14 +3,11 @@ package com.app.pucTis.Controllers;
 import com.app.pucTis.Dtos.EventRecord;
 import com.app.pucTis.Dtos.EventRecordWithClassrooms;
 import com.app.pucTis.Entities.Event;
-import com.app.pucTis.Entities.Parents;
-import com.app.pucTis.Services.AuthenticationService;
 import com.app.pucTis.Services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,7 +16,6 @@ import java.util.List;
 public class EventController {
     @Autowired
     private EventService eventService;
-    private AuthenticationService authenticationService;
 
     @PostMapping
     public ResponseEntity<Event> createEvent(
@@ -41,33 +37,40 @@ public class EventController {
         List<Event> events = eventService.getEventsByClassroom(classroomId);
         return ResponseEntity.ok(events);
     }
-/**
-   // @GetMapping("/parent")
-    public ResponseEntity<List<Event>> getEventsForParent() {
-        Object authenticatedUser = authenticationService.getAuthenticatedUser();
 
-        if (!(authenticatedUser instanceof Parents)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(null);
-        }
-
-        Parents parents = (Parents) authenticatedUser;
-        Long parentId = parents.getId();
-
-        List<Event> events = eventService.getEventsForParent(parentId);
-        return ResponseEntity.ok(events);
-    }**/
-
+    /**
+     * // @GetMapping("/parent")
+     * public ResponseEntity<List<Event>> getEventsForParent() {
+     * Object authenticatedUser = authenticationService.getAuthenticatedUser();
+     * 
+     * if (!(authenticatedUser instanceof Parents)) {
+     * return ResponseEntity.status(HttpStatus.FORBIDDEN)
+     * .body(null);
+     * }
+     * 
+     * Parents parents = (Parents) authenticatedUser;
+     * Long parentId = parents.getId();
+     * 
+     * List<Event> events = eventService.getEventsForParent(parentId);
+     * return ResponseEntity.ok(events);
+     * }
+     **/
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Event event = eventService.getEventById(id);
+    public ResponseEntity<?> getEventById(@PathVariable Long id) {
+        Event event = eventService.getActiveEventById(id);
+        if (event == null) {
+            return ResponseEntity.ok("Evento não encontrado.");
+        }
+        if (!event.isStatus()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O evento está inativo.");
+        }
         return ResponseEntity.ok(event);
     }
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventService.getAllEvents();
+        List<Event> events = eventService.getAllActiveEvents();
         return ResponseEntity.ok(events);
     }
 
@@ -77,14 +80,24 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        eventService.deleteEvent(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
+        String message = eventService.deleteEvent(id);
+        if (message.equals("Event deactivated successfully")) {
+            return ResponseEntity.ok(message);
+        } else {
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
-
-
-
+    @PutMapping("/activate/{id}")
+    public ResponseEntity<String> activateEvent(@PathVariable Long id) {
+        String message = eventService.activateEvent(id);
+        if (message.equals("Event activated successfully")) {
+            return ResponseEntity.ok(message);
+        } else {
+            return ResponseEntity.badRequest().body(message);
+        }
+    }
 
 }

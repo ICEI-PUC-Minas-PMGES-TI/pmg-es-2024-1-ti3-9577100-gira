@@ -2,6 +2,7 @@ package com.app.pucTis.Entities;
 
 public class LoginRequest {
     private String name;
+    private String code;
     private String password;
 
     public String getUsername() {
@@ -18,5 +19,13 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
