@@ -70,6 +70,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<schemaVersion>v2</schemaVersion>
+					<resourceGroup>giragroup</resourceGroup>
+					<appName>giracloud</appName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
