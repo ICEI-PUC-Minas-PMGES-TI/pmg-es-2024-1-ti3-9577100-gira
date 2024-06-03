@@ -10,7 +10,7 @@ class NotificationDatasource {
 
   Future<Map<String, dynamic>> createNotification(dynamic body) async {
     final response = await _client.post(
-      path: "${ApiRoutes().createNotifications}2",
+      path: ApiRoutes().createNotifications,
       body: jsonEncode(body),
     );
 
