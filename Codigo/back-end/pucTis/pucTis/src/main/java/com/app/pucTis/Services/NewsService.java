@@ -21,13 +21,13 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
     private final AuthenticationService authenticationService;
-    private final AdiministratorRepository administratorRepository;
+    private final AdministratorRepository administratorRepository;
     private final TeacherRepository teacherRepository;
     private final ParentsRepository parentsRepository;
 
     public NewsService(NewsRepository newsRepository,
             AuthenticationService authenticationService,
-            AdiministratorRepository administratorRepository,
+            AdministratorRepository administratorRepository,
             TeacherRepository teacherRepository,
             ParentsRepository parentsRepository) {
         this.newsRepository = newsRepository;

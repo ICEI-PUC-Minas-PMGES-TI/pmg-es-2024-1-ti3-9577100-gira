@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class CurrentUser {
+  String? code;
   String? name;
   String? password;
   UserTypeEnum? type;

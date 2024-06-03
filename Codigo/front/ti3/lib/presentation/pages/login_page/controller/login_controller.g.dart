@@ -13,15 +13,15 @@ mixin _$LoginController on LoginControllerStore, Store {
       Atom(name: 'LoginControllerStore.emailController', context: context);
 
   @override
-  TextEditingController get emailController {
+  TextEditingController get codeController {
     _$emailControllerAtom.reportRead();
-    return super.emailController;
+    return super.codeController;
   }
 
   @override
-  set emailController(TextEditingController value) {
-    _$emailControllerAtom.reportWrite(value, super.emailController, () {
-      super.emailController = value;
+  set codeController(TextEditingController value) {
+    _$emailControllerAtom.reportWrite(value, super.codeController, () {
+      super.codeController = value;
     });
   }
 
@@ -93,7 +93,7 @@ mixin _$LoginController on LoginControllerStore, Store {
   @override
   String toString() {
     return '''
-emailController: ${emailController},
+emailController: ${codeController},
 passwordController: ${passwordController},
 passwordIsVisible: ${passwordIsVisible}
     ''';

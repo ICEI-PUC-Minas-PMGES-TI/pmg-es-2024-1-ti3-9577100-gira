@@ -42,4 +42,15 @@ class NewsRepositoryImpl extends BaseRepository implements NewsRepository {
       return handleFailure(error: e);
     }
   }
+
+  @override
+  Future<Result<void, Exception>> toggleLikeNews(int id) async {
+    try {
+      await _datasource.toggleLikeNews(id);
+      return Result.success(null);
+    } catch (e) {
+      return handleFailure(error: e);
+    }
+  }
+
 }

@@ -1,3 +1,3 @@
 class Endpoints {
-  static String baseUrl = "http://192.168.0.29:8080/";
+  static String baseUrl = "https://giracloud.azurewebsites.net/";
 }

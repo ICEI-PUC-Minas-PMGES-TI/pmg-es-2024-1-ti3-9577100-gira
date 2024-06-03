@@ -8,8 +8,5 @@ class DoLogin {
 
   DoLogin(this._repository);
 
-  Future<Result<UserModel, Exception>> call(String username, String password) async {
-    var resp = await _repository.login(username, password);
-    return resp;
-  }   
+  Future<Result<UserModel, Exception>> call(String code, String password) async => await _repository.login(code, password);
 }

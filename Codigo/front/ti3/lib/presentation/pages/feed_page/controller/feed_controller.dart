@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
+import 'package:ti3/domain/news/use_cases/toggle_like_news.dart';
 
 import '../../../../domain/news/model/news_model.dart';
 import '../../../../domain/news/use_cases/delete_news.dart';
@@ -14,12 +15,15 @@ class FeedController = FeedControllerStore with _$FeedController;
 abstract class FeedControllerStore extends DisposableInterface with Store {
   final GetNews _getNews;
   final DeleteNews _deleteNews;
+  final ToggleLikeNews _toggleLikeNews;
 
   FeedControllerStore({
     required GetNews getNews,
-    required DeleteNews deleteNews
+    required DeleteNews deleteNews,
+    required ToggleLikeNews toggleLikeNews
   }) : _getNews = getNews,
-        _deleteNews = deleteNews;
+        _deleteNews = deleteNews,
+        _toggleLikeNews = toggleLikeNews;
 
   final _atom = Atom();
 
@@ -57,6 +61,11 @@ abstract class FeedControllerStore extends DisposableInterface with Store {
   Future<void> deleteNews(int id) async {
     await _deleteNews(id);
     await getNews();
+  }
+
+  Future<void> toggleLikeNews(int id) async {
+    await _toggleLikeNews(id);
+    reload();
   }
 
   @action

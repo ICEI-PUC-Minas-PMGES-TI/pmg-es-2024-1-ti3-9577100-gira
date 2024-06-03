@@ -7,6 +7,7 @@ import 'package:ti3/domain/login/repository/login_repository.dart';
 import 'package:ti3/domain/login/use_cases/do_login.dart';
 import 'package:ti3/domain/news/use_cases/delete_news.dart';
 import 'package:ti3/domain/news/use_cases/get_news.dart';
+import 'package:ti3/domain/news/use_cases/toggle_like_news.dart';
 import 'package:ti3/domain/notification/repository/notification_repository.dart';
 import 'package:ti3/domain/notification/use_cases/create_notification.dart';
 
@@ -71,6 +72,9 @@ class DependencyInjector {
     );
     _getIt.registerFactory<DeleteNews>(
           () => DeleteNews(_getIt()),
+    );
+    _getIt.registerFactory<ToggleLikeNews>(
+          () => ToggleLikeNews(_getIt()),
     );
     _getIt.registerFactory<GetNotifications>(
           () => GetNotifications(_getIt()),

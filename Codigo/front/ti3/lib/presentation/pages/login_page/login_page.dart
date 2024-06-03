@@ -17,6 +17,13 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    controller.codeController.text = '2024LIVI';
+    controller.passwordController.text = '12345';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -35,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     GiraTextInput(
-                      controller: controller.emailController,
+                      controller: controller.codeController,
                       labelColor: GiraColors.loginInputColor,
                       borderColor: GiraColors.loginInputColor,
                       labelText: "Usuário",
@@ -57,12 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 32),
                     InkWell(
                       onTap: () {
-                        // if (_formKey.currentState?.validate() ?? false) {
-                        //   controller.loginTeste();
-                        //
-                        //   // controller.reset();
-                        // }
-                        controller.login();
+                        if (_formKey.currentState?.validate() ?? false) {
+                          controller.login();
+                        }
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(

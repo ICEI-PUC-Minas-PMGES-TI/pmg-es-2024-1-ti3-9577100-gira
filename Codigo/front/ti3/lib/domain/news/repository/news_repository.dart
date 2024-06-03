@@ -6,4 +6,5 @@ abstract class NewsRepository {
   Future<Result<NewsModel, Exception>> createNews(NewsModel newsModel);
   Future<Result<List<NewsModel>, Exception>> getNews();
   Future<Result<void, Exception>> deleteNews(int id);
+  Future<Result<void, Exception>> toggleLikeNews(int id);
 }

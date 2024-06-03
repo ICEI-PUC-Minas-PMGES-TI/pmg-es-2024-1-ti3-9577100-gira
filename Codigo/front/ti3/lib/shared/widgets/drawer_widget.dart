@@ -55,49 +55,49 @@ class DrawerWidget extends StatelessWidget {
                 const Divider(color: Colors.grey),
                 if (!isParent)
                   TextButton(
-                    onPressed: () => Get.to(() => HomePage()),
-                    child: Text(
+                    onPressed: () => Get.to(() => const HomePage()),
+                    child: const Text(
                       'Home',
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 if (!isParent)
                   TextButton(
                     onPressed: () => _navigateToMenageUsers(UserTypeEnum.teacher),
-                    child: Text(
+                    child: const Text(
                       'Gerenciar professores',
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 if (!isParent)
                   TextButton(
                     onPressed: () => _navigateToMenageUsers(UserTypeEnum.student),
-                    child: Text(
+                    child: const Text(
                       'Gerenciar alunos',
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 if (!isParent)
                   TextButton(
                     onPressed: () => _navigateToNewUserPage(UserTypeEnum.parents),
-                    child: Text(
+                    child: const Text(
                       'Gerenciar responsáveis',
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 if (!isParent)
                   TextButton(
                     onPressed: () => _navigateToClassroomsPage(),
-                    child: Text(
+                    child: const Text(
                       'Gerenciar turmas',
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 TextButton(
                   onPressed: () => Get.toNamed(Paths.loginPage),
-                  child: Text(
+                  child: const Text(
                     'Sair',
-                    style: const TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ],
@@ -111,7 +111,7 @@ class DrawerWidget extends StatelessWidget {
   String getType(UserTypeEnum type) {
     switch (type) {
       case UserTypeEnum.administrator:
-        return 'Admin';
+        return 'Administrador';
       case UserTypeEnum.teacher:
         return 'Professor(a)';
       default:

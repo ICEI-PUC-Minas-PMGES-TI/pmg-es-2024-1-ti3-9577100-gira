@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import 'package:ti3/context/current_user.dart';
 import 'package:ti3/domain/login/use_cases/do_login.dart';
-import 'package:ti3/shared/statics/endpoints.dart';
 import 'package:ti3/shared/widgets/paths.dart';
 
 import '../../../../domain/login/model/user_model.dart';
@@ -19,16 +18,8 @@ abstract class LoginControllerStore with Store {
 
   LoginControllerStore({required this.doLogin});
 
-  final String door = Endpoints.baseUrl;
-  
-  final List<String> loginEndpoints = [
-    'administrator/login',
-    'parents/login',
-    'teacher/login',
-  ];
-
   @observable
-  TextEditingController emailController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
   @observable
   TextEditingController passwordController = TextEditingController();
 
@@ -37,20 +28,20 @@ abstract class LoginControllerStore with Store {
 
   @action
   void reset() {
-    emailController.clear();
+    codeController.clear();
     passwordController.clear();
   }
 
   @action
   Future<void> login() async {
-    final name = emailController.text;
+    final code = codeController.text;
     final password = passwordController.text;
 
-    final result = await doLogin(name, password);
+    final result = await doLogin(code, password);
 
     result.processResult(
       onSuccess: (UserModel user) {
-        CurrentUser().name = name;
+        CurrentUser().name = user.name;
         CurrentUser().password = password;
         CurrentUser().type = user.type;
         Get.toNamed(Paths.homePage);

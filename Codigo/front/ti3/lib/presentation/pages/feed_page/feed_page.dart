@@ -86,7 +86,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-
+                        controller.reload();
                       });
                     },
                     child: const Text("Recarregar"),
@@ -216,7 +216,7 @@ class _FeedPageState extends State<FeedPage> with WidgetsBindingObserver {
                                     IconButton(
                                       onPressed: () {
                                         setState(() {
-                                          // item.changeLike();
+                                          controller.toggleLikeNews(item.id!);
                                         });
                                       },
                                       icon: const Icon(

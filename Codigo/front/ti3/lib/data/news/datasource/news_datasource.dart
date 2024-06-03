@@ -33,4 +33,12 @@ class NewsDatasource {
     return response;
 
   }
+
+  Future<void> toggleLikeNews(int id) async {
+    final response = await _client.post(
+      path: '${ApiRoutes().createNews}/$id/like',
+    );
+
+    return response;
+  }
 }

@@ -96,11 +96,11 @@ class _HomePageState extends State<HomePage> {
           )),
       body: IndexedStack(
         index: selectedIndex,
-        children: [
+        children: const [
           FeedPage(),
           CalendarPage(),
           NotificationPage(),
-          const Center(
+          Center(
             child: Text('Álbum')
           ),
         ],

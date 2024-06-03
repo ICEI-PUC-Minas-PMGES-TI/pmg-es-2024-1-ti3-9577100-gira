@@ -39,7 +39,7 @@ class ApiHandlerImpl extends ApiHandler {
   @override
   Future<dynamic> post({
     required String path,
-    required dynamic body,
+    dynamic body,
     Map<String, dynamic>? queryParams,
   }) async {
     try {

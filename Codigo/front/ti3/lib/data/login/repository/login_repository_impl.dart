@@ -11,21 +11,12 @@ class LoginRepositoryImpl extends BaseRepository implements LoginRepository {
   final LoginDatasource _datasource;
 
   LoginRepositoryImpl(this._datasource);
-
-  @override
-  String get baseUrl => Endpoints.baseUrl;
-
-  @override
-  List<String> get loginEndpoints => [
-        'administrator/login',
-        'parents/login',
-        'teacher/login',
-      ];
       
-  Future<Result<UserModel, Exception>> login(String username, String password) async {
+  @override
+  Future<Result<UserModel, Exception>> login(String code, String password) async {
     try {
       Map<String, dynamic> map = {
-        'username': username,
+        'code': code,
         'password': password,
       };
 
@@ -38,4 +29,16 @@ class LoginRepositoryImpl extends BaseRepository implements LoginRepository {
       return handleFailure(error: e);
     }
   }
+
+  // try {
+  //     for (String endpoint in loginEndpoints) {
+  //       final result = await _checkCredentials(baseUrl + endpoint, username, password);
+  //       if (result != null) {
+  //         return Result.success(result);
+  //       }
+  //     }
+  //     return Result.failure(Exception('O usuário não existe nas tabelas.'));
+  //   } catch (e) {
+  //     return Result.failure(Exception('Erro durante execução: $e'));
+  //   }
 }

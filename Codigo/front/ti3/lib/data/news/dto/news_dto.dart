@@ -4,12 +4,8 @@ extension NewsDto on NewsModel {
   Map<String, dynamic> fromDomain() {
     Map<String, dynamic> map = {};
 
-    final month = date!.month > 9 ? "${date?.month}" : "0${date?.month}";
-    final day = date!.day > 9 ? "${date?.day}" : "0${date?.day}";
-
     map['description'] = description;
     map['image'] = image;
-    map['date'] = "${date?.year}-$month-$day";
 
     return map;
   }
