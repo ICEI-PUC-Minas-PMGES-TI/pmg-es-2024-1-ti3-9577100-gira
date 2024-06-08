@@ -80,8 +80,8 @@ public class News {
         this.author = author;
     }
 
-    public void setLikes(int i) {
-        this.likes++;
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public int getLikes() {
@@ -103,5 +103,16 @@ public class News {
     public void addImage(String imageUrl) {
         this.image = imageUrl;
     }
+
+    public void addLike() {
+        this.likes++;
+    }
+
+    public void removeLike() {
+        if (this.likes > 0) {
+            this.likes--;
+        }
+    }
+
 
 }

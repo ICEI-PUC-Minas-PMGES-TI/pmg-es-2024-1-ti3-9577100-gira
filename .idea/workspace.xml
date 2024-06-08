@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cd4fddd-8f67-4031-add5-28b2f9cf557f" name="Changes" comment="&quot;code&quot; attribute created.">
+    <list default="true" id="2cd4fddd-8f67-4031-add5-28b2f9cf557f" name="Changes" comment="ENCRYPTED PASSWORD">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/AdiministratorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/AdiministratorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Administrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Administrator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/News.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/News.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Parents.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Parents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Teacher.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Entities/Teacher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/AdministratorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/AdministratorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/ParentsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/ParentsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/TeacherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Repositories/TeacherRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/NewsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/NewsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/ParentsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/ParentsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/TeacherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/Services/TeacherService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +46,9 @@
     &quot;accountId&quot;: &quot;49398623-cb71-4e52-a97c-7ca1521d3f0f&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -144,16 +151,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="&quot;code&quot; attribute created." />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;code&quot; attribute created." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Codigo/back-end/pucTis/pucTis/src/main/java/com/app/pucTis/PucTisApplication.java</url>
-          <line>6</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

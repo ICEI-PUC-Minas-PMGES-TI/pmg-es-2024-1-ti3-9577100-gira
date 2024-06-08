@@ -1,6 +1,7 @@
 package com.app.pucTis.Repositories;
 
 import com.app.pucTis.Entities.Administrator;
+import com.app.pucTis.Entities.News;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -19,5 +20,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, Lo
     List<Administrator> findByStatus(boolean b);
 
     Optional<Administrator> findByIdAndStatus(Long id, boolean b);
+
+    boolean existsByLikedNewsContainsAndId(News news, Long id);
 
 }

@@ -91,11 +91,17 @@ public class Parents {
     }
 
     public void addLikeNews(News news) {
-        likedNews.add(news);
+        if (!likedNews.contains(news)) {
+            likedNews.add(news);
+            news.addLike();
+        }
     }
 
     public void removeLikedNews(News news) {
-        likedNews.remove(news);
+        if (likedNews.contains(news)) {
+            likedNews.remove(news);
+            news.removeLike();
+        }
     }
 
     public String getCode() {

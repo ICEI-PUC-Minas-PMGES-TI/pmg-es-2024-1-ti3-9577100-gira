@@ -1,5 +1,6 @@
 package com.app.pucTis.Repositories;
 
+import com.app.pucTis.Entities.News;
 import com.app.pucTis.Entities.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     Optional<Teacher> findByIdAndStatus(Long id, boolean status);
 
     boolean existsByCode(String code);
+
+    boolean existsByLikedNewsContainsAndId(News news, Long id);
 }

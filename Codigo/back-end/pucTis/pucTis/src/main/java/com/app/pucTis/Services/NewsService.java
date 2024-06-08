@@ -185,15 +185,12 @@ public class NewsService {
         boolean hasLiked = hasUserLikedNews(authenticatedUser, news);
 
         if (hasLiked) {
-            news.setLikes(news.getLikes() - 1);
+
             removeLikeFromUser(authenticatedUser, news);
-            System.out.println(
-                    "Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println("Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         } else {
-            news.setLikes(news.getLikes() + 1);
             addLikeToUser(authenticatedUser, news);
-            System.out.println(
-                    "Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println("Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         }
 
         newsRepository.save(news);
@@ -203,47 +200,42 @@ public class NewsService {
     }
 
     private boolean hasUserLikedNews(Object user, News news) {
-
         if (user instanceof Administrator) {
-            return ((Administrator) user).getLikedNews().contains(news);
+            return administratorRepository.existsByLikedNewsContainsAndId(news, ((Administrator) user).getId());
         } else if (user instanceof Teacher) {
-            return ((Teacher) user).getLikedNews().contains(news);
+            return teacherRepository.existsByLikedNewsContainsAndId(news, ((Teacher) user).getId());
         } else if (user instanceof Parents) {
-            return ((Parents) user).getLikedNews().contains(news);
+            return parentsRepository.existsByLikedNewsContainsAndId(news, ((Parents) user).getId());
         }
         return false;
     }
 
     private void addLikeToUser(Object user, News news) {
-
-        synchronized (this) {
-            if (user instanceof Administrator) {
-                ((Administrator) user).addLikeNews(news);
-                administratorRepository.save((Administrator) user);
-            } else if (user instanceof Teacher) {
-                ((Teacher) user).addLikeNews(news);
-                teacherRepository.save((Teacher) user);
-            } else if (user instanceof Parents) {
-                ((Parents) user).addLikeNews(news);
-                parentsRepository.save((Parents) user);
-            }
+        if (user instanceof Administrator) {
+            ((Administrator) user).addLikeNews(news);
+            administratorRepository.save((Administrator) user);
+        } else if (user instanceof Teacher) {
+            ((Teacher) user).addLikeNews(news);
+            teacherRepository.save((Teacher) user);
+        } else if (user instanceof Parents) {
+            ((Parents) user).addLikeNews(news);
+            parentsRepository.save((Parents) user);
         }
     }
 
     private void removeLikeFromUser(Object user, News news) {
-        synchronized (this) {
-            if (user instanceof Administrator) {
-                ((Administrator) user).removeLikedNews(news);
-                administratorRepository.save((Administrator) user);
-            } else if (user instanceof Teacher) {
-                ((Teacher) user).removeLikedNews(news);
-                teacherRepository.save((Teacher) user);
-            } else if (user instanceof Parents) {
-                ((Parents) user).removeLikedNews(news);
-                parentsRepository.save((Parents) user);
-            }
+        if (user instanceof Administrator) {
+            ((Administrator) user).removeLikedNews(news);
+            administratorRepository.save((Administrator) user);
+        } else if (user instanceof Teacher) {
+            ((Teacher) user).removeLikedNews(news);
+            teacherRepository.save((Teacher) user);
+        } else if (user instanceof Parents) {
+            ((Parents) user).removeLikedNews(news);
+            parentsRepository.save((Parents) user);
         }
     }
+
 
     @Transactional
     public void addImageToNews(Long newsId, MultipartFile image) throws IOException {
