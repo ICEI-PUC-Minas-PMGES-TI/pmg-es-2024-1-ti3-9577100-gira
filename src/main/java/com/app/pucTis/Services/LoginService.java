@@ -4,7 +4,7 @@ import com.app.pucTis.Entities.LoginRequest;
 import com.app.pucTis.Entities.Administrator;
 import com.app.pucTis.Entities.Parents;
 import com.app.pucTis.Entities.Teacher;
-import com.app.pucTis.Repositories.AdiministratorRepository;
+import com.app.pucTis.Repositories.AdministratorRepository;
 import com.app.pucTis.Repositories.ParentsRepository;
 import com.app.pucTis.Repositories.TeacherRepository;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,13 +15,13 @@ import java.util.Optional;
 @Service
 public class LoginService {
 
-    private final AdiministratorRepository administratorRepository;
+    private final AdministratorRepository administratorRepository;
     private final ParentsRepository parentsRepository;
     private final TeacherRepository teacherRepository;
 
-    public LoginService(AdiministratorRepository administratorRepository,
-            ParentsRepository parentsRepository,
-            TeacherRepository teacherRepository) {
+    public LoginService(AdministratorRepository administratorRepository,
+                        ParentsRepository parentsRepository,
+                        TeacherRepository teacherRepository) {
         this.administratorRepository = administratorRepository;
         this.parentsRepository = parentsRepository;
         this.teacherRepository = teacherRepository;

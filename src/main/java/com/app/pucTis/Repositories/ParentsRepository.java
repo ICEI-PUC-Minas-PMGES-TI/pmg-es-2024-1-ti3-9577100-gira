@@ -1,5 +1,6 @@
 package com.app.pucTis.Repositories;
 
+import com.app.pucTis.Entities.News;
 import com.app.pucTis.Entities.Parents;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface ParentsRepository extends JpaRepository<Parents, Long> {
     Optional<Parents> findByIdAndStatus(Long id, boolean b);
 
     List<Parents> findByStatus(boolean b);
+
+    boolean existsByLikedNewsContainsAndId(News news, Long id);
 }

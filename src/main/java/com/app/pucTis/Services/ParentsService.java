@@ -56,7 +56,7 @@ public class ParentsService {
         String code = year + initials;
 
         if (code.length() > 8) {
-            code = code.substring(0, 8); // Limita o código a 8 caracteres
+            code = code.substring(0, 8);
         }
 
         if (parentsRepository.existsByCode(code)) {

@@ -2,7 +2,7 @@ package com.app.pucTis.Services;
 
 import com.app.pucTis.Dtos.AdiministratorRecord;
 import com.app.pucTis.Entities.Administrator;
-import com.app.pucTis.Repositories.AdiministratorRepository;
+import com.app.pucTis.Repositories.AdministratorRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdministratorService {
     @Autowired
-    AdiministratorRepository administratorRepository;
+    AdministratorRepository administratorRepository;
 
     private void saveAdiministrator(Administrator adm) {
         this.administratorRepository.save((adm));
@@ -34,7 +34,7 @@ public class AdministratorService {
     }
 
     public Administrator findAdiministratorById(Long id) throws Exception {
-        return this.administratorRepository.findAdiministratorById(id)
+        return this.administratorRepository.findAdministratorById(id)
                 .orElseThrow(() -> new Exception("User not found"));
     }
 
