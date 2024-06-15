@@ -5,13 +5,20 @@ import com.app.pucTis.Entities.*;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Exceptions.SaveNewsException;
 import com.app.pucTis.Repositories.*;
-import jakarta.transaction.Transactional;
+import com.google.firebase.cloud.StorageClient;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
+import com.google.firebase.cloud.StorageClient;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
+import java.io.IOException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +91,9 @@ public class NewsService {
         news.setDescription(newsRecord.description());
         news.setImage(newsRecord.image());
         news.setAuthor(getAuthorName(user));
+
+
+        
         return news;
     }
 
@@ -177,20 +187,19 @@ public class NewsService {
         if (optionalNews.isEmpty()) {
             throw new ChangeSetPersister.NotFoundException();
         }
-
         News news = optionalNews.get();
         Object authenticatedUser = authenticationService.getAuthenticatedUser();
         authenticationService.validateAuthorizedUser(authenticatedUser);
-
         boolean hasLiked = hasUserLikedNews(authenticatedUser, news);
-
         if (hasLiked) {
 
             removeLikeFromUser(authenticatedUser, news);
-            System.out.println("Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Removed like from news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         } else {
             addLikeToUser(authenticatedUser, news);
-            System.out.println("Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
+            System.out.println(
+                    "Added like to news ID " + newsId + " by user " + authenticatedUser.getClass().getSimpleName());
         }
 
         newsRepository.save(news);
@@ -198,7 +207,6 @@ public class NewsService {
 
         return news.getLikes();
     }
-
     private boolean hasUserLikedNews(Object user, News news) {
         if (user instanceof Administrator) {
             return administratorRepository.existsByLikedNewsContainsAndId(news, ((Administrator) user).getId());
@@ -209,7 +217,6 @@ public class NewsService {
         }
         return false;
     }
-
     private void addLikeToUser(Object user, News news) {
         if (user instanceof Administrator) {
             ((Administrator) user).addLikeNews(news);
@@ -222,7 +229,6 @@ public class NewsService {
             parentsRepository.save((Parents) user);
         }
     }
-
     private void removeLikeFromUser(Object user, News news) {
         if (user instanceof Administrator) {
             ((Administrator) user).removeLikedNews(news);
@@ -235,37 +241,32 @@ public class NewsService {
             parentsRepository.save((Parents) user);
         }
     }
-
-
     @Transactional
     public void addImageToNews(Long newsId, MultipartFile image) throws IOException {
         News news = newsRepository.findById(newsId)
                 .orElseThrow(() -> new IllegalArgumentException("News with id " + newsId + " not found"));
 
         byte[] imageBytes = image.getBytes();
-        String imagePath = saveImageToStorage(imageBytes, newsId);
 
-        news.setImage(imagePath);
+        String imageUrl = saveImageToFirebaseStorage(imageBytes, newsId);
+
+        news.setImage(imageUrl);
+
         newsRepository.save(news);
+
+        System.out.println("URL da imagem: " + imageUrl);
     }
 
-    private String saveImageToStorage(byte[] imageBytes, Long newsId) throws IOException {
-        String uploadDir = "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\n" + //
-                "ovo-gira\\pmg-es-2024-1-ti3-9577100-gira\\Codigo\\back-end\\images\\";
+    private String saveImageToFirebaseStorage(byte[] imageBytes, Long newsId) throws IOException {
         String fileName = newsId + ".png";
 
-        File uploadPath = new File(uploadDir);
-        if (!uploadPath.exists()) {
-            uploadPath.mkdirs();
-        }
+        Bucket bucket = StorageClient.getInstance().bucket();
 
-        String filePath = uploadDir + fileName;
+        Blob blob = bucket.create(fileName, imageBytes, "image/png");
 
-        try (FileOutputStream fos = new FileOutputStream(filePath)) {
-            fos.write(imageBytes);
-        }
+        String imageUrl = "https://storage.googleapis.com/" + bucket.getName() + "/" + fileName;
 
-        return filePath;
+        return imageUrl;
     }
 
 }

@@ -1,5 +1,4 @@
 package com.app.pucTis.Entities;
-
 import com.app.pucTis.Dtos.NewsRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -22,6 +21,7 @@ public class News {
     @Column(nullable = false)
     private String description;
     private Date date;
+    @Column(columnDefinition = "TEXT")
     private String image;
     @NotBlank
     @Column(nullable = false)
@@ -113,6 +113,5 @@ public class News {
             this.likes--;
         }
     }
-
 
 }

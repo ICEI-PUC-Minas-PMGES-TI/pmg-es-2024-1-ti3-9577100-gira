@@ -4,6 +4,9 @@ import com.app.pucTis.Dtos.NewsRecord;
 import com.app.pucTis.Entities.News;
 import com.app.pucTis.Exceptions.AlreadyDislikedException;
 import com.app.pucTis.Services.NewsService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -21,8 +24,20 @@ public class NewsController {
     private NewsService newsService;
 
     @PostMapping
-    public ResponseEntity<News> createNews(@Valid @RequestBody NewsRecord newsRecord) {
+    public ResponseEntity<News> createNews(@RequestParam("json") String json,
+            @RequestParam("image") MultipartFile image) {
+        ObjectMapper mapper = new ObjectMapper();
+        NewsRecord newsRecord;
+
+        try {
+            newsRecord = mapper.readValue(json, NewsRecord.class);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         News news = newsService.create(newsRecord);
+        addImageNews(news.getId(), image);
+
         if (news != null) {
             return new ResponseEntity<>(news, HttpStatus.CREATED);
         } else {
@@ -127,7 +142,7 @@ public class NewsController {
     }
 
     @PostMapping("/{newsId}/image")
-    public ResponseEntity<String> addImageToNews(@PathVariable Long newsId,
+    public ResponseEntity<String> addImageNews(@PathVariable Long newsId,
             @RequestParam("image") MultipartFile image) {
         try {
             newsService.addImageToNews(newsId, image);
