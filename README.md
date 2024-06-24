@@ -1,7 +1,9 @@
 # Gira
 
 O projeto Gira veio para tornar a comunicação entre docentes e pais algo simples, prático e seguro.
-Trata-se de uma aplicação desenvolvida para auxiliar uma escola municipal, de criançar de 2 à 5 anos.
+Trata-se de uma aplicação desenvolvida para auxiliar uma escola municipal, de criançar de 2 à 5 anos, na divulgação de eventos, armazenamento de imagens e comunicação interna entre pais e alunos.
+
+Foi desenvolvida em Dart com Flutter (Frontend), Java com Spring Boot (Backend) e hospedado na Azure (tanto back quanto banco). 
 
 ## Alunos integrantes da equipe
 
